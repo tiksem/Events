@@ -10,3 +10,6 @@
 [submodule "dependencies/jsonandroid"]
 	path = dependencies/jsonandroid
 	url = https://github.com/tiksem/jsonandroidutils.git
+[submodule "dependencies/vkandroid-utils"]
+	path = dependencies/vkandroid-utils
+	url = https://github.com/tiksem/vkebloebi.git
