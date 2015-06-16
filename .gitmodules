@@ -1,0 +1,12 @@
+[submodule "dependencies/general-utils"]
+	path = dependencies/general-utils
+	url = https://badmenltd@code.google.com/p/shalk-general/
+[submodule "dependencies/android-utils"]
+	path = dependencies/android-utils
+	url = https://badmenltd@code.google.com/p/shlak-android/
+[submodule "dependencies/json-utils"]
+	path = dependencies/json-utils
+	url = https://privetgnil@code.google.com/p/jsvdulloc/
+[submodule "dependencies/jsonandroid"]
+	path = dependencies/jsonandroid
+	url = https://github.com/tiksem/jsonandroidutils.git
