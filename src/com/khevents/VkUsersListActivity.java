@@ -2,8 +2,11 @@ package com.khevents;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import com.utils.framework.ArrayUtils;
+import com.utilsframework.android.social.SocialUtils;
 import com.utilsframework.android.threading.OnFinish;
 import com.utilsframework.android.threading.Threading;
 import com.vkandroid.VkApiUtils;
@@ -40,6 +43,14 @@ public class VkUsersListActivity extends Activity {
                 adapter.setElements(vkUsers);
                 listView.setAdapter(adapter);
                 setContentView(listView);
+            }
+        });
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                VkUser vkUser = adapter.getElement(position);
+                SocialUtils.openVkUserProfile(VkUsersListActivity.this, vkUser.id);
             }
         });
     }
