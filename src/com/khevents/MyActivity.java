@@ -2,6 +2,7 @@ package com.khevents;
 
 import android.app.Activity;
 import android.os.Bundle;
+import com.utilsframework.android.AndroidUtilities;
 
 public class MyActivity extends Activity {
     /**
@@ -11,5 +12,6 @@ public class MyActivity extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
+        AndroidUtilities.startActivity(this, CreateEventActivity.class);
     }
 }
