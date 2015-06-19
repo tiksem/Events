@@ -36,9 +36,11 @@
                   android:text="@string/number_of_people"
                   android:layout_width="wrap_content"
                   android:layout_height="wrap_content"/>
-        <com.utilsframework.android.view.NumberPickerButton android:id="@+id/people_number"
-                  android:layout_toRightOf="@+id/people_number_label"
-                  android:layout_width="wrap_content"
-                  android:layout_height="wrap_content"/>
+        <com.utilsframework.android.view.NumberPickerButton
+                android:id="@+id/people_number"
+                android:layout_margin="5dp"
+                android:layout_toRightOf="@+id/people_number_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
     </RelativeLayout>
 </LinearLayout>
