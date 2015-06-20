@@ -9,4 +9,7 @@
     <string name="event_address_hint">Enter event address</string>
     <string name="number_of_people">Number of people</string>
     <string name="people_number_dialog_title">Select people number</string>
+    <string name="date_filter">Filter by Date</string>
+    <string name="from">From</string>
+    <string name="to">To</string>
 </resources>
