@@ -13,4 +13,6 @@
     <string name="from">From</string>
     <string name="to">To</string>
     <string name="events">Events</string>
+    <string name="create">Create</string>
+    <string name="event_created">New event created</string>
 </resources>
