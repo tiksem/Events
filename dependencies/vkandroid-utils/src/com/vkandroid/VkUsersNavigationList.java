@@ -1,11 +1,10 @@
 package com.vkandroid;
 
 import com.jsonandroid.JsonAsyncNavigationList;
-import com.jsonandroid.RequestExecutor;
+import com.utilsframework.android.network.RequestExecutor;
 import com.jsonutils.Json;
 
 import java.io.IOException;
-import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -14,12 +13,13 @@ import java.util.Map;
  */
 public class VkUsersNavigationList extends JsonAsyncNavigationList<VkUser> {
     public VkUsersNavigationList(String url, Map<String, String> args,
+                                 String jsonKey,
                                  RequestExecutor requestExecutor) {
-        super(VkUser.class, url, args, requestExecutor);
+        super(VkUser.class, url, jsonKey, args, requestExecutor);
     }
 
-    public VkUsersNavigationList(String url, Map<String, String> args) {
-        super(VkUser.class, url, args);
+    public VkUsersNavigationList(String url, String jsonKey, Map<String, String> args) {
+        super(VkUser.class, url, jsonKey, args);
     }
 
     @Override

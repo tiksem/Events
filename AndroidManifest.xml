@@ -4,10 +4,11 @@
           android:versionCode="1"
           android:versionName="1.0">
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-sdk android:minSdkVersion="14" android:targetSdkVersion="22"/>
     <application android:name=".EventsApp"
                  android:label="@string/app_name" android:icon="@drawable/ic_launcher">
-        <activity android:name="com.khevents.MyActivity"
+        <activity android:name=".MainActivity"
                   android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
@@ -25,9 +26,5 @@
                   android:label="@string/app_name">
         </activity>
 
-        <activity android:name="com.khevents.EventsListActivity"
-                  android:screenOrientation="portrait"
-                  android:label="@string/app_name">
-        </activity>
     </application>
 </manifest>

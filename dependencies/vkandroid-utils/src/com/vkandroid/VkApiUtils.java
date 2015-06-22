@@ -1,7 +1,7 @@
 package com.vkandroid;
 
-import com.jsonandroid.GetRequestExecutor;
-import com.jsonandroid.RequestExecutor;
+import com.utilsframework.android.network.GetRequestExecutor;
+import com.utilsframework.android.network.RequestExecutor;
 import com.jsonutils.Json;
 import com.utils.framework.ArrayUtils;
 import com.utils.framework.strings.Strings;
