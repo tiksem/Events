@@ -71,6 +71,7 @@ public class CreateEventActivity extends Activity {
         args.description = description.getText().toString();
         args.address = address.getText().toString();
         args.date = (int) (date.getDate() / 1000);
+        args.peopleNumber
         args.tags = Arrays.asList("gavno", "eblo"); //TODO Integrate tags
 
         requestManager.createEvent(args, new OnEventCreationFinished() {
