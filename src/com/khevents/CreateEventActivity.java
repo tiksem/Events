@@ -9,10 +9,15 @@ import android.widget.TextView;
 import com.khevents.network.EventArgs;
 import com.khevents.network.OnEventCreationFinished;
 import com.khevents.network.RequestManager;
+import com.khevents.vk.VkManager;
+import com.utilsframework.android.threading.OnFinish;
 import com.utilsframework.android.view.Alerts;
 import com.utilsframework.android.view.DateTimePickerButton;
 import com.utilsframework.android.view.NumberPickerButton;
 import com.utilsframework.android.view.UiMessages;
+import com.vk.sdk.VKAccessToken;
+import com.vk.sdk.VKSdk;
+import com.vkandroid.VkActivity;
 
 import java.io.IOException;
 import java.util.Arrays;
@@ -20,7 +25,7 @@ import java.util.Arrays;
 /**
  * Created by CM on 6/19/2015.
  */
-public class CreateEventActivity extends Activity {
+public class CreateEventActivity extends VkActivity {
     private RequestManager requestManager;
     private NumberPickerButton peopleNumber;
     private TextView name;
@@ -44,6 +49,7 @@ public class CreateEventActivity extends Activity {
         address = (TextView) findViewById(R.id.address);
         date = (DateTimePickerButton) findViewById(R.id.date_and_time);
 
+        VKAccessToken accessToken = VKSdk.getAccessToken();
         requestManager = EventsApp.getInstance().getRequestManager();
     }
 
@@ -66,14 +72,26 @@ public class CreateEventActivity extends Activity {
     }
 
     private void create() {
+        VKSdk.authorize();
+
         EventArgs args = new EventArgs();
         args.name = name.getText().toString();
         args.description = description.getText().toString();
         args.address = address.getText().toString();
         args.date = (int) (date.getDate() / 1000);
-        args.peopleNumber
+        args.peopleNumber = peopleNumber.getValue();
         args.tags = Arrays.asList("gavno", "eblo"); //TODO Integrate tags
 
+        VkManager.getAccessToken(this, R.string.create_event_vk_login_error, new OnFinish<VKAccessToken>() {
+            @Override
+            public void onFinish(VKAccessToken token) {
+                args.accessToken = token.accessToken;
+                executeCreateEventRequest(args);
+            }
+        });
+    }
+
+    private void executeCreateEventRequest(EventArgs args) {
         requestManager.createEvent(args, new OnEventCreationFinished() {
             @Override
             public void onComplete(int id, IOException error) {

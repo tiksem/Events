@@ -1,10 +1,12 @@
 package com.khevents.network;
 
+import android.util.Log;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.jsonutils.Json;
 import com.khevents.data.Event;
 import com.utils.framework.Reflection;
 import com.utils.framework.collections.NavigationList;
+import com.utils.framework.io.Network;
 import com.utilsframework.android.IOErrorListener;
 import com.utilsframework.android.network.GetRequestExecutor;
 import com.utilsframework.android.network.IOErrorListenersSet;
@@ -13,12 +15,21 @@ import com.utilsframework.android.threading.Threading;
 
 import java.io.IOException;
 import java.lang.reflect.Field;
+import java.util.Map;
 
 /**
  * Created by CM on 6/21/2015.
  */
 public class RequestManager implements IOErrorListenersSet {
-    private RequestExecutor requestExecutor = new GetRequestExecutor();
+    public static final String TAG = "RequestManager";
+
+    private RequestExecutor requestExecutor = new GetRequestExecutor() {
+        @Override
+        public String executeRequest(String url, Map<String, Object> args) throws IOException {
+            Log.i(TAG, "url = " + Network.getUrl(url, args));
+            return super.executeRequest(url, args);
+        }
+    };
     private String rootUrl;
 
     public RequestManager(String rootUrl) {

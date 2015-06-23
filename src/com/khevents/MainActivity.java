@@ -2,16 +2,39 @@ package com.khevents;
 
 import android.app.ActionBar;
 import android.app.Fragment;
+import android.content.Intent;
 import android.os.Bundle;
+import com.khevents.vk.VkManager;
 import com.utilsframework.android.navdrawer.NavigationDrawerActivity;
+import com.utilsframework.android.view.UiMessages;
+import com.vk.sdk.VKSdk;
+import com.vk.sdk.VKUIHelper;
 
 public class MainActivity extends NavigationDrawerActivity {
     /**
      * Called when the activity is first created.
      */
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        VKUIHelper.onCreate(this);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        VKUIHelper.onResume(this);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        VKUIHelper.onDestroy(this);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        VKUIHelper.onActivityResult(this, requestCode, resultCode, data);
     }
 
     @Override

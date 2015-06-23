@@ -1,5 +1,6 @@
 package com.khevents;
 
+import com.jsonutils.RequestException;
 import com.khevents.network.RequestManager;
 import com.utilsframework.android.navigation.NavigationListFragment;
 
@@ -25,5 +26,14 @@ public abstract class AbstractNavigationListFragment<T> extends NavigationListFr
     @Override
     protected int getNoInternetConnectionViewId() {
         return R.id.no_connection;
+    }
+
+    @Override
+    protected boolean shouldOverrideHandlingErrorBehavior(Throwable e) {
+        if (e instanceof RequestException) {
+            //throw new RuntimeException(e);
+        }
+
+        return false;
     }
 }

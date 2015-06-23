@@ -16,6 +16,7 @@ public class EventArgs {
     public String address;
     public int peopleNumber;
     public List<String> tags;
+    public String accessToken;
 
     public Map<String, Object> toMap() {
         HashMap<String, Object> result = new HashMap<>();
@@ -25,6 +26,7 @@ public class EventArgs {
         result.put("address", address);
         result.put("peopleNumber", peopleNumber);
         result.put("tags", Strings.join(tags, ','));
+        result.put("token", accessToken);
         return result;
     }
 }
