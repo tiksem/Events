@@ -16,4 +16,5 @@
     <string name="create">Create</string>
     <string name="event_created">New event created</string>
     <string name="create_event_vk_login_error">You must accept the Events App in Vk to create events!</string>
+    <string name="please_wait">Please wait...</string>
 </resources>

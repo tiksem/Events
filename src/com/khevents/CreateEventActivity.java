@@ -1,6 +1,7 @@
 package com.khevents;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -32,6 +33,7 @@ public class CreateEventActivity extends VkActivity {
     private TextView description;
     private DateTimePickerButton date;
     private TextView address;
+    private ProgressDialog progressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,8 +74,6 @@ public class CreateEventActivity extends VkActivity {
     }
 
     private void create() {
-        VKSdk.authorize();
-
         EventArgs args = new EventArgs();
         args.name = name.getText().toString();
         args.description = description.getText().toString();
@@ -81,6 +81,8 @@ public class CreateEventActivity extends VkActivity {
         args.date = (int) (date.getDate() / 1000);
         args.peopleNumber = peopleNumber.getValue();
         args.tags = Arrays.asList("gavno", "eblo"); //TODO Integrate tags
+
+        progressDialog = Alerts.showCircleProgressDialog(this, R.string.please_wait);
 
         VkManager.getAccessToken(this, R.string.create_event_vk_login_error, new OnFinish<VKAccessToken>() {
             @Override
@@ -101,6 +103,7 @@ public class CreateEventActivity extends VkActivity {
                 } else {
                     Alerts.showOkButtonAlert(name.getContext(), error.getMessage());
                 }
+                progressDialog.dismiss();
             }
         });
     }
