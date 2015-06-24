@@ -32,6 +32,7 @@ public class VkManager {
             @Override
             public void onError(VKError authorizationError) {
                 Alerts.showOkButtonAlert(context, context.getString(errorMessageId));
+                onFinish.onFinish(null);
             }
         });
     }

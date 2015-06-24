@@ -87,6 +87,11 @@ public class CreateEventActivity extends VkActivity {
         VkManager.getAccessToken(this, R.string.create_event_vk_login_error, new OnFinish<VKAccessToken>() {
             @Override
             public void onFinish(VKAccessToken token) {
+                if (token == null) {
+                    progressDialog.dismiss();
+                    return;
+                }
+
                 args.accessToken = token.accessToken;
                 executeCreateEventRequest(args);
             }
