@@ -104,6 +104,7 @@ public class CreateEventActivity extends VkActivity {
             public void onComplete(int id, IOException error) {
                 if (error == null) {
                     UiMessages.message(name.getContext(), R.string.event_created);
+                    setResult(RESULT_OK);
                     finish();
                 } else {
                     Alerts.showOkButtonAlert(name.getContext(), error.getMessage());

@@ -1,5 +1,7 @@
 package com.khevents;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.CheckBox;
@@ -18,6 +20,8 @@ import com.utilsframework.android.view.DatePickerButton;
  * Created by CM on 6/20/2015.
  */
 public class EventsListFragment extends AbstractNavigationListFragment<Event> {
+    private static final int CREATE_EVENT = EventsListFragment.class.hashCode();
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,7 +48,8 @@ public class EventsListFragment extends AbstractNavigationListFragment<Event> {
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                AndroidUtilities.startActivity(v.getContext(), CreateEventActivity.class);
+                AndroidUtilities.startActivityForResult(EventsListFragment.this,
+                        CreateEventActivity.class, CREATE_EVENT);
             }
         });
     }
@@ -67,5 +72,14 @@ public class EventsListFragment extends AbstractNavigationListFragment<Event> {
     @Override
     protected int getRootLayout() {
         return R.layout.events_list_fragment;
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == CREATE_EVENT && resultCode == Activity.RESULT_OK) {
+            updateNavigationList(null);
+        }
     }
 }
