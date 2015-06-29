@@ -53,6 +53,8 @@ public class CreateEventActivity extends VkActivity {
 
         VKAccessToken accessToken = VKSdk.getAccessToken();
         requestManager = EventsApp.getInstance().getRequestManager();
+
+        getActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
     @Override
@@ -65,8 +67,12 @@ public class CreateEventActivity extends VkActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == R.id.create) {
+        int itemId = item.getItemId();
+        if (itemId == R.id.create) {
             create();
+            return true;
+        } else if(itemId == android.R.id.home) {
+            onBackPressed();
             return true;
         } else {
             return super.onOptionsItemSelected(item);

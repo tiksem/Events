@@ -4,6 +4,7 @@ import android.app.ActionBar;
 import android.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.MenuItem;
 import com.khevents.vk.VkManager;
 import com.utilsframework.android.navdrawer.NavigationDrawerActivity;
 import com.utilsframework.android.view.UiMessages;
