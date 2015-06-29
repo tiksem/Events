@@ -21,6 +21,8 @@ import com.utilsframework.android.view.DatePickerButton;
  */
 public class EventsListFragment extends AbstractNavigationListFragment<Event> {
     private static final int CREATE_EVENT = EventsListFragment.class.hashCode();
+    private CheckBox dateFilterCheckbox;
+    private DatePickerButton datePickerButton;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -31,8 +33,8 @@ public class EventsListFragment extends AbstractNavigationListFragment<Event> {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        CheckBox dateFilterCheckbox = (CheckBox) view.findViewById(R.id.date_filter_checkbox);
-        DatePickerButton datePickerButton = (DatePickerButton) view.findViewById(R.id.filter_date);
+        dateFilterCheckbox = (CheckBox) view.findViewById(R.id.date_filter_checkbox);
+        datePickerButton = (DatePickerButton) view.findViewById(R.id.filter_date);
         dateFilterCheckbox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -40,6 +42,13 @@ public class EventsListFragment extends AbstractNavigationListFragment<Event> {
                     datePickerButton.setVisibility(View.VISIBLE);
                     datePickerButton.performClick();
                 }
+            }
+        });
+
+        datePickerButton.setOnDateChangedListener(new DatePickerButton.OnDateChangedListener() {
+            @Override
+            public void onDateChanged() {
+                updateNavigationList(null);
             }
         });
 
@@ -61,7 +70,12 @@ public class EventsListFragment extends AbstractNavigationListFragment<Event> {
 
     @Override
     protected NavigationList<Event> getNavigationList(RequestManager requestManager, String filter) {
-        return requestManager.getEvents();
+        if (!dateFilterCheckbox.isChecked()) {
+            return requestManager.getEvents();
+        } else {
+            long date = datePickerButton.getDate();
+            return requestManager.getEvents(date);
+        }
     }
 
     @Override

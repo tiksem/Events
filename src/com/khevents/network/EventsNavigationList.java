@@ -4,6 +4,7 @@ import com.jsonandroid.JsonAsyncNavigationList;
 import com.khevents.data.Event;
 import com.utilsframework.android.network.RequestExecutor;
 
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -14,6 +15,12 @@ class EventsNavigationList extends JsonAsyncNavigationList<Event> {
 
     public EventsNavigationList(String rootUrl, RequestExecutor requestExecutor) {
         super(Event.class, rootUrl + "getEventsList", "events", null, requestExecutor);
+    }
+
+    public EventsNavigationList(String rootUrl, int date, RequestExecutor requestExecutor) {
+        super(Event.class, rootUrl + "getEventsList", "events",
+                Collections.<String, Object>singletonMap("dateFilter", date),
+                requestExecutor);
     }
 
     @Override

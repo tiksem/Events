@@ -69,4 +69,8 @@ public class RequestManager implements IOErrorListenersSet {
     public void removeIOErrorListener(IOErrorListener listener) {
 
     }
+
+    public NavigationList<Event> getEvents(long date) {
+        return new EventsNavigationList(rootUrl, (int) (date / 1000), requestExecutor);
+    }
 }

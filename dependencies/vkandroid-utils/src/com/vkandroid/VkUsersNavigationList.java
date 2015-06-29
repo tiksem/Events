@@ -12,13 +12,13 @@ import java.util.Map;
  * Created by CM on 6/16/2015.
  */
 public class VkUsersNavigationList extends JsonAsyncNavigationList<VkUser> {
-    public VkUsersNavigationList(String url, Map<String, String> args,
+    public VkUsersNavigationList(String url, Map<String, Object> args,
                                  String jsonKey,
                                  RequestExecutor requestExecutor) {
         super(VkUser.class, url, jsonKey, args, requestExecutor);
     }
 
-    public VkUsersNavigationList(String url, String jsonKey, Map<String, String> args) {
+    public VkUsersNavigationList(String url, String jsonKey, Map<String, Object> args) {
         super(VkUser.class, url, jsonKey, args);
     }
 
