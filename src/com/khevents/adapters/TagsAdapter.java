@@ -4,10 +4,7 @@ import android.content.Context;
 import android.view.View;
 import android.widget.TextView;
 import com.khevents.R;
-import com.khevents.TagsListFragment;
-import com.khevents.data.Event;
 import com.khevents.data.Tag;
-import com.utilsframework.android.adapters.ViewArrayAdapter;
 import com.utilsframework.android.adapters.navigation.NavigationListAdapter;
 
 /**

@@ -1,9 +1,9 @@
-package com.khevents;
+package com.khevents.fragments;
 
-import android.app.Fragment;
+import com.khevents.R;
 import com.khevents.adapters.TagsAdapter;
-import com.khevents.data.Event;
 import com.khevents.data.Tag;
+import com.khevents.fragments.AbstractNavigationListFragment;
 import com.khevents.network.RequestManager;
 import com.utils.framework.collections.NavigationList;
 import com.utilsframework.android.adapters.ViewArrayAdapter;
@@ -29,8 +29,6 @@ public class TagsListFragment extends AbstractNavigationListFragment<Tag> {
 
     @Override
     protected int getRootLayout() {
-        return R.layout.tags_list_fragment;
+        return R.layout.list_fragment;
     }
-
-
 }

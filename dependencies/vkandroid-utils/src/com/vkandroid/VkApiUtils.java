@@ -64,7 +64,16 @@ public class VkApiUtils {
             return;
         }
 
-        token = VKAccessToken.tokenFromSharedPreferences(context, VK_ACCESS_TOKEN);
+        token = getAccessTokenFromSharedPreferences(context);
+        initialize(context, appId, scopes, listener, token);
+
+        if (token == null) {
+            VKSdk.authorize(scopes);
+        }
+    }
+
+    public static void initialize(final Context context, String appId, final String[] scopes,
+                                  final AuthorizationListener listener, VKAccessToken token) {
         VKSdk.initialize(new VKSdkListener() {
             @Override
             public void onCaptchaError(VKError captchaError) {
@@ -92,9 +101,9 @@ public class VkApiUtils {
                 listener.onSuccess(token);
             }
         }, appId, token);
+    }
 
-        if (token == null) {
-            VKSdk.authorize(scopes);
-        }
+    public static VKAccessToken getAccessTokenFromSharedPreferences(Context context) {
+        return VKAccessToken.tokenFromSharedPreferences(context, VK_ACCESS_TOKEN);
     }
 }

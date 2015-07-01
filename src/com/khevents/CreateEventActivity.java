@@ -87,24 +87,14 @@ public class CreateEventActivity extends VkActivity {
         args.date = (int) (date.getDate() / 1000);
         args.peopleNumber = peopleNumber.getValue();
         args.tags = Arrays.asList("gavno", "eblo"); //TODO Integrate tags
+        args.accessToken = VKSdk.getAccessToken().accessToken;
 
-        progressDialog = Alerts.showCircleProgressDialog(this, R.string.please_wait);
-
-        VkManager.getAccessToken(this, R.string.create_event_vk_login_error, new OnFinish<VKAccessToken>() {
-            @Override
-            public void onFinish(VKAccessToken token) {
-                if (token == null) {
-                    progressDialog.dismiss();
-                    return;
-                }
-
-                args.accessToken = token.accessToken;
-                executeCreateEventRequest(args);
-            }
-        });
+        executeCreateEventRequest(args);
     }
 
     private void executeCreateEventRequest(EventArgs args) {
+        progressDialog = Alerts.showCircleProgressDialog(this, R.string.please_wait);
+
         requestManager.createEvent(args, new OnEventCreationFinished() {
             @Override
             public void onComplete(int id, IOException error) {

@@ -1,6 +1,8 @@
-package com.khevents;
+package com.khevents.fragments;
 
 import com.jsonutils.RequestException;
+import com.khevents.EventsApp;
+import com.khevents.R;
 import com.khevents.network.RequestManager;
 import com.utilsframework.android.navigation.NavigationListFragment;
 

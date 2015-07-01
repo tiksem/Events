@@ -78,4 +78,12 @@ public class RequestManager implements IOErrorListenersSet {
     public NavigationList<Event> getEvents(long date) {
         return new EventsNavigationList(rootUrl, (int) (date / 1000), requestExecutor);
     }
+
+    public NavigationList<Event> getCreatedUserEvents(String token) {
+        return new UserEventsNavigationList(rootUrl, UserEventsNavigationList.Mode.created, token, requestExecutor);
+    }
+
+    public NavigationList<Event> getSubscribedUserEvents(String token) {
+        return new UserEventsNavigationList(rootUrl, UserEventsNavigationList.Mode.subscribed, token, requestExecutor);
+    }
 }

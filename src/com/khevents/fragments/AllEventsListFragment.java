@@ -1,4 +1,4 @@
-package com.khevents;
+package com.khevents.fragments;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -6,6 +6,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import com.khevents.CreateEventActivity;
+import com.khevents.R;
 import com.khevents.adapters.EventsAdapter;
 import com.khevents.data.Event;
 import com.khevents.network.RequestManager;
@@ -13,14 +15,13 @@ import com.utils.framework.collections.NavigationList;
 import com.utilsframework.android.AndroidUtilities;
 import com.utilsframework.android.adapters.ViewArrayAdapter;
 import com.utilsframework.android.fab.FloatingActionButton;
-import com.utilsframework.android.navigation.NavigationListFragment;
 import com.utilsframework.android.view.DatePickerButton;
 
 /**
  * Created by CM on 6/20/2015.
  */
-public class EventsListFragment extends AbstractNavigationListFragment<Event> {
-    private static final int CREATE_EVENT = EventsListFragment.class.hashCode();
+public class AllEventsListFragment extends EventsListFragment {
+    private static final int CREATE_EVENT = AllEventsListFragment.class.hashCode();
     private CheckBox dateFilterCheckbox;
     private DatePickerButton datePickerButton;
 
@@ -57,15 +58,10 @@ public class EventsListFragment extends AbstractNavigationListFragment<Event> {
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                AndroidUtilities.startActivityForResult(EventsListFragment.this,
+                AndroidUtilities.startActivityForResult(AllEventsListFragment.this,
                         CreateEventActivity.class, CREATE_EVENT);
             }
         });
-    }
-
-    @Override
-    protected ViewArrayAdapter<Event, ?> createAdapter(RequestManager requestManager) {
-        return new EventsAdapter(getActivity());
     }
 
     @Override
@@ -76,11 +72,6 @@ public class EventsListFragment extends AbstractNavigationListFragment<Event> {
             long date = datePickerButton.getDate();
             return requestManager.getEvents(date);
         }
-    }
-
-    @Override
-    protected void onListItemClicked(Event item) {
-
     }
 
     @Override
