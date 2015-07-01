@@ -54,7 +54,7 @@ public class CreateEventActivity extends VkActivity {
         VKAccessToken accessToken = VKSdk.getAccessToken();
         requestManager = EventsApp.getInstance().getRequestManager();
 
-        getActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
     @Override

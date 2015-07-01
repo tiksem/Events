@@ -21,7 +21,7 @@ import com.utilsframework.android.view.DatePickerButton;
  * Created by CM on 6/20/2015.
  */
 public class AllEventsListFragment extends EventsListFragment {
-    private static final int CREATE_EVENT = AllEventsListFragment.class.hashCode();
+    public static final int CREATE_EVENT = 1;
     private CheckBox dateFilterCheckbox;
     private DatePickerButton datePickerButton;
 
