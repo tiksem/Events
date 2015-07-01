@@ -4,6 +4,7 @@ import android.util.Log;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.jsonutils.Json;
 import com.khevents.data.Event;
+import com.khevents.data.Tag;
 import com.utils.framework.Reflection;
 import com.utils.framework.collections.NavigationList;
 import com.utils.framework.io.Network;
@@ -38,6 +39,10 @@ public class RequestManager implements IOErrorListenersSet {
 
     public NavigationList<Event> getEvents() {
         return new EventsNavigationList(rootUrl, requestExecutor);
+    }
+
+    public NavigationList<Tag> getTags() {
+        return new TagsNavigationList(requestExecutor, rootUrl);
     }
 
     public void createEvent(EventArgs args, OnEventCreationFinished onFinish) {

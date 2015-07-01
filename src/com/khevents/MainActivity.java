@@ -69,4 +69,13 @@ public class MainActivity extends NavigationDrawerActivity {
     public int getTabsCount(int selectedItemId, int navigationLevel) {
         return 1;
     }
+
+    @Override
+    protected String getActionBarTitle(int selectedItemId, int tabIndex, int navigationLevel) {
+        if (selectedItemId == R.id.tags) {
+            return getString(R.string.tags);
+        }
+
+        return super.getActionBarTitle(selectedItemId, tabIndex, navigationLevel);
+    }
 }
