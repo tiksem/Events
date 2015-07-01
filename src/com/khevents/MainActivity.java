@@ -1,9 +1,9 @@
 package com.khevents;
 
-import android.app.ActionBar;
-import android.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.TabLayout;
+import android.support.v4.app.Fragment;
 import com.khevents.fragments.CreatedUserEventsListFragment;
 import com.khevents.fragments.AllEventsListFragment;
 import com.khevents.fragments.SubscribedUserEventsListFragment;
@@ -31,6 +31,11 @@ public class MainActivity extends NavigationDrawerActivity {
     }
 
     @Override
+    protected int getNavigationMenuId() {
+        return R.menu.navigation;
+    }
+
+    @Override
     protected void onResume() {
         super.onResume();
         VKUIHelper.onResume(this);
@@ -46,11 +51,6 @@ public class MainActivity extends NavigationDrawerActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         VKUIHelper.onActivityResult(this, requestCode, resultCode, data);
-    }
-
-    @Override
-    protected int getNavigationLayoutId() {
-        return R.layout.navigation;
     }
 
     @Override
@@ -76,7 +76,7 @@ public class MainActivity extends NavigationDrawerActivity {
     }
 
     @Override
-    public void initTab(int currentSelectedItem, int tabIndex, int navigationLevel, ActionBar.Tab tab) {
+    public void initTab(int currentSelectedItem, int tabIndex, int navigationLevel, TabLayout.Tab tab) {
         if (currentSelectedItem == R.id.my_events) {
             if (tabIndex == 0) {
                 tab.setText(R.string.subscribed);
