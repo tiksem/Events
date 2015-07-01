@@ -37,7 +37,7 @@ public class EventsAdapter extends NavigationListAdapter<Event, EventHolder> {
         holder.name.setText(event.name);
         holder.peopleCount.setText(String.valueOf(event.peopleNumber));
         holder.description.setText(event.description);
-        String date = TimeUtils.getAlternativeDisplayDateTime(event.date);
+        String date = TimeUtils.getAlternativeDisplayDateTime(event.date * 1000l);
         holder.date.setText(date);
     }
 }
