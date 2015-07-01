@@ -53,6 +53,8 @@ public class MainActivity extends NavigationDrawerActivity {
     public Fragment createFragmentBySelectedItem(int selectedItemId, int tabIndex, int navigationLevel) {
         if (selectedItemId == R.id.events) {
             return new EventsListFragment();
+        } else if(selectedItemId == R.id.tags) {
+            return new TagsListFragment();
         }
 
         return null;
