@@ -2,4 +2,5 @@
 <resources>
     <color name="navigation_color">@color/vk_white</color>
     <color name="selected_navigation_item">#ff1d0833</color>
+    <color name="header">#ff370f6d</color>
 </resources>

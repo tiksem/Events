@@ -11,6 +11,7 @@ import com.khevents.R;
 import com.khevents.data.Event;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.utilsframework.android.fragments.Fragments;
+import com.utilsframework.android.time.TimeUtils;
 import com.vkandroid.VkUser;
 
 import java.io.IOException;
@@ -45,8 +46,22 @@ public class EventFragment extends AbstractPageLoadingFragment<VkUser> {
 
     @Override
     protected void setupContent(VkUser user, View content) {
+        TextView userName = (TextView) content.findViewById(R.id.userName);
+        userName.setText(user.name + " " + user.lastName);
+
         TextView name = (TextView) content.findViewById(R.id.name);
-        name.setText(user.name + " " + user.lastName);
+        name.setText(event.name);
+
+        TextView description = (TextView) content.findViewById(R.id.description);
+        description.setText(event.description);
+
+        TextView peopleNumber = (TextView) content.findViewById(R.id.people_number);
+        peopleNumber.setText(event.subscribersCount + "/" + event.peopleNumber);
+
+        TextView dateView = (TextView) content.findViewById(R.id.date);
+        String date = TimeUtils.getAlternativeDisplayDateTime(event.date * 1000l);
+        dateView.setText(getString(R.string.event_date_title) + " " + date);
+
         ImageView avatar = (ImageView) content.findViewById(R.id.avatar);
         IMAGE_LOADER.displayImage(user.avatar, avatar);
     }

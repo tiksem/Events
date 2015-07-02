@@ -13,6 +13,7 @@ public class Event implements Parcelable {
     public long userId;
     public String address;
     public int peopleNumber;
+    public int subscribersCount;
     public int date;
 
 

@@ -22,4 +22,5 @@
     <string name="events_count_ending">events</string>
     <string name="subscribed">Subscribed</string>
     <string name="created">Created</string>
+    <string name="event_date_title">Event date:</string>
 </resources>
