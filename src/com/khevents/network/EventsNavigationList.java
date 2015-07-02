@@ -13,6 +13,7 @@ import java.util.Map;
  */
 class EventsNavigationList extends JsonAsyncNavigationList<Event> {
     private boolean actualEventsLoaded = false;
+    private int actualEventsLoadedCount = -1;
 
     public EventsNavigationList(String url, String jsonKey,
                                 Map<String, Object> args,
@@ -33,6 +34,19 @@ class EventsNavigationList extends JsonAsyncNavigationList<Event> {
             actualEventsLoaded = true;
             getArgs().put("timeOut", true);
             return false;
+        }
+    }
+
+    @Override
+    protected int getOffset() {
+        if (actualEventsLoaded) {
+            if (actualEventsLoadedCount < 0) {
+                actualEventsLoadedCount = getLoadedElementsCount();
+            }
+
+            return super.getOffset() - actualEventsLoadedCount;
+        } else {
+            return super.getOffset();
         }
     }
 }
