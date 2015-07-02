@@ -15,6 +15,10 @@ import com.vk.sdk.VKAccessToken;
 import com.vk.sdk.VKUIHelper;
 
 public class MainActivity extends NavigationDrawerActivity {
+
+    public static final int SUBSCRIBED_EVENTS_TAB = 0;
+    private static final int CREATED_EVENTS_TAB = 1;
+
     /**
      * Called when the activity is first created.
      */
@@ -60,19 +64,21 @@ public class MainActivity extends NavigationDrawerActivity {
 
     @Override
     public Fragment createFragmentBySelectedItem(int selectedItemId, int tabIndex, int navigationLevel) {
-        if (selectedItemId == R.id.events) {
-            return new AllEventsListFragment();
-        } else if(selectedItemId == R.id.tags) {
-            return new TagsListFragment();
-        } else if(selectedItemId == R.id.my_events) {
-            if (tabIndex == 0) {
-                return new SubscribedUserEventsListFragment();
-            } else {
-                return new CreatedUserEventsListFragment();
+        if (navigationLevel == 0) {
+            if (selectedItemId == R.id.events) {
+                return new AllEventsListFragment();
+            } else if(selectedItemId == R.id.tags) {
+                return new TagsListFragment();
+            } else if(selectedItemId == R.id.my_events) {
+                if (tabIndex == SUBSCRIBED_EVENTS_TAB) {
+                    return new SubscribedUserEventsListFragment();
+                } else if(tabIndex == CREATED_EVENTS_TAB) {
+                    return new CreatedUserEventsListFragment();
+                }
             }
         }
 
-        return null;
+        throw new RuntimeException("Invalid fragment request");
     }
 
     @Override

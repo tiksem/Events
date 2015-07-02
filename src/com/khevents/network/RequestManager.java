@@ -49,6 +49,10 @@ public class RequestManager implements IOErrorListenersSet {
         return new TagsNavigationList(requestExecutor, rootUrl);
     }
 
+    public NavigationList<Event> getEventsByTag(String tag) {
+        return new EventsByTagNavigationList(rootUrl, tag, requestExecutor);
+    }
+
     public void createEvent(EventArgs args, OnEventCreationFinished onFinish) {
         Threading.executeAsyncTask(new Threading.Task<IOException, Integer>() {
             @Override

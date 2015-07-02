@@ -1,9 +1,11 @@
 package com.khevents.fragments;
 
+import android.support.v4.app.Fragment;
 import com.jsonutils.RequestException;
 import com.khevents.EventsApp;
 import com.khevents.R;
 import com.khevents.network.RequestManager;
+import com.utilsframework.android.navdrawer.NavigationDrawerActivity;
 import com.utilsframework.android.navigation.NavigationListFragment;
 
 /**
@@ -37,5 +39,17 @@ public abstract class AbstractNavigationListFragment<T> extends NavigationListFr
         }
 
         return false;
+    }
+
+    public NavigationDrawerActivity getNavigationActivity() {
+        return (NavigationDrawerActivity) getActivity();
+    }
+
+    public void replaceFragment(Fragment newFragment, int navigationLevel) {
+        getNavigationActivity().replaceFragment(newFragment, navigationLevel);
+    }
+
+    public void updateActionBarTitle() {
+        getNavigationActivity().updateActionBarTitle();
     }
 }
