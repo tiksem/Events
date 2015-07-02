@@ -12,12 +12,15 @@ import com.utilsframework.android.IOErrorListener;
 import com.utilsframework.android.network.GetRequestExecutor;
 import com.utilsframework.android.network.IOErrorListenersSet;
 import com.utilsframework.android.network.RequestExecutor;
+import com.utilsframework.android.threading.OnFinish;
 import com.utilsframework.android.threading.Threading;
+import com.utilsframework.android.threading.ThrowingRunnable;
 import com.vkandroid.VkApiUtils;
 import com.vkandroid.VkUser;
 
 import java.io.IOException;
 import java.lang.reflect.Field;
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -103,5 +106,20 @@ public class RequestManager implements IOErrorListenersSet {
 
     public VkUser getVkUserById(long userId) throws IOException {
         return VkApiUtils.getUser(userId, requestExecutor);
+    }
+
+    public void subscribe(long eventId, String token, OnFinish<IOException> onFinish) {
+        Threading.runOnBackground(new ThrowingRunnable<IOException>() {
+            @Override
+            public void run() throws IOException {
+                String response = requestExecutor.executeRequest(rootUrl + "subscribe", new HashMap<String, Object>() {
+                    {
+                        put("token", token);
+                        put("id", eventId);
+                    }
+                });
+                Json.checkError(response);
+            }
+        }, onFinish, IOException.class);
     }
 }

@@ -23,4 +23,7 @@
     <string name="subscribed">Subscribed</string>
     <string name="created">Created</string>
     <string name="event_date_title">Event date:</string>
+    <string name="i_will_go">I Will Go</string>
+    <string name="i_will_not_go">I Will Not Go</string>
+    <string name="subscribe_message">You have subscribed for the event</string>
 </resources>
