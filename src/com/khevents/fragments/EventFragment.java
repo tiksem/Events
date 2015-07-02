@@ -9,6 +9,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import com.khevents.EventsApp;
 import com.khevents.R;
+import com.khevents.VkUsersListActivity;
 import com.khevents.data.Event;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.utilsframework.android.fragments.Fragments;
@@ -69,6 +70,21 @@ public class EventFragment extends AbstractPageLoadingFragment<VkUser> {
         ImageView avatar = (ImageView) content.findViewById(R.id.avatar);
         IMAGE_LOADER.displayImage(user.avatar, avatar);
 
+        initSubscribeButton(content);
+
+        content.findViewById(R.id.people_layout).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showSubscribers();
+            }
+        });
+    }
+
+    private void showSubscribers() {
+        UiMessages.message(getActivity(), "Subscribers are shown");// TODO remove this
+    }
+
+    private void initSubscribeButton(View content) {
         Button subscribeButton = (Button) content.findViewById(R.id.subscribe);
         subscribeButton.setOnClickListener(new View.OnClickListener() {
             @Override
