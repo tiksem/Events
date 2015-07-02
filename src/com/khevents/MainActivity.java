@@ -94,8 +94,10 @@ public class MainActivity extends NavigationDrawerActivity {
 
     @Override
     public int getTabsCount(int selectedItemId, int navigationLevel) {
-        if (selectedItemId == R.id.my_events) {
-            return 2;
+        if (navigationLevel == 0) {
+            if (selectedItemId == R.id.my_events) {
+                return 2;
+            }
         }
 
         return 1;
