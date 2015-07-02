@@ -47,6 +47,15 @@ public class VkApiUtils {
         return getUsers(ides, new GetRequestExecutor());
     }
 
+    public static VkUser getUser(long id, RequestExecutor requestExecutor) throws IOException {
+        List<VkUser> users = getUsers(Collections.singletonList(id), requestExecutor);
+        if (users.isEmpty()) {
+            return null;
+        }
+
+        return users.get(0);
+    }
+
     public static List<VkUser> getUsers(long... ides) throws IOException {
         return getUsers(ArrayUtils.asList(ides));
     }

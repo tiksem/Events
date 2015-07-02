@@ -1,5 +1,7 @@
 package com.khevents.fragments;
 
+import android.support.v4.app.Fragment;
+import com.khevents.Level;
 import com.khevents.adapters.EventsAdapter;
 import com.khevents.data.Event;
 import com.khevents.network.RequestManager;
@@ -15,7 +17,8 @@ public abstract class EventsListFragment extends AbstractNavigationListFragment<
     }
 
     @Override
-    protected void onListItemClicked(Event item) {
-
+    protected void onListItemClicked(Event event) {
+        Fragment fragment = EventFragment.create(event);
+        replaceFragment(fragment, Level.EVENT_PAGE);
     }
 }

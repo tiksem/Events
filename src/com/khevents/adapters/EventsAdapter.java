@@ -5,7 +5,6 @@ import android.view.View;
 import android.widget.TextView;
 import com.khevents.R;
 import com.khevents.data.Event;
-import com.utilsframework.android.adapters.ViewArrayAdapter;
 import com.utilsframework.android.adapters.navigation.NavigationListAdapter;
 import com.utilsframework.android.time.TimeUtils;
 
@@ -19,7 +18,7 @@ public class EventsAdapter extends NavigationListAdapter<Event, EventHolder> {
 
     @Override
     protected int getRootLayoutId(int viewType) {
-        return R.layout.event;
+        return R.layout.event_item;
     }
 
     @Override

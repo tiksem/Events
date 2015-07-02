@@ -13,6 +13,8 @@ import com.utilsframework.android.network.GetRequestExecutor;
 import com.utilsframework.android.network.IOErrorListenersSet;
 import com.utilsframework.android.network.RequestExecutor;
 import com.utilsframework.android.threading.Threading;
+import com.vkandroid.VkApiUtils;
+import com.vkandroid.VkUser;
 
 import java.io.IOException;
 import java.lang.reflect.Field;
@@ -97,5 +99,9 @@ public class RequestManager implements IOErrorListenersSet {
 
     public NavigationList<Event> getSubscribedUserEvents(String token) {
         return new UserEventsNavigationList(rootUrl, UserEventsNavigationList.Mode.subscribed, token, requestExecutor);
+    }
+
+    public VkUser getVkUserById(long userId) throws IOException {
+        return VkApiUtils.getUser(userId, requestExecutor);
     }
 }
