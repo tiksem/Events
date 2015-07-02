@@ -11,7 +11,7 @@ import java.util.Map;
 class EventsByTagNavigationList extends EventsNavigationList {
     public EventsByTagNavigationList(String rootUrl, String tag,
                                      RequestExecutor requestExecutor) {
-        super(rootUrl + "getEventsByTag", "subscribers",
+        super(rootUrl + "getEventsByTag", "Events",
                 Collections.singletonMap("tag", tag), requestExecutor);
     }
 }
