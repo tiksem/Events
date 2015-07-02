@@ -8,6 +8,7 @@ import com.khevents.data.Tag;
 import com.utils.framework.Reflection;
 import com.utils.framework.collections.NavigationList;
 import com.utils.framework.io.Network;
+import com.utilsframework.android.ExecuteTimeLogger;
 import com.utilsframework.android.IOErrorListener;
 import com.utilsframework.android.network.GetRequestExecutor;
 import com.utilsframework.android.network.IOErrorListenersSet;
@@ -33,7 +34,10 @@ public class RequestManager implements IOErrorListenersSet {
         @Override
         public String executeRequest(String url, Map<String, Object> args) throws IOException {
             Log.i(TAG, "url = " + Network.getUrl(url, args));
-            return super.executeRequest(url, args);
+            ExecuteTimeLogger.timeStart("request");
+            String result = super.executeRequest(url, args);
+            ExecuteTimeLogger.timeEnd("request", TAG);
+            return result;
         }
     };
     private String rootUrl;
