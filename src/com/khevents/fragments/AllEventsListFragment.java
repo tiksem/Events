@@ -67,10 +67,10 @@ public class AllEventsListFragment extends EventsListFragment {
     @Override
     protected NavigationList<Event> getNavigationList(RequestManager requestManager, String filter) {
         if (!dateFilterCheckbox.isChecked()) {
-            return requestManager.getEvents();
+            return requestManager.getEvents(filter);
         } else {
             long date = datePickerButton.getDate();
-            return requestManager.getEvents(date);
+            return requestManager.getEvents(date, filter);
         }
     }
 
@@ -86,5 +86,10 @@ public class AllEventsListFragment extends EventsListFragment {
         if (requestCode == CREATE_EVENT && resultCode == Activity.RESULT_OK) {
             updateNavigationList(null);
         }
+    }
+
+    @Override
+    protected boolean hasSearchMenu() {
+        return true;
     }
 }

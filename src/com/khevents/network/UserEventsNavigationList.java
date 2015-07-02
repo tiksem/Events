@@ -11,7 +11,7 @@ import java.util.Map;
 /**
  * Created by CM on 7/1/2015.
  */
-class UserEventsNavigationList extends JsonAsyncNavigationList<Event> {
+class UserEventsNavigationList extends EventsNavigationList {
     public enum Mode {
         created,
         subscribed
@@ -20,7 +20,7 @@ class UserEventsNavigationList extends JsonAsyncNavigationList<Event> {
     public UserEventsNavigationList(String rootUrl, Mode mode,
                                     String token,
                                     RequestExecutor requestExecutor) {
-        super(Event.class, rootUrl + "getUserEvents", "subscribers",
+        super(rootUrl + "getUserEvents", "subscribers",
                 new HashMap<String, Object>(){
                     {
                         put("mod", mode);

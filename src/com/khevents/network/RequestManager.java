@@ -37,8 +37,12 @@ public class RequestManager implements IOErrorListenersSet {
         this.rootUrl = rootUrl;
     }
 
-    public NavigationList<Event> getEvents() {
-        return new EventsNavigationList(rootUrl, requestExecutor);
+    public NavigationList<Event> getEvents(String query) {
+        if (query == null) {
+            return new AllEventsNavigationList(rootUrl, requestExecutor);
+        } else {
+            return new AllEventsNavigationList(rootUrl, query, requestExecutor);
+        }
     }
 
     public NavigationList<Tag> getTags() {
@@ -75,8 +79,12 @@ public class RequestManager implements IOErrorListenersSet {
 
     }
 
-    public NavigationList<Event> getEvents(long date) {
-        return new EventsNavigationList(rootUrl, (int) (date / 1000), requestExecutor);
+    public NavigationList<Event> getEvents(long date, String query) {
+        if (query == null) {
+            return new AllEventsNavigationList(rootUrl, (int) (date / 1000), requestExecutor);
+        } else {
+            return new AllEventsNavigationList(rootUrl, query, (int) (date / 1000), requestExecutor);
+        }
     }
 
     public NavigationList<Event> getCreatedUserEvents(String token) {
