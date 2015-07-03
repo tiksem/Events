@@ -39,5 +39,6 @@ public class WelcomeActivity extends Activity {
 
     private void startMainActivity() {
         AndroidUtilities.startActivity(WelcomeActivity.this, MainActivity.class);
+        finish();
     }
 }
