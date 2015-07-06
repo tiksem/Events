@@ -11,6 +11,7 @@ import com.khevents.EventsApp;
 import com.khevents.R;
 import com.khevents.VkUsersListActivity;
 import com.khevents.data.Event;
+import com.khevents.network.RequestManager;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.utilsframework.android.fragments.Fragments;
 import com.utilsframework.android.threading.OnFinish;
@@ -28,6 +29,7 @@ public class EventFragment extends AbstractPageLoadingFragment<VkUser> {
     public static final String EVENT = "event";
     public static final ImageLoader IMAGE_LOADER = ImageLoader.getInstance();
     private Event event;
+    private Button subscribeButton;
 
     public static EventFragment create(Event event) {
         return Fragments.createFragmentWith1Arg(new EventFragment(), EVENT, event);
@@ -46,7 +48,9 @@ public class EventFragment extends AbstractPageLoadingFragment<VkUser> {
 
     @Override
     protected VkUser loadOnBackground() throws IOException {
-        return getRequestManager().getVkUserById(event.userId);
+        RequestManager requestManager = getRequestManager();
+        event.isSubscribed = requestManager.isSubscribed(event.id, VKSdk.getAccessToken().accessToken);
+        return requestManager.getVkUserById(event.userId);
     }
 
     @Override
@@ -84,31 +88,40 @@ public class EventFragment extends AbstractPageLoadingFragment<VkUser> {
         UiMessages.message(getActivity(), "Subscribers are shown");// TODO remove this
     }
 
+    private int getSubscribeButtonText() {
+        return event.isSubscribed ? R.string.i_will_not_go : R.string.i_will_go;
+    }
+
     private void initSubscribeButton(View content) {
-        Button subscribeButton = (Button) content.findViewById(R.id.subscribe);
+        subscribeButton = (Button) content.findViewById(R.id.subscribe);
+        subscribeButton.setText(getSubscribeButtonText());
         subscribeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                subscribeButton.setEnabled(false);
-                CharSequence text = subscribeButton.getText();
-                subscribeButton.setText(R.string.please_wait);
-                getRequestManager().subscribe(event.id, VKSdk.getAccessToken().accessToken,
-                        new OnFinish<IOException>() {
-                    @Override
-                    public void onFinish(IOException e) {
-                        subscribeButton.setEnabled(true);
-                        if (e != null) {
-                            subscribeButton.setText(text);
-                        } else {
-                            if (text.equals(getString(R.string.i_will_go))) {
-                                subscribeButton.setText(R.string.i_will_not_go);
-                                UiMessages.message(getActivity(), R.string.subscribe_message);
-                            } else {
-                                subscribeButton.setText(R.string.i_will_go);
-                            }
-                        }
+                toggleSubscribe();
+            }
+        });
+    }
+
+    private void toggleSubscribe() {
+        subscribeButton.setEnabled(false);
+        subscribeButton.setText(R.string.please_wait);
+        getRequestManager().subscribe(event.id, VKSdk.getAccessToken().accessToken,
+                new OnFinish<IOException>() {
+            @Override
+            public void onFinish(IOException e) {
+                subscribeButton.setEnabled(true);
+                if (e != null) {
+                    subscribeButton.setText(getSubscribeButtonText());
+                } else {
+                    event.isSubscribed = !event.isSubscribed;
+                    int text = getSubscribeButtonText();
+                    if (text == R.string.i_will_not_go) {
+                        UiMessages.message(getActivity(), R.string.subscribe_message);
                     }
-                });
+
+                    subscribeButton.setText(text);
+                }
             }
         });
     }

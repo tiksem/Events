@@ -112,6 +112,14 @@ public class RequestManager implements IOErrorListenersSet {
         return VkApiUtils.getUser(userId, requestExecutor);
     }
 
+    public boolean isSubscribed(long eventId, String token) throws IOException {
+        String url = rootUrl + "isSubscribed?id=" + eventId + "&token=" + token;
+        String response = requestExecutor.executeRequest(url, null);
+        JsonNode node = Json.toJsonNode(response);
+        Json.checkError(node);
+        return node.get("isSubscribed").asBoolean();
+    }
+
     public void subscribe(long eventId, String token, OnFinish<IOException> onFinish) {
         Threading.runOnBackground(new ThrowingRunnable<IOException>() {
             @Override
