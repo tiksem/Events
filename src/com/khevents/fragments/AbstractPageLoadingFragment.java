@@ -1,6 +1,7 @@
 package com.khevents.fragments;
 
 import android.app.Activity;
+import android.support.v4.app.Fragment;
 import com.khevents.EventsApp;
 import com.khevents.network.RequestManager;
 import com.utilsframework.android.fragments.PageLoadingFragment;
@@ -30,5 +31,9 @@ public abstract class AbstractPageLoadingFragment<Data> extends PageLoadingFragm
 
     protected NavigationDrawerActivity getNavigationDrawerActivity() {
         return (NavigationDrawerActivity) getActivity();
+    }
+
+    public void replaceFragment(Fragment newFragment, int navigationLevel) {
+        getNavigationDrawerActivity().replaceFragment(newFragment, navigationLevel);
     }
 }

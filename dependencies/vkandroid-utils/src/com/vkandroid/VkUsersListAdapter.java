@@ -7,11 +7,12 @@ import android.widget.TextView;
 import com.example.vkandroid_utils.R;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.utilsframework.android.adapters.ViewArrayAdapter;
+import com.utilsframework.android.adapters.navigation.NavigationListAdapter;
 
 /**
  * Created by CM on 6/17/2015.
  */
-public class VkUsersListAdapter extends ViewArrayAdapter<VkUser, VkUserViewHolder> {
+public class VkUsersListAdapter extends NavigationListAdapter<VkUser, VkUserViewHolder> {
     public VkUsersListAdapter(Context context) {
         super(context);
     }

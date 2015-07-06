@@ -1,5 +1,7 @@
 package com.vkandroid;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.jsonandroid.JsonAsyncNavigationList;
 import com.utilsframework.android.network.RequestExecutor;
 import com.jsonutils.Json;
@@ -26,7 +28,7 @@ public class VkUsersNavigationList extends JsonAsyncNavigationList<VkUser> {
     protected List<VkUser> getElements(String url, Map<String, Object> args, RequestExecutor requestExecutor,
                                        Class<VkUser> aClass) throws IOException {
         String response = requestExecutor.executeRequest(url, args);
-        List<Long> ides = Json.parseJsonArray(response, Long.class);
+        List<Long> ides = Json.parseLongArray(response, getJsonKey());
         return VkApiUtils.getUsers(ides, requestExecutor);
     }
 }

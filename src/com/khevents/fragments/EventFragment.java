@@ -2,20 +2,17 @@ package com.khevents.fragments;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
-import android.os.Parcelable;
-import android.support.v4.app.Fragment;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-import com.khevents.EventsApp;
+import com.khevents.EventSubscribersListFragment;
+import com.khevents.Level;
 import com.khevents.R;
-import com.khevents.VkUsersListActivity;
 import com.khevents.data.Event;
 import com.khevents.network.RequestManager;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.utilsframework.android.fragments.Fragments;
-import com.utilsframework.android.threading.AsyncOperationCallback;
 import com.utilsframework.android.threading.OnFinish;
 import com.utilsframework.android.time.TimeUtils;
 import com.utilsframework.android.view.Alerts;
@@ -90,7 +87,7 @@ public class EventFragment extends AbstractPageLoadingFragment<VkUser> {
     }
 
     private void showSubscribers() {
-        UiMessages.message(getActivity(), "Subscribers are shown");// TODO remove this
+        replaceFragment(EventSubscribersListFragment.create(event.id), Level.SUBSCRIBERS);
     }
 
     private int getSubscribeButtonText() {

@@ -18,9 +18,11 @@ import com.utilsframework.android.threading.Threading;
 import com.utilsframework.android.threading.ThrowingRunnable;
 import com.vkandroid.VkApiUtils;
 import com.vkandroid.VkUser;
+import com.vkandroid.VkUsersNavigationList;
 
 import java.io.IOException;
 import java.lang.reflect.Field;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -148,5 +150,10 @@ public class RequestManager implements IOErrorListenersSet {
                 cancelEvent(id, accessToken);
             }
         }, onFinish, IOException.class);
+    }
+
+    public NavigationList<VkUser> getSubscribers(long eventId) {
+        return new VkUsersNavigationList(rootUrl + "getSubscribers", Collections.singletonMap("id", eventId),
+                "Subscribers", requestExecutor);
     }
 }
