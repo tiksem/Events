@@ -4,6 +4,7 @@ import android.app.Activity;
 import com.khevents.EventsApp;
 import com.khevents.network.RequestManager;
 import com.utilsframework.android.fragments.PageLoadingFragment;
+import com.utilsframework.android.navdrawer.NavigationDrawerActivity;
 
 import java.io.IOException;
 
@@ -25,5 +26,9 @@ public abstract class AbstractPageLoadingFragment<Data> extends PageLoadingFragm
 
     public AbstractPageLoadingFragment() {
         super(IOException.class);
+    }
+
+    protected NavigationDrawerActivity getNavigationDrawerActivity() {
+        return (NavigationDrawerActivity) getActivity();
     }
 }

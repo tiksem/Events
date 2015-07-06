@@ -26,4 +26,8 @@
     <string name="i_will_go">I Will Go</string>
     <string name="i_will_not_go">I Will Not Go</string>
     <string name="subscribe_message">You have subscribed for the event</string>
+    <string name="cancel_event">Cancel Event</string>
+    <string name="cancel_event_confirm_message">Do you realy want to cancel the event? It will delete event\'s data.
+    </string>
+    <string name="event_canceled">Event canceled</string>
 </resources>

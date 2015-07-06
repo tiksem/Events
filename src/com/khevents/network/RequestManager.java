@@ -134,4 +134,19 @@ public class RequestManager implements IOErrorListenersSet {
             }
         }, onFinish, IOException.class);
     }
+
+    public void cancelEvent(long id, String accessToken) throws IOException {
+        String url = rootUrl + "cancelEvent?id=" + id + "&token=" + accessToken;
+        String response = requestExecutor.executeRequest(url, null);
+        Json.checkError(response);
+    }
+
+    public void cancelEventAsync(long id, String accessToken, OnFinish<IOException> onFinish) {
+        Threading.runOnBackground(new ThrowingRunnable<IOException>() {
+            @Override
+            public void run() throws IOException {
+                cancelEvent(id, accessToken);
+            }
+        }, onFinish, IOException.class);
+    }
 }
