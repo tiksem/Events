@@ -16,6 +16,7 @@ import com.utilsframework.android.network.RequestExecutor;
 import com.utilsframework.android.threading.OnFinish;
 import com.utilsframework.android.threading.Threading;
 import com.utilsframework.android.threading.ThrowingRunnable;
+import com.vk.sdk.VKSdk;
 import com.vkandroid.VkApiUtils;
 import com.vkandroid.VkUser;
 import com.vkandroid.VkUsersNavigationList;
@@ -166,5 +167,14 @@ public class RequestManager implements IOErrorListenersSet {
 
     public NavigationList<Comment> getComments(List<Comment> topComments, long eventId) {
         return new CommentsNavigationList(rootUrl, eventId, topComments, requestExecutor);
+    }
+
+    public interface OnCommentAdded {
+        void onCommentAdded(IOException e, Comment comment);
+    }
+
+    public void addComment(String text, long eventId, String accessToken,
+                           OnCommentAdded onCommentAdded) {
+        String url = rootUrl + "addComment?id=" + eventId + "&token" + accessToken + "&text=" + text;
     }
 }
