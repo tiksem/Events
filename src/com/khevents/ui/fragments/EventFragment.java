@@ -194,8 +194,12 @@ public class EventFragment extends AbstractPageLoadingFragment<VkUser> {
         commentsView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                openComments();
             }
         });
+    }
+
+    private void openComments() {
+        replaceFragment(CommentsFragment.create(event.id, topComments), Level.COMMENTS);
     }
 }

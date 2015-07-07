@@ -6,8 +6,6 @@ import com.jsonutils.Json;
 import com.khevents.data.Comment;
 import com.khevents.data.Event;
 import com.khevents.data.Tag;
-import com.utils.framework.CollectionUtils;
-import com.utils.framework.Reflection;
 import com.utils.framework.collections.NavigationList;
 import com.utils.framework.io.Network;
 import com.utilsframework.android.ExecuteTimeLogger;
@@ -23,7 +21,6 @@ import com.vkandroid.VkUser;
 import com.vkandroid.VkUsersNavigationList;
 
 import java.io.IOException;
-import java.lang.reflect.Field;
 import java.util.*;
 
 /**
@@ -162,23 +159,12 @@ public class RequestManager implements IOErrorListenersSet {
         String json = requestExecutor.executeRequest(url, null);
         List<Comment> comments = Json.readList(json, "Comments", Comment.class);
 
-        List<VkUser> users = getUsersFromComments(comments);
-        Iterator<VkUser> userIterator = users.iterator();
-        for (Comment comment : comments) {
-            VkUser next = userIterator.next();
-            comment.userName = next.name + " " + next.lastName;
-        }
+        Requests.updateCommentsUserData(requestExecutor, comments);
 
         return comments;
     }
 
-    private List<VkUser> getUsersFromComments(List<Comment> comments) throws IOException {
-        return VkApiUtils.getUsers(CollectionUtils.transformNonCopy(comments,
-                new CollectionUtils.Transformer<Comment, Long>() {
-                    @Override
-                    public Long get(Comment comment) {
-                        return comment.userId;
-                    }
-                }), requestExecutor);
+    public NavigationList<Comment> getComments(List<Comment> topComments, long eventId) {
+        return new CommentsNavigationList(rootUrl, eventId, topComments, requestExecutor);
     }
 }

@@ -16,11 +16,15 @@ import com.khevents.data.Comment;
 public class UiUtils {
     public static View createTopCommentLayout(Context context, Comment comment) {
         TextView textView = new TextView(context);
+        setCommentMessage(context, comment, textView);
+        return textView;
+    }
+
+    public static void setCommentMessage(Context context, Comment comment, TextView textView) {
         SpannableString text = new SpannableString(comment.userName + " " + comment.text);
 
         text.setSpan(new TextAppearanceSpan(context, R.style.header2), 0, comment.userName.length(),
                 Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
         textView.setText(text, TextView.BufferType.SPANNABLE);
-        return textView;
     }
 }

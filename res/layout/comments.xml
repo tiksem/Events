@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+             android:orientation="vertical"
+             android:layout_width="match_parent"
+             android:layout_height="match_parent">
+    <include layout="@layout/no_connection"> </include>
+
+    <ListView android:id="@+id/list"
+              android:dividerHeight="0dp"
+              android:divider="@null"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent" />
+
+    <LinearLayout android:layout_gravity="bottom"
+                  android:orientation="horizontal"
+                 android:layout_width="match_parent"
+                 android:layout_height="wrap_content">
+        <EditText
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:paddingLeft="5dp"
+                android:layout_height="50dp"
+                android:hint="@string/add_comment_hint"
+                android:background="@color/vk_white"
+                />
+        <Button android:id="@+id/add_comment"
+                android:background="@color/vk_black"
+                android:layout_width="50dp"
+                android:layout_height="50dp"/>
+    </LinearLayout>
+</FrameLayout>
