@@ -14,6 +14,7 @@ import com.khevents.network.RequestManager;
 import com.utils.framework.collections.NavigationList;
 import com.utilsframework.android.adapters.ViewArrayAdapter;
 import com.utilsframework.android.social.SocialUtils;
+import com.utilsframework.android.view.GuiUtilities;
 import com.vk.sdk.VKSdk;
 import com.vkandroid.VkApiUtils;
 
@@ -26,13 +27,15 @@ import java.util.List;
 public class CommentsFragment extends AbstractNavigationListFragment<Comment> {
     private static final String EVENT_ID = "eventId";
     private static final String TOP_COMMENTS = "topComments";
-
+    public static final String REQUEST_ADD_COMMENT_FOCUS = "requestAddCommentFocus";
     private long eventId;
+    private EditText commentMessage;
 
-    public static CommentsFragment create(long eventId, List<Comment> topComments) {
+    public static CommentsFragment create(long eventId, List<Comment> topComments, boolean requestAddCommentFocus) {
         CommentsFragment fragment = new CommentsFragment();
         Bundle args = new Bundle();
         args.putLong(EVENT_ID, eventId);
+        args.putBoolean(REQUEST_ADD_COMMENT_FOCUS, requestAddCommentFocus);
         args.putParcelableArrayList(TOP_COMMENTS, new ArrayList<Comment>(topComments));
         fragment.setArguments(args);
         return fragment;
@@ -70,10 +73,15 @@ public class CommentsFragment extends AbstractNavigationListFragment<Comment> {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         setupAddCommentControl(view);
+
+        if (getArguments().getBoolean(REQUEST_ADD_COMMENT_FOCUS)) {
+            getArguments().putBoolean(REQUEST_ADD_COMMENT_FOCUS, false);
+            GuiUtilities.showKeyboard(commentMessage);
+        }
     }
 
     public void setupAddCommentControl(View view) {
-        EditText commentMessage = (EditText) view.findViewById(R.id.add_comment_message);
+        commentMessage = (EditText) view.findViewById(R.id.add_comment_message);
         view.findViewById(R.id.add_comment).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

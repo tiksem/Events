@@ -90,6 +90,13 @@ public class EventFragment extends AbstractPageLoadingFragment<VkUser> {
         });
 
         setupCommentsList(content);
+
+        content.findViewById(R.id.add_comment).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openComments(true);
+            }
+        });
     }
 
     private void showSubscribers() {
@@ -194,12 +201,12 @@ public class EventFragment extends AbstractPageLoadingFragment<VkUser> {
         commentsView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                openComments();
+                openComments(false);
             }
         });
     }
 
-    private void openComments() {
-        replaceFragment(CommentsFragment.create(event.id, topComments), Level.COMMENTS);
+    private void openComments(boolean addCommentFocus) {
+        replaceFragment(CommentsFragment.create(event.id, topComments, addCommentFocus), Level.COMMENTS);
     }
 }
