@@ -169,12 +169,15 @@ public class RequestManager implements IOErrorListenersSet {
         return new CommentsNavigationList(rootUrl, eventId, topComments, requestExecutor);
     }
 
-    public interface OnCommentAdded {
-        void onCommentAdded(IOException e, Comment comment);
-    }
-
     public void addComment(String text, long eventId, String accessToken,
-                           OnCommentAdded onCommentAdded) {
-        String url = rootUrl + "addComment?id=" + eventId + "&token" + accessToken + "&text=" + text;
+                           OnFinish<IOException> onFinish) {
+        Threading.runOnBackground(new ThrowingRunnable<IOException>() {
+            @Override
+            public void run() throws IOException {
+                String url = rootUrl + "addComment?id=" + eventId + "&token=" + accessToken + "&text=" + text;
+                String json = requestExecutor.executeRequest(url, null);
+                Json.checkError(json);
+            }
+        }, onFinish, IOException.class);
     }
 }

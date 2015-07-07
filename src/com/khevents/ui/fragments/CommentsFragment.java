@@ -2,11 +2,11 @@ package com.khevents.ui.fragments;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
+import com.khevents.EventsApp;
 import com.khevents.R;
 import com.khevents.adapters.CommentsAdapter;
 import com.khevents.data.Comment;
@@ -14,10 +14,13 @@ import com.khevents.network.RequestManager;
 import com.utils.framework.collections.NavigationList;
 import com.utilsframework.android.adapters.ViewArrayAdapter;
 import com.utilsframework.android.social.SocialUtils;
+import com.utilsframework.android.threading.OnFinish;
 import com.utilsframework.android.view.GuiUtilities;
+import com.utilsframework.android.view.UiMessages;
 import com.vk.sdk.VKSdk;
-import com.vkandroid.VkApiUtils;
+import com.vkandroid.VkUser;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -85,13 +88,42 @@ public class CommentsFragment extends AbstractNavigationListFragment<Comment> {
         view.findViewById(R.id.add_comment).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Editable text = commentMessage.getText();
-                if (!TextUtils.isEmpty(text)) {
-                    // show loading
-                    getElements().add(0, null);
-                    getAdapter().notifyDataSetChanged();
-                }
+                executeAddCommentRequest();
             }
         });
+    }
+
+    private void addCommentToList(String text) {
+        Comment comment = new Comment();
+        VkUser user = EventsApp.getInstance().getCurrentUser();
+        comment.avatar = user.avatar;
+        comment.userName = user.name + " " + user.lastName;
+        comment.text = text;
+        comment.date = (int) (System.currentTimeMillis() / 1000);
+        getElements().set(0, comment);
+        getAdapter().notifyDataSetChanged();
+        commentMessage.setText("");
+    }
+
+    public void executeAddCommentRequest() {
+        Editable text = commentMessage.getText();
+        if (!TextUtils.isEmpty(text)) {
+            // show loading
+            getElements().add(0, null);
+            getAdapter().notifyDataSetChanged();
+            getRequestManager().addComment(text.toString(), eventId,
+                    VKSdk.getAccessToken().accessToken, new OnFinish<IOException>() {
+                        @Override
+                        public void onFinish(IOException e) {
+                            if (e == null) {
+                                addCommentToList(text.toString());
+                            } else {
+                                UiMessages.error(getActivity(), R.string.no_internet_connection);
+                                getElements().remove(0);
+                                getAdapter().notifyDataSetChanged();
+                            }
+                        }
+                    });
+        }
     }
 }

@@ -18,6 +18,7 @@ import com.vk.sdk.VKSdk;
 import com.vk.sdk.VKSdkListener;
 import com.vk.sdk.api.VKError;
 import com.vk.sdk.util.VKUtil;
+import com.vkandroid.VkUser;
 
 import java.io.IOException;
 
@@ -28,6 +29,7 @@ public class EventsApp extends Application {
     private static EventsApp instance;
 
     private RequestManager requestManager;
+    private VkUser currentUser;
 
     @Override
     public void onCreate() {
@@ -53,5 +55,17 @@ public class EventsApp extends Application {
 
     public RequestManager getRequestManager() {
         return requestManager;
+    }
+
+    public void initVkUser(VkUser vkUser) {
+        if (currentUser != null) {
+            throw new IllegalStateException("currentUser is already set");
+        }
+
+        currentUser = vkUser;
+    }
+
+    public VkUser getCurrentUser() {
+        return currentUser;
     }
 }
