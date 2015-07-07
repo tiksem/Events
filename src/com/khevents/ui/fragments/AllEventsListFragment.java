@@ -1,4 +1,4 @@
-package com.khevents.fragments;
+package com.khevents.ui.fragments;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -6,14 +6,12 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
-import com.khevents.CreateEventActivity;
+import com.khevents.ui.CreateEventActivity;
 import com.khevents.R;
-import com.khevents.adapters.EventsAdapter;
 import com.khevents.data.Event;
 import com.khevents.network.RequestManager;
 import com.utils.framework.collections.NavigationList;
 import com.utilsframework.android.AndroidUtilities;
-import com.utilsframework.android.adapters.ViewArrayAdapter;
 import com.utilsframework.android.fab.FloatingActionButton;
 import com.utilsframework.android.view.DatePickerButton;
 

@@ -1,4 +1,4 @@
-package com.khevents.fragments;
+package com.khevents.ui.fragments;
 
 import com.khevents.R;
 

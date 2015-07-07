@@ -1,16 +1,16 @@
-package com.khevents.fragments;
+package com.khevents.ui.fragments;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.view.View;
-import android.widget.Button;
-import android.widget.ImageView;
-import android.widget.TextView;
-import com.khevents.EventSubscribersListFragment;
+import android.view.ViewGroup;
+import android.widget.*;
 import com.khevents.Level;
 import com.khevents.R;
+import com.khevents.data.Comment;
 import com.khevents.data.Event;
 import com.khevents.network.RequestManager;
+import com.khevents.ui.UiUtils;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.utilsframework.android.fragments.Fragments;
 import com.utilsframework.android.threading.OnFinish;
@@ -23,6 +23,7 @@ import com.vk.sdk.VKSdk;
 import com.vkandroid.VkUser;
 
 import java.io.IOException;
+import java.util.List;
 
 /**
  * Created by CM on 7/2/2015.
@@ -30,8 +31,10 @@ import java.io.IOException;
 public class EventFragment extends AbstractPageLoadingFragment<VkUser> {
     public static final String EVENT = "event";
     public static final ImageLoader IMAGE_LOADER = ImageLoader.getInstance();
+    public static final int TOP_COMMENTS_COUNT = 3;
     private Event event;
     private Button subscribeButton;
+    private List<Comment> topComments;
 
     public static EventFragment create(Event event) {
         return Fragments.createFragmentWith1Arg(new EventFragment(), EVENT, event);
@@ -52,6 +55,7 @@ public class EventFragment extends AbstractPageLoadingFragment<VkUser> {
     protected VkUser loadOnBackground() throws IOException {
         RequestManager requestManager = getRequestManager();
         event.isSubscribed = requestManager.isSubscribed(event.id, VKSdk.getAccessToken().accessToken);
+        topComments = requestManager.getTopComments(event.id, TOP_COMMENTS_COUNT);
         return requestManager.getVkUserById(event.userId);
     }
 
@@ -84,6 +88,8 @@ public class EventFragment extends AbstractPageLoadingFragment<VkUser> {
                 showSubscribers();
             }
         });
+
+        setupCommentsList(content);
     }
 
     private void showSubscribers() {
@@ -158,20 +164,37 @@ public class EventFragment extends AbstractPageLoadingFragment<VkUser> {
         subscribeButton.setText(R.string.please_wait);
         getRequestManager().subscribe(event.id, VKSdk.getAccessToken().accessToken,
                 new OnFinish<IOException>() {
-            @Override
-            public void onFinish(IOException e) {
-                subscribeButton.setEnabled(true);
-                if (e != null) {
-                    subscribeButton.setText(getSubscribeButtonText());
-                } else {
-                    event.isSubscribed = !event.isSubscribed;
-                    int text = getSubscribeButtonText();
-                    if (text == R.string.i_will_not_go) {
-                        UiMessages.message(getActivity(), R.string.subscribe_message);
-                    }
+                    @Override
+                    public void onFinish(IOException e) {
+                        subscribeButton.setEnabled(true);
+                        if (e != null) {
+                            subscribeButton.setText(getSubscribeButtonText());
+                        } else {
+                            event.isSubscribed = !event.isSubscribed;
+                            int text = getSubscribeButtonText();
+                            if (text == R.string.i_will_not_go) {
+                                UiMessages.message(getActivity(), R.string.subscribe_message);
+                            }
 
-                    subscribeButton.setText(text);
-                }
+                            subscribeButton.setText(text);
+                        }
+                    }
+                });
+    }
+
+    protected void setupCommentsList(View content) {
+        LinearLayout commentsView = (LinearLayout) content.findViewById(R.id.comments);
+        for (Comment comment : topComments) {
+            View view = UiUtils.createTopCommentLayout(getActivity(), comment);
+            view.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,
+                    ViewGroup.LayoutParams.WRAP_CONTENT));
+            commentsView.addView(view);
+        }
+
+        commentsView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
             }
         });
     }

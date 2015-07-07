@@ -3,8 +3,10 @@ package com.khevents.network;
 import android.util.Log;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.jsonutils.Json;
+import com.khevents.data.Comment;
 import com.khevents.data.Event;
 import com.khevents.data.Tag;
+import com.utils.framework.CollectionUtils;
 import com.utils.framework.Reflection;
 import com.utils.framework.collections.NavigationList;
 import com.utils.framework.io.Network;
@@ -22,9 +24,7 @@ import com.vkandroid.VkUsersNavigationList;
 
 import java.io.IOException;
 import java.lang.reflect.Field;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by CM on 6/21/2015.
@@ -155,5 +155,30 @@ public class RequestManager implements IOErrorListenersSet {
     public NavigationList<VkUser> getSubscribers(long eventId) {
         return new VkUsersNavigationList(rootUrl + "getSubscribers", Collections.singletonMap("id", eventId),
                 "Subscribers", requestExecutor);
+    }
+
+    public List<Comment> getTopComments(long eventId, int count) throws IOException {
+        String url = rootUrl + "getCommentsList?id=" + eventId + "&offset=0&limit=" + count;
+        String json = requestExecutor.executeRequest(url, null);
+        List<Comment> comments = Json.readList(json, "Comments", Comment.class);
+
+        List<VkUser> users = getUsersFromComments(comments);
+        Iterator<VkUser> userIterator = users.iterator();
+        for (Comment comment : comments) {
+            VkUser next = userIterator.next();
+            comment.userName = next.name + " " + next.lastName;
+        }
+
+        return comments;
+    }
+
+    private List<VkUser> getUsersFromComments(List<Comment> comments) throws IOException {
+        return VkApiUtils.getUsers(CollectionUtils.transformNonCopy(comments,
+                new CollectionUtils.Transformer<Comment, Long>() {
+                    @Override
+                    public Long get(Comment comment) {
+                        return comment.userId;
+                    }
+                }), requestExecutor);
     }
 }

@@ -39,7 +39,21 @@ public class VkApiUtils {
             throws IOException {
         String vkUrl = VkApiUtils.getUsersRequestUrl(ides, Collections.singletonList("photo_100"));
         String response = requestExecutor.executeRequest(vkUrl, null);
-        return Json.readList(response, "response", VkUser.class);
+        List<VkUser> users = Json.readList(response, "response", VkUser.class);
+
+        if (!users.isEmpty()) {
+            long lastId = ides.get(0);
+            for (int i = 1; i < ides.size(); i++) {
+                long id = ides.get(i);
+                if (id == lastId) {
+                    users.add(i, users.get(i - 1));
+                }
+
+                lastId = id;
+            }
+        }
+
+        return users;
     }
 
     public static List<VkUser> getUsers(List<Long> ides)

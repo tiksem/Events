@@ -1,4 +1,4 @@
-package com.khevents;
+package com.khevents.ui;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
@@ -7,6 +7,8 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.TextView;
+import com.khevents.EventsApp;
+import com.khevents.R;
 import com.khevents.network.EventArgs;
 import com.khevents.network.OnEventCreationFinished;
 import com.khevents.network.RequestManager;

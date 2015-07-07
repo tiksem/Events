@@ -1,6 +1,6 @@
-package com.khevents;
+package com.khevents.ui.fragments;
 
-import com.khevents.fragments.AbstractNavigationListFragment;
+import com.khevents.R;
 import com.khevents.network.RequestManager;
 import com.utils.framework.collections.NavigationList;
 import com.utilsframework.android.adapters.ViewArrayAdapter;

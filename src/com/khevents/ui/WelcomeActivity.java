@@ -1,13 +1,11 @@
-package com.khevents;
+package com.khevents.ui;
 
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
+import com.khevents.R;
 import com.khevents.vk.VkManager;
 import com.utilsframework.android.AndroidUtilities;
-import com.utilsframework.android.threading.OnFinish;
-import com.vk.sdk.VKAccessToken;
-import com.vk.sdk.VKSdk;
 
 /**
  * Created by CM on 7/1/2015.

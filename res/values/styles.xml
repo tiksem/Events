@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="header">
+        <item name="android:textSize">20sp</item>
+        <item name="android:textColor">@color/header</item>
+    </style>
+
+    <style name="header2">
+        <item name="android:textColor">@color/header</item>
+    </style>
+</resources>

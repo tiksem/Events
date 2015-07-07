@@ -1,4 +1,4 @@
-package com.khevents.fragments;
+package com.khevents.ui.fragments;
 
 import android.support.v4.app.Fragment;
 import com.jsonutils.RequestException;

@@ -30,4 +30,6 @@
     <string name="cancel_event_confirm_message">Do you realy want to cancel the event? It will delete event\'s data.
     </string>
     <string name="event_canceled">Event canceled</string>
+    <string name="add_comment">Add Comment</string>
+    <string name="view_all_comments">View All Comments</string>
 </resources>

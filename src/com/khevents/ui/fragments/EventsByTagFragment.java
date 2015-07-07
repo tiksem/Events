@@ -1,6 +1,5 @@
-package com.khevents.fragments;
+package com.khevents.ui.fragments;
 
-import android.os.Bundle;
 import com.khevents.R;
 import com.khevents.data.Event;
 import com.khevents.network.RequestManager;

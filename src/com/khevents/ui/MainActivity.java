@@ -1,13 +1,14 @@
-package com.khevents;
+package com.khevents.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
-import com.khevents.fragments.CreatedUserEventsListFragment;
-import com.khevents.fragments.AllEventsListFragment;
-import com.khevents.fragments.SubscribedUserEventsListFragment;
-import com.khevents.fragments.TagsListFragment;
+import com.khevents.R;
+import com.khevents.ui.fragments.CreatedUserEventsListFragment;
+import com.khevents.ui.fragments.AllEventsListFragment;
+import com.khevents.ui.fragments.SubscribedUserEventsListFragment;
+import com.khevents.ui.fragments.TagsListFragment;
 import com.khevents.vk.VkManager;
 import com.utilsframework.android.navdrawer.NavigationDrawerActivity;
 import com.utilsframework.android.threading.OnFinish;
