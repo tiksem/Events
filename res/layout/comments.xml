@@ -20,13 +20,16 @@
                 android:layout_width="0dp"
                 android:layout_weight="1"
                 android:paddingLeft="5dp"
+                android:layout_marginBottom="0dp"
                 android:layout_height="50dp"
                 android:hint="@string/add_comment_hint"
-                android:background="@color/vk_white"
+                android:background="?attr/colorPrimary"
                 />
-        <Button android:id="@+id/add_comment"
-                android:background="@color/vk_black"
+        <ImageButton android:id="@+id/add_comment"
+                     android:scaleType="fitCenter"
+                android:background="@color/header"
+                     android:src="@drawable/white_send"
                 android:layout_width="50dp"
-                android:layout_height="50dp"/>
+                android:layout_height="match_parent"/>
     </LinearLayout>
 </FrameLayout>

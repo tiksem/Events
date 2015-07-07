@@ -3,6 +3,7 @@ package com.khevents.ui;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -56,6 +57,7 @@ public class CreateEventActivity extends VkActivity {
         VKAccessToken accessToken = VKSdk.getAccessToken();
         requestManager = EventsApp.getInstance().getRequestManager();
 
+        setSupportActionBar((Toolbar) findViewById(R.id.toolbar));
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 

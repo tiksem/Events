@@ -13,6 +13,7 @@ import com.vk.sdk.api.VKError;
 import com.vk.sdk.dialogs.VKCaptchaDialog;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -37,6 +38,10 @@ public class VkApiUtils {
 
     public static List<VkUser> getUsers(List<Long> ides, RequestExecutor requestExecutor)
             throws IOException {
+        if (ides.isEmpty()) {
+            return new ArrayList<>();
+        }
+
         String vkUrl = VkApiUtils.getUsersRequestUrl(ides, Collections.singletonList("photo_100"));
         String response = requestExecutor.executeRequest(vkUrl, null);
         List<VkUser> users = Json.readList(response, "response", VkUser.class);
