@@ -2,6 +2,7 @@ package com.khevents.ui.fragments;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.view.View;
@@ -103,6 +104,8 @@ public class CommentsFragment extends AbstractNavigationListFragment<Comment> {
         getElements().set(0, comment);
         getAdapter().notifyDataSetChanged();
         commentMessage.setText("");
+        EventFragment eventFragment = (EventFragment) getNavigationActivity().getLatestBackStackFragment();
+        eventFragment.addTopComment(comment);
     }
 
     public void executeAddCommentRequest() {

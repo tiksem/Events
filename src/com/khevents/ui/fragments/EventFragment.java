@@ -12,6 +12,7 @@ import com.khevents.data.Event;
 import com.khevents.network.RequestManager;
 import com.khevents.ui.UiUtils;
 import com.nostra13.universalimageloader.core.ImageLoader;
+import com.utils.framework.CollectionUtils;
 import com.utilsframework.android.fragments.Fragments;
 import com.utilsframework.android.threading.OnFinish;
 import com.utilsframework.android.time.TimeUtils;
@@ -23,6 +24,7 @@ import com.vk.sdk.VKSdk;
 import com.vkandroid.VkUser;
 
 import java.io.IOException;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -191,6 +193,7 @@ public class EventFragment extends AbstractPageLoadingFragment<VkUser> {
 
     protected void setupCommentsList(View content) {
         LinearLayout commentsView = (LinearLayout) content.findViewById(R.id.comments);
+        commentsView.removeAllViews();
         for (Comment comment : topComments) {
             View view = UiUtils.createTopCommentLayout(getActivity(), comment);
             view.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,
@@ -208,5 +211,12 @@ public class EventFragment extends AbstractPageLoadingFragment<VkUser> {
 
     private void openComments(boolean addCommentFocus) {
         replaceFragment(CommentsFragment.create(event.id, topComments, addCommentFocus), Level.COMMENTS);
+    }
+
+    public void addTopComment(Comment comment) {
+        topComments.add(0, comment);
+        if (topComments.size() > TOP_COMMENTS_COUNT) {
+            CollectionUtils.removeLast(topComments);
+        }
     }
 }
