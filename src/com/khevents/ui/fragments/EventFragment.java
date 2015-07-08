@@ -71,7 +71,7 @@ public class EventFragment extends AbstractPageLoadingFragment<VkUser> {
         description.setText(event.description);
 
         TextView peopleNumber = (TextView) content.findViewById(R.id.people_number);
-        peopleNumber.setText(event.subscribersCount + "/" + event.peopleNumber);
+        UiUtils.setPeopleNumber(peopleNumber, event);
 
         TextView dateView = (TextView) content.findViewById(R.id.date);
         String date = TimeUtils.getAlternativeDisplayDateTime(event.date * 1000l);

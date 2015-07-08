@@ -5,6 +5,7 @@ import android.view.View;
 import android.widget.TextView;
 import com.khevents.R;
 import com.khevents.data.Event;
+import com.khevents.ui.UiUtils;
 import com.utilsframework.android.adapters.navigation.NavigationListAdapter;
 import com.utilsframework.android.time.TimeUtils;
 
@@ -34,7 +35,7 @@ public class EventsAdapter extends NavigationListAdapter<Event, EventHolder> {
     @Override
     protected void reuseView(Event event, EventHolder holder, int position, View view) {
         holder.name.setText(event.name);
-        holder.peopleCount.setText(String.valueOf(event.peopleNumber));
+        UiUtils.setPeopleNumber(holder.peopleCount, event);
         holder.description.setText(event.description);
         String date = TimeUtils.getAlternativeDisplayDateTime(event.date * 1000l);
         holder.date.setText(date);

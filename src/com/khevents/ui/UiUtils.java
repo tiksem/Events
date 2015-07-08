@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import com.khevents.R;
 import com.khevents.data.Comment;
+import com.khevents.data.Event;
 
 /**
  * Created by CM on 7/7/2015.
@@ -26,5 +27,9 @@ public class UiUtils {
         text.setSpan(new TextAppearanceSpan(context, R.style.header2), 0, comment.userName.length(),
                 Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
         textView.setText(text, TextView.BufferType.SPANNABLE);
+    }
+
+    public static void setPeopleNumber(TextView peopleNumber, Event event) {
+        peopleNumber.setText(event.subscribersCount + "/" + event.peopleNumber);
     }
 }

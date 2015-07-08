@@ -9,6 +9,10 @@
         <item name="android:textColor">@color/header</item>
     </style>
 
+    <style name="date">
+        <item name="android:textSize">12sp</item>
+    </style>
+
     <style name="MyTheme.ActionBar.TitleTextStyle" parent="@android:style/TextAppearance.Holo.Widget.ActionBar.Title">
         <item name="android:textColor">@color/vk_white</item>
     </style>
