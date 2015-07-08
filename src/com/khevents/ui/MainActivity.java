@@ -110,6 +110,8 @@ public class MainActivity extends NavigationDrawerActivity {
             return getString(R.string.tags);
         } else if(selectedItemId == R.id.my_events) {
             return getString(R.string.my_events);
+        } else if(selectedItemId == R.id.events) {
+            return getString(R.string.events);
         }
 
         return super.getActionBarTitle(selectedItemId, tabIndex, navigationLevel);

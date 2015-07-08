@@ -5,6 +5,7 @@ import com.khevents.network.RequestManager;
 import com.utils.framework.collections.NavigationList;
 import com.utilsframework.android.adapters.ViewArrayAdapter;
 import com.utilsframework.android.fragments.Fragments;
+import com.utilsframework.android.navdrawer.ActionBarTitleProvider;
 import com.utilsframework.android.social.SocialUtils;
 import com.vkandroid.VkUser;
 import com.vkandroid.VkUsersListAdapter;
@@ -12,7 +13,8 @@ import com.vkandroid.VkUsersListAdapter;
 /**
  * Created by CM on 6/17/2015.
  */
-public class EventSubscribersListFragment extends AbstractNavigationListFragment<VkUser> {
+public class EventSubscribersListFragment extends AbstractNavigationListFragment<VkUser>
+        implements ActionBarTitleProvider {
     private static final String EVENT_ID = "id";
 
     public static EventSubscribersListFragment create(long eventId) {
@@ -37,5 +39,10 @@ public class EventSubscribersListFragment extends AbstractNavigationListFragment
     @Override
     protected int getRootLayout() {
         return R.layout.list_fragment;
+    }
+
+    @Override
+    public String getActionBarTitle() {
+        return getString(R.string.participants);
     }
 }

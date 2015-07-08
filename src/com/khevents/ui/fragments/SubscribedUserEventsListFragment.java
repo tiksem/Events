@@ -1,8 +1,10 @@
 package com.khevents.ui.fragments;
 
+import com.khevents.R;
 import com.khevents.data.Event;
 import com.khevents.network.RequestManager;
 import com.utils.framework.collections.NavigationList;
+import com.utilsframework.android.navdrawer.ActionBarTitleProvider;
 import com.vk.sdk.VKSdk;
 
 /**

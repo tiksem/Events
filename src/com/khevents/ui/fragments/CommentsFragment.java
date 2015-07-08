@@ -14,6 +14,7 @@ import com.khevents.data.Comment;
 import com.khevents.network.RequestManager;
 import com.utils.framework.collections.NavigationList;
 import com.utilsframework.android.adapters.ViewArrayAdapter;
+import com.utilsframework.android.navdrawer.ActionBarTitleProvider;
 import com.utilsframework.android.social.SocialUtils;
 import com.utilsframework.android.threading.OnFinish;
 import com.utilsframework.android.view.GuiUtilities;
@@ -28,7 +29,7 @@ import java.util.List;
 /**
  * Created by CM on 7/7/2015.
  */
-public class CommentsFragment extends AbstractNavigationListFragment<Comment> {
+public class CommentsFragment extends AbstractNavigationListFragment<Comment> implements ActionBarTitleProvider {
     private static final String EVENT_ID = "eventId";
     private static final String TOP_COMMENTS = "topComments";
     public static final String REQUEST_ADD_COMMENT_FOCUS = "requestAddCommentFocus";
@@ -128,5 +129,10 @@ public class CommentsFragment extends AbstractNavigationListFragment<Comment> {
                         }
                     });
         }
+    }
+
+    @Override
+    public String getActionBarTitle() {
+        return getString(R.string.comments);
     }
 }

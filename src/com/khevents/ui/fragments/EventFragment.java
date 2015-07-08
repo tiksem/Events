@@ -14,6 +14,7 @@ import com.khevents.ui.UiUtils;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.utils.framework.CollectionUtils;
 import com.utilsframework.android.fragments.Fragments;
+import com.utilsframework.android.navdrawer.ActionBarTitleProvider;
 import com.utilsframework.android.social.SocialUtils;
 import com.utilsframework.android.threading.OnFinish;
 import com.utilsframework.android.time.TimeUtils;
@@ -31,7 +32,7 @@ import java.util.List;
 /**
  * Created by CM on 7/2/2015.
  */
-public class EventFragment extends AbstractPageLoadingFragment<VkUser> {
+public class EventFragment extends AbstractPageLoadingFragment<VkUser> implements ActionBarTitleProvider {
     public static final String EVENT = "event";
     public static final ImageLoader IMAGE_LOADER = ImageLoader.getInstance();
     public static final int TOP_COMMENTS_COUNT = 3;
@@ -232,5 +233,10 @@ public class EventFragment extends AbstractPageLoadingFragment<VkUser> {
         if (topComments.size() > TOP_COMMENTS_COUNT) {
             CollectionUtils.removeLast(topComments);
         }
+    }
+
+    @Override
+    public String getActionBarTitle() {
+        return getString(R.string.event);
     }
 }
