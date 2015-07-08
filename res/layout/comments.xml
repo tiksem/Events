@@ -21,7 +21,8 @@
                 android:layout_weight="1"
                 android:paddingLeft="5dp"
                 android:layout_marginBottom="0dp"
-                android:layout_height="50dp"
+                android:minHeight="50dp"
+                android:layout_height="wrap_content"
                 android:hint="@string/add_comment_hint"
                 android:background="?attr/colorPrimary"
                 />

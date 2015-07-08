@@ -174,8 +174,15 @@ public class RequestManager implements IOErrorListenersSet {
         Threading.runOnBackground(new ThrowingRunnable<IOException>() {
             @Override
             public void run() throws IOException {
-                String url = rootUrl + "addComment?id=" + eventId + "&token=" + accessToken + "&text=" + text;
-                String json = requestExecutor.executeRequest(url, null);
+                String url = rootUrl + "addComment";
+                Map<String, Object> args = new HashMap<String, Object>() {
+                    {
+                        put("text", text);
+                        put("token", accessToken);
+                        put("id", eventId);
+                    }
+                };
+                String json = requestExecutor.executeRequest(url, args);
                 Json.checkError(json);
             }
         }, onFinish, IOException.class);
