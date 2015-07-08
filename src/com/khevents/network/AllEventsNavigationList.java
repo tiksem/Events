@@ -27,12 +27,12 @@ class AllEventsNavigationList extends EventsNavigationList {
                 requestExecutor);
     }
 
-    public AllEventsNavigationList(String rootUrl, String query, long date, RequestExecutor requestExecutor) {
+    public AllEventsNavigationList(String rootUrl, String query, int date, RequestExecutor requestExecutor) {
         super(rootUrl + "getEventsList", "events",
                 new HashMap<String, Object>(){
                     {
                         put("query", query);
-                        put("date", date);
+                        put("dateFilter", date);
                     }
                 },
                 requestExecutor);

@@ -40,6 +40,8 @@ public class AllEventsListFragment extends EventsListFragment {
                 if (datePickerButton.getVisibility() == View.INVISIBLE) {
                     datePickerButton.setVisibility(View.VISIBLE);
                     datePickerButton.performClick();
+                } else {
+                    updateNavigationListWithLastFilter();
                 }
             }
         });
@@ -47,7 +49,7 @@ public class AllEventsListFragment extends EventsListFragment {
         datePickerButton.setOnDateChangedListener(new DatePickerButton.OnDateChangedListener() {
             @Override
             public void onDateChanged() {
-                updateNavigationList(null);
+                updateNavigationListWithLastFilter();
             }
         });
 
@@ -82,7 +84,7 @@ public class AllEventsListFragment extends EventsListFragment {
         super.onActivityResult(requestCode, resultCode, data);
 
         if (requestCode == CREATE_EVENT && resultCode == Activity.RESULT_OK) {
-            updateNavigationList(null);
+            updateNavigationListWithLastFilter();
         }
     }
 
