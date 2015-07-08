@@ -28,26 +28,27 @@
 
         <TextView android:id="@+id/name"
                   style="@style/header"
+                  android:minLines="2"
                   android:layout_toRightOf="@+id/people_layout"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"/>
+
+        <TextView android:id="@+id/date"
+                  android:text="@string/event_date_title"
+                  style="@style/date"
+                  android:layout_below="@id/name"
+                  android:layout_alignParentRight="true"
                   android:layout_width="wrap_content"
                   android:layout_height="wrap_content"/>
     </RelativeLayout>
 
     <Button android:id="@+id/subscribe"
             android:text="@string/i_will_go"
-            android:layout_below="@id/date"
+            android:layout_below="@id/header"
             android:layout_centerHorizontal="true"
             android:layout_margin="5dp"
             android:layout_width="300dp"
             android:layout_height="40dp"/>
-
-    <TextView android:id="@+id/date"
-              android:text="@string/event_date_title"
-              style="@style/date"
-              android:layout_below="@id/header"
-              android:layout_alignParentRight="true"
-              android:layout_width="wrap_content"
-              android:layout_height="wrap_content"/>
 
     <TextView android:id="@+id/description"
               android:layout_alignParentLeft="true"
