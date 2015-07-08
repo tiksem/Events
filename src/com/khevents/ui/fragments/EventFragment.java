@@ -14,6 +14,7 @@ import com.khevents.ui.UiUtils;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.utils.framework.CollectionUtils;
 import com.utilsframework.android.fragments.Fragments;
+import com.utilsframework.android.social.SocialUtils;
 import com.utilsframework.android.threading.OnFinish;
 import com.utilsframework.android.time.TimeUtils;
 import com.utilsframework.android.view.Alerts;
@@ -99,6 +100,15 @@ public class EventFragment extends AbstractPageLoadingFragment<VkUser> {
                 openComments(true);
             }
         });
+
+        View.OnClickListener profileClickListener = new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                SocialUtils.openVkUserProfile(getActivity(), event.userId);
+            }
+        };
+        content.findViewById(R.id.userName).setOnClickListener(profileClickListener);
+        content.findViewById(R.id.avatar).setOnClickListener(profileClickListener);
     }
 
     private void showSubscribers() {
