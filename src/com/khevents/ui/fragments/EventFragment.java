@@ -193,7 +193,6 @@ public class EventFragment extends AbstractPageLoadingFragment<VkUser> {
 
     protected void setupCommentsList(View content) {
         LinearLayout commentsView = (LinearLayout) content.findViewById(R.id.comments);
-        commentsView.removeAllViews();
         for (Comment comment : topComments) {
             View view = UiUtils.createTopCommentLayout(getActivity(), comment);
             view.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,
@@ -207,6 +206,11 @@ public class EventFragment extends AbstractPageLoadingFragment<VkUser> {
                 openComments(false);
             }
         });
+
+        TextView viewAllComments = (TextView) commentsView.findViewById(R.id.view_all_comments_text);
+        if (topComments.isEmpty()) {
+            viewAllComments.setText(R.string.no_comments);
+        }
     }
 
     private void openComments(boolean addCommentFocus) {
