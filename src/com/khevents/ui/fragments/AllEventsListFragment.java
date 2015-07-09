@@ -22,6 +22,7 @@ public class AllEventsListFragment extends EventsListFragment {
     public static final int CREATE_EVENT = 1;
     private CheckBox dateFilterCheckbox;
     private DatePickerButton datePickerButton;
+    private boolean datePickerButtonCheckedListenerCalled = false;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -37,12 +38,14 @@ public class AllEventsListFragment extends EventsListFragment {
         dateFilterCheckbox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (datePickerButton.getVisibility() == View.INVISIBLE) {
-                    datePickerButton.setVisibility(View.VISIBLE);
+                if (!datePickerButtonCheckedListenerCalled) {
                     datePickerButton.performClick();
-                } else {
+                    datePickerButtonCheckedListenerCalled = true;
+                } else if(datePickerButton.getVisibility() == View.VISIBLE) {
                     updateNavigationListWithLastFilter();
                 }
+
+                datePickerButton.setVisibility(View.VISIBLE);
             }
         });
 
