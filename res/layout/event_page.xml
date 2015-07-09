@@ -83,15 +83,25 @@
           android:layout_marginTop="7dp"
           android:background="#c0c0c0"/>
 
+    <TextView style="@style/header2"
+              android:textColor="@color/vk_white"
+              android:id="@+id/orginizer_label"
+              android:paddingBottom="5dp"
+              android:layout_below="@id/first_line"
+              android:text="@string/orginizer"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"/>
+
     <ImageView android:id="@+id/avatar"
-               android:layout_below="@id/first_line"
+               android:layout_below="@id/orginizer_label"
                android:layout_alignLeft="@+id/description"
                android:layout_width="30dp"
                android:layout_height="30dp"/>
 
     <TextView android:id="@+id/userName"
               android:padding="5dp"
-              android:layout_below="@id/first_line"
+              android:textColor="@color/vk_white"
+              android:layout_below="@id/orginizer_label"
               android:layout_toRightOf="@+id/avatar"
               android:layout_width="wrap_content"
               android:layout_height="wrap_content"/>
@@ -102,6 +112,7 @@
                   android:layout_width="match_parent"
                   android:layout_height="wrap_content">
         <TextView android:id="@+id/view_all_comments_text"
+                  android:paddingTop="10dp"
                   android:text="@string/view_all_comments"
                   android:layout_width="wrap_content"
                   android:layout_height="wrap_content"/>
