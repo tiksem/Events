@@ -36,7 +36,11 @@ public class EventsApp extends Application {
         super.onCreate();
         instance = this;
 
-        ImageLoader.getInstance().init(ImageLoaderConfiguration.createDefault(this));
+        ImageLoaderConfiguration.Builder builder = new ImageLoaderConfiguration.Builder(this);
+        builder.memoryCacheSize(2 * 1024 * 1024);
+        builder.threadPoolSize(2);
+        ImageLoader.getInstance().init(builder.build());
+
         String ipFile = Environment.getExternalStorageDirectory().getAbsolutePath() + "/EventsApp/ip.txt";
         try {
             String ip = IOUtilities.readStringFromUrl(ipFile);
