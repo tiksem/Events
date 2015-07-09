@@ -2,18 +2,26 @@ package com.khevents.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
+import com.khevents.EventsApp;
 import com.khevents.R;
 import com.khevents.ui.fragments.CreatedUserEventsListFragment;
 import com.khevents.ui.fragments.AllEventsListFragment;
 import com.khevents.ui.fragments.SubscribedUserEventsListFragment;
 import com.khevents.ui.fragments.TagsListFragment;
 import com.khevents.vk.VkManager;
+import com.nostra13.universalimageloader.core.ImageLoader;
 import com.utilsframework.android.navdrawer.NavigationDrawerActivity;
+import com.utilsframework.android.social.SocialUtils;
 import com.utilsframework.android.threading.OnFinish;
 import com.vk.sdk.VKAccessToken;
 import com.vk.sdk.VKUIHelper;
+import com.vkandroid.VkUser;
 
 public class MainActivity extends NavigationDrawerActivity {
 
@@ -27,12 +35,7 @@ public class MainActivity extends NavigationDrawerActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         VKUIHelper.onCreate(this);
-        VkManager.getAccessToken(this, R.string.vk_login_error, new OnFinish<VKAccessToken>() {
-            @Override
-            public void onFinish(VKAccessToken token) {
-
-            }
-        });
+        setupNavigationHeader();
     }
 
     @Override
@@ -115,5 +118,23 @@ public class MainActivity extends NavigationDrawerActivity {
         }
 
         return super.getActionBarTitle(selectedItemId, tabIndex, navigationLevel);
+    }
+
+    public void setupNavigationHeader() {
+        NavigationView navigationView = getNavigationView();
+        View header = View.inflate(this, R.layout.header, null);
+        ImageView avatar = (ImageView) header.findViewById(R.id.avatar);
+        TextView userName = (TextView) header.findViewById(R.id.userName);
+        VkUser currentUser = EventsApp.getInstance().getCurrentUser();
+        ImageLoader.getInstance().displayImage(currentUser.avatar, avatar);
+        userName.setText(currentUser.name + " " + currentUser.lastName);
+        navigationView.addHeaderView(header);
+
+        header.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                SocialUtils.openVkUserProfile(MainActivity.this, currentUser.id);
+            }
+        });
     }
 }
