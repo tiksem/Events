@@ -10,51 +10,68 @@
             android:background="?attr/colorPrimary"
             android:minHeight="?attr/actionBarSize"/>
 
-    <TextView android:text="@string/name"
-              android:layout_width="wrap_content"
-              android:layout_height="wrap_content"/>
-    <EditText android:id="@+id/name"
-              android:maxLength="50"
-              android:hint="@string/event_name_hint"
-              android:layout_width="match_parent"
-              android:layout_height="wrap_content"/>
-    <TextView android:text="@string/description"
-              android:layout_width="wrap_content"
-              android:layout_height="wrap_content"/>
-    <EditText android:id="@+id/description"
-              android:inputType="textMultiLine"
-              android:minLines="2"
-              android:maxLines="10"
-              android:hint="@string/event_description_hint"
-              android:layout_width="match_parent"
-              android:layout_height="wrap_content"/>
-    <TextView android:text="@string/address"
-              android:layout_width="wrap_content"
-              android:layout_height="wrap_content"/>
-    <EditText android:id="@+id/address"
-              android:inputType="textMultiLine"
-              android:minLines="2"
-              android:maxLines="3"
-              android:hint="@string/event_address_hint"
-              android:layout_width="match_parent"
-              android:layout_height="wrap_content"/>
-    <RelativeLayout android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-        <TextView android:id="@+id/people_number_label"
-                  android:text="@string/number_of_people"
+    <LinearLayout
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp"
+            android:orientation="vertical"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            >
+        <TextView android:text="@string/name"
                   android:layout_width="wrap_content"
                   android:layout_height="wrap_content"/>
-        <com.utilsframework.android.view.NumberPickerButton
-                android:id="@+id/people_number"
-                android:layout_margin="5dp"
-                android:layout_toRightOf="@+id/people_number_label"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
-        <com.utilsframework.android.view.DateTimePickerButton
-                android:id="@+id/date_and_time"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
-    </RelativeLayout>
+        <EditText android:id="@+id/name"
+                  android:maxLength="50"
+                  android:hint="@string/event_name_hint"
+                  android:layout_width="match_parent"
+                  android:layout_height="wrap_content"/>
+        <TextView android:text="@string/description"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"/>
+        <EditText android:id="@+id/description"
+                  android:inputType="textMultiLine"
+                  android:minLines="2"
+                  android:maxLines="10"
+                  android:hint="@string/event_description_hint"
+                  android:layout_width="match_parent"
+                  android:layout_height="wrap_content"/>
+        <TextView android:text="@string/address"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"/>
+        <EditText android:id="@+id/address"
+                  android:inputType="textMultiLine"
+                  android:minLines="2"
+                  android:maxLines="3"
+                  android:hint="@string/event_address_hint"
+                  android:layout_width="match_parent"
+                  android:layout_height="wrap_content"/>
+        <FrameLayout android:layout_width="match_parent"
+                     android:layout_height="wrap_content">
+            <LinearLayout
+                    android:layout_gravity="left"
+                    android:gravity="center"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    >
+                <TextView android:id="@+id/people_number_label"
+                          android:text="@string/number_of_people"
+                          android:layout_width="wrap_content"
+                          android:layout_height="wrap_content"/>
+                <com.utilsframework.android.view.NumberPickerButton
+                        android:background="@drawable/people_number_picker"
+                        android:id="@+id/people_number"
+                        android:layout_margin="5dp"
+                        android:gravity="center"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"/>
+            </LinearLayout>
+
+            <com.utilsframework.android.view.DateTimePickerButton
+                    android:id="@+id/date_and_time"
+                    android:layout_gravity="right|center_vertical"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+        </FrameLayout>
+    </LinearLayout>
+
 </LinearLayout>
