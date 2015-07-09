@@ -14,6 +14,7 @@ import com.khevents.ui.UiUtils;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.utils.framework.CollectionUtils;
 import com.utilsframework.android.fragments.Fragments;
+import com.utilsframework.android.google.GoogleMaps;
 import com.utilsframework.android.navdrawer.ActionBarTitleProvider;
 import com.utilsframework.android.social.SocialUtils;
 import com.utilsframework.android.threading.OnFinish;
@@ -113,6 +114,12 @@ public class EventFragment extends AbstractPageLoadingFragment<VkUser> implement
 
         TextView address = (TextView) content.findViewById(R.id.address);
         address.setText(event.address);
+        content.findViewById(R.id.address_layout).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                GoogleMaps.startSearchAddressActivity(getActivity(), event.address);
+            }
+        });
     }
 
     private void showSubscribers() {
