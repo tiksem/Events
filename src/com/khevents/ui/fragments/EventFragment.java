@@ -110,6 +110,9 @@ public class EventFragment extends AbstractPageLoadingFragment<VkUser> implement
         };
         content.findViewById(R.id.userName).setOnClickListener(profileClickListener);
         content.findViewById(R.id.avatar).setOnClickListener(profileClickListener);
+
+        TextView address = (TextView) content.findViewById(R.id.address);
+        address.setText(event.address);
     }
 
     private void showSubscribers() {

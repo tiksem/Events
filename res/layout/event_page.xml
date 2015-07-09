@@ -106,9 +106,38 @@
               android:layout_width="wrap_content"
               android:layout_height="wrap_content"/>
 
+    <TextView style="@style/header2"
+              android:paddingTop="5dp"
+              android:textColor="@color/vk_white"
+              android:id="@+id/address_label"
+              android:layout_below="@+id/avatar"
+              android:layout_alignLeft="@+id/description"
+              android:text="@string/address"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"/>
+
+    <LinearLayout
+            android:id="@+id/address_layout"
+            android:orientation="horizontal"
+            android:layout_below="@+id/address_label"
+            android:layout_alignLeft="@+id/description"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:gravity="center"
+            >
+        <ImageView android:src="@drawable/ic_address"
+                   android:layout_width="32dp"
+                   android:layout_height="32dp"/>
+
+        <TextView android:id="@+id/address"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"/>
+    </LinearLayout>
+
+
     <LinearLayout android:id="@+id/comments"
                   android:orientation="vertical"
-                  android:layout_below="@+id/avatar"
+                  android:layout_below="@+id/address_layout"
                   android:layout_width="match_parent"
                   android:layout_height="wrap_content">
         <TextView android:id="@+id/view_all_comments_text"
