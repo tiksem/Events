@@ -1,12 +1,8 @@
 package com.khevents.network;
 
-import com.jsonandroid.JsonAsyncNavigationList;
-import com.khevents.data.Event;
-import com.utilsframework.android.network.RequestExecutor;
+import com.utils.framework.network.RequestExecutor;
 
-import java.util.Collections;
 import java.util.HashMap;
-import java.util.Map;
 
 /**
  * Created by CM on 7/1/2015.

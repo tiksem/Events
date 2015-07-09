@@ -2,7 +2,7 @@ package com.khevents.network;
 
 import com.jsonandroid.JsonAsyncNavigationList;
 import com.khevents.data.Comment;
-import com.utilsframework.android.network.RequestExecutor;
+import com.utils.framework.network.RequestExecutor;
 
 import java.io.IOException;
 import java.util.Collections;

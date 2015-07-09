@@ -8,15 +8,15 @@ import com.khevents.data.Event;
 import com.khevents.data.Tag;
 import com.utils.framework.collections.NavigationList;
 import com.utils.framework.io.Network;
+import com.utils.framework.suggestions.SuggestionsProvider;
 import com.utilsframework.android.ExecuteTimeLogger;
 import com.utilsframework.android.IOErrorListener;
-import com.utilsframework.android.network.GetRequestExecutor;
+import com.utils.framework.network.GetRequestExecutor;
 import com.utilsframework.android.network.IOErrorListenersSet;
-import com.utilsframework.android.network.RequestExecutor;
+import com.utils.framework.network.RequestExecutor;
 import com.utilsframework.android.threading.OnFinish;
 import com.utilsframework.android.threading.Threading;
 import com.utilsframework.android.threading.ThrowingRunnable;
-import com.vk.sdk.VKSdk;
 import com.vkandroid.VkApiUtils;
 import com.vkandroid.VkUser;
 import com.vkandroid.VkUsersNavigationList;
@@ -186,5 +186,9 @@ public class RequestManager implements IOErrorListenersSet {
                 Json.checkError(json);
             }
         }, onFinish, IOException.class);
+    }
+
+    public SuggestionsProvider<String> getTagsSuggestionsProvider() {
+        return new TagsSuggestionsProvider(rootUrl, requestExecutor);
     }
 }

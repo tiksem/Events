@@ -2,7 +2,7 @@ package com.khevents.network;
 
 import com.khevents.data.Comment;
 import com.utils.framework.CollectionUtils;
-import com.utilsframework.android.network.RequestExecutor;
+import com.utils.framework.network.RequestExecutor;
 import com.vkandroid.VkApiUtils;
 import com.vkandroid.VkUser;
 

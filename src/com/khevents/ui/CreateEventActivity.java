@@ -14,11 +14,9 @@ import com.khevents.network.EventArgs;
 import com.khevents.network.OnEventCreationFinished;
 import com.khevents.network.RequestManager;
 import com.khevents.vk.VkManager;
+import com.utilsframework.android.adapters.StringSuggestionsAdapter;
 import com.utilsframework.android.threading.OnFinish;
-import com.utilsframework.android.view.Alerts;
-import com.utilsframework.android.view.DateTimePickerButton;
-import com.utilsframework.android.view.NumberPickerButton;
-import com.utilsframework.android.view.UiMessages;
+import com.utilsframework.android.view.*;
 import com.vk.sdk.VKAccessToken;
 import com.vk.sdk.VKSdk;
 import com.vkandroid.VkActivity;
@@ -30,6 +28,8 @@ import java.util.Arrays;
  * Created by CM on 6/19/2015.
  */
 public class CreateEventActivity extends VkActivity {
+    public static final int MAX_PEOPLE_NUMBER = 9999;
+    public static final int MIN_PEOPLE_NUMER = 2;
     private RequestManager requestManager;
     private NumberPickerButton peopleNumber;
     private TextView name;
@@ -44,9 +44,9 @@ public class CreateEventActivity extends VkActivity {
         setContentView(R.layout.create_event_activity);
 
         peopleNumber = (NumberPickerButton) findViewById(R.id.people_number);
-        peopleNumber.setMinValue(2);
-        peopleNumber.setMaxValue(Integer.MAX_VALUE);
-        peopleNumber.setValue(2);
+        peopleNumber.setMinValue(MIN_PEOPLE_NUMER);
+        peopleNumber.setMaxValue(MAX_PEOPLE_NUMBER);
+        peopleNumber.setValue(MIN_PEOPLE_NUMER);
         peopleNumber.setPickerDialogTitle(getString(R.string.people_number_dialog_title));
 
         name = (TextView) findViewById(R.id.name);
@@ -59,6 +59,11 @@ public class CreateEventActivity extends VkActivity {
 
         setSupportActionBar((Toolbar) findViewById(R.id.toolbar));
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        EditTextWithSuggestions addTagEditText = (EditTextWithSuggestions) findViewById(R.id.add_tag_edit_text);
+        StringSuggestionsAdapter suggestionsAdapter = new StringSuggestionsAdapter(this);
+        suggestionsAdapter.setSuggestionsProvider(requestManager.getTagsSuggestionsProvider());
+        addTagEditText.setAdapter(suggestionsAdapter);
     }
 
     @Override

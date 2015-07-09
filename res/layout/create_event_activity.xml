@@ -72,6 +72,24 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"/>
         </FrameLayout>
+
+        <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                >
+            <com.utilsframework.android.view.EditTextWithSuggestions
+                    android:id="@+id/add_tag_edit_text"
+                    android:layout_weight="1"
+                    android:layout_width="0dp"
+                    android:hint="@string/add_tag"
+                    android:layout_height="wrap_content"/>
+            <ImageButton android:id="@+id/add_tag_button"
+                         android:src="@drawable/add_icon"
+                         android:layout_width="50dp"
+                         android:layout_height="match_parent"/>
+        </LinearLayout>
+
     </LinearLayout>
 
 </LinearLayout>

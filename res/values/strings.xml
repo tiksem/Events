@@ -39,4 +39,5 @@
     <string name="participants">Participants</string>
     <string name="timeout_text">The event is not up to date</string>
     <string name="orginizer">Organizer</string>
+    <string name="add_tag">Add a tag</string>
 </resources>
