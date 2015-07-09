@@ -40,12 +40,24 @@
               android:text="Description"
               android:layout_width="wrap_content"
               android:layout_height="wrap_content"/>
-    <TextView android:id="@+id/date"
-              android:paddingRight="5dp"
-              android:text="10 Oct 2015 at 20:00"
-              style="@style/date"
-              android:layout_alignParentRight="true"
-              android:layout_below="@+id/description"
-              android:layout_width="wrap_content"
-              android:layout_height="wrap_content"/>
+    <LinearLayout android:layout_below="@+id/description"
+                  android:layout_alignParentRight="true"
+                  android:orientation="horizontal"
+                  android:layout_width="wrap_content"
+                  android:gravity="center_vertical"
+                  android:layout_height="wrap_content">
+        <ImageView android:id="@+id/timeout_icon"
+                   android:visibility="gone"
+                   android:src="@drawable/sand_clock"
+                   android:layout_width="20dp"
+                   android:layout_height="20dp"/>
+
+        <TextView android:id="@+id/date"
+                  android:paddingRight="5dp"
+                  android:text="10 Oct 2015 at 20:00"
+                  style="@style/date"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"/>
+    </LinearLayout>
+
 </RelativeLayout>

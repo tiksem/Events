@@ -1,5 +1,6 @@
 package com.khevents.adapters;
 
+import android.widget.ImageView;
 import android.widget.TextView;
 
 /**
@@ -10,4 +11,5 @@ public class EventHolder {
     public TextView peopleCount;
     public TextView date;
     public TextView description;
+    public ImageView timeoutIcon;
 }

@@ -2,6 +2,7 @@ package com.khevents.adapters;
 
 import android.content.Context;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 import com.khevents.R;
 import com.khevents.data.Event;
@@ -29,6 +30,7 @@ public class EventsAdapter extends NavigationListAdapter<Event, EventHolder> {
         holder.date = (TextView) view.findViewById(R.id.date);
         holder.description = (TextView) view.findViewById(R.id.description);
         holder.peopleCount = (TextView) view.findViewById(R.id.people_number);
+        holder.timeoutIcon = (ImageView) view.findViewById(R.id.timeout_icon);
         return holder;
     }
 
@@ -37,7 +39,9 @@ public class EventsAdapter extends NavigationListAdapter<Event, EventHolder> {
         holder.name.setText(event.name);
         UiUtils.setPeopleNumber(holder.peopleCount, event);
         holder.description.setText(event.description);
-        String date = TimeUtils.getAlternativeDisplayDateTime(event.date * 1000l);
+        long dateMillis = event.date * 1000l;
+        String date = TimeUtils.getAlternativeDisplayDateTime(dateMillis);
         holder.date.setText(date);
+        holder.timeoutIcon.setVisibility(System.currentTimeMillis() < dateMillis ? View.GONE : View.VISIBLE);
     }
 }
