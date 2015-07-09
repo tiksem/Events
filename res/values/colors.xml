@@ -6,4 +6,5 @@
     <color name="colorPrimary">#4DB1BC</color>
     <color name="colorPrimaryDark">#ff4597a2</color>
     <color name="colorAccent">#fff</color>
+    <color name="warning">#ffffac1d</color>
 </resources>

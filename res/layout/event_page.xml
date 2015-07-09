@@ -42,17 +42,36 @@
                   android:layout_height="wrap_content"/>
     </RelativeLayout>
 
-    <Button android:id="@+id/subscribe"
-            android:text="@string/i_will_go"
+    <FrameLayout
+            android:id="@+id/subscribe_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:layout_below="@id/header"
-            android:layout_centerHorizontal="true"
-            android:layout_margin="5dp"
-            android:layout_width="300dp"
-            android:layout_height="40dp"/>
+            >
+        <Button android:id="@+id/subscribe"
+                android:text="@string/i_will_go"
+                android:layout_gravity="center"
+                android:layout_margin="5dp"
+                android:layout_width="300dp"
+                android:layout_height="40dp"/>
+
+        <TextView android:id="@+id/timeout_text"
+                  android:visibility="gone"
+                  android:textSize="14sp"
+                  android:textStyle="bold"
+                  android:layout_margin="5dp"
+                  android:layout_gravity="center"
+                  android:text="@string/timeout_text"
+                  android:textColor="@color/warning"
+                  android:textAllCaps="true"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"/>
+    </FrameLayout>
+
 
     <TextView android:id="@+id/description"
               android:layout_alignParentLeft="true"
-              android:layout_below="@id/subscribe"
+              android:layout_below="@id/subscribe_layout"
               android:layout_width="wrap_content"
               android:layout_height="wrap_content"/>
 

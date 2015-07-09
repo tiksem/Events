@@ -122,6 +122,12 @@ public class EventFragment extends AbstractPageLoadingFragment<VkUser> implement
 
     private void initSubscribeButton(View content) {
         subscribeButton = (Button) content.findViewById(R.id.subscribe);
+        if (event.date * 1000l <= System.currentTimeMillis()) {
+            subscribeButton.setVisibility(View.GONE);
+            content.findViewById(R.id.timeout_text).setVisibility(View.VISIBLE);
+            return;
+        }
+
         if (event.userId != Long.valueOf(VKSdk.getAccessToken().userId)) {
             subscribeButton.setText(getSubscribeButtonText());
             subscribeButton.setOnClickListener(new View.OnClickListener() {
