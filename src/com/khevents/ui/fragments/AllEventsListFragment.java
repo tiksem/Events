@@ -52,7 +52,9 @@ public class AllEventsListFragment extends EventsListFragment {
         datePickerButton.setOnDateChangedListener(new DatePickerButton.OnDateChangedListener() {
             @Override
             public void onDateChanged() {
-                updateNavigationListWithLastFilter();
+                if (dateFilterCheckbox.isChecked()) {
+                    updateNavigationListWithLastFilter();
+                }
             }
         });
 
