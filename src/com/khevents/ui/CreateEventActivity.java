@@ -9,12 +9,14 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.TextView;
+import com.jsonutils.RequestException;
 import com.khevents.EventsApp;
 import com.khevents.R;
 import com.khevents.network.EventArgs;
 import com.khevents.network.OnEventCreationFinished;
 import com.khevents.network.RequestManager;
 import com.utils.framework.CollectionUtils;
+import com.utils.framework.Objects;
 import com.utilsframework.android.adapters.StringSuggestionsAdapter;
 import com.utilsframework.android.resources.StringUtilities;
 import com.utilsframework.android.view.*;
@@ -34,6 +36,7 @@ public class CreateEventActivity extends VkActivity {
     public static final int MIN_EVENT_NAME_LENGTH = 5;
     public static final int MIN_DESCRIPTION_LENGTH = 5;
     public static final int MIN_ADDRESS_LENGTH = 5;
+    public static final String INVALID_DATE = "InvalidDate";
     private RequestManager requestManager;
     private NumberPickerButton peopleNumber;
     private TextView name;
@@ -195,7 +198,16 @@ public class CreateEventActivity extends VkActivity {
                     setResult(RESULT_OK);
                     finish();
                 } else {
-                    Alerts.showOkButtonAlert(name.getContext(), error.getMessage());
+                    if (error instanceof RequestException) {
+                        RequestException requestException = (RequestException) error;
+                        if (Objects.equals(requestException.getExceptionInfo().getError(), INVALID_DATE)) {
+                            Alerts.showOkButtonAlert(name.getContext(), R.string.invalid_date);
+                        } else {
+                            Alerts.showOkButtonAlert(name.getContext(), error.getMessage());
+                        }
+                    } else {
+                        Alerts.showOkButtonAlert(name.getContext(), error.getMessage());
+                    }
                 }
                 progressDialog.dismiss();
             }
