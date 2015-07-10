@@ -1,100 +1,113 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:orientation="vertical"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent">
-    <android.support.v7.widget.Toolbar
-            android:id="@+id/toolbar"
+<FrameLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        >
+    <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="@dimen/abc_action_bar_default_height_material"
-            android:background="?attr/colorPrimary"
-            android:minHeight="?attr/actionBarSize"/>
-
-    <LinearLayout
-            android:paddingLeft="5dp"
-            android:paddingRight="5dp"
-            android:orientation="vertical"
-            android:layout_height="wrap_content"
-            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             >
-        <TextView android:text="@string/name"
-                  android:layout_width="wrap_content"
-                  android:layout_height="wrap_content"/>
-        <EditText android:id="@+id/name"
-                  android:maxLength="50"
-                  android:hint="@string/event_name_hint"
-                  android:layout_width="match_parent"
-                  android:layout_height="wrap_content"/>
-        <TextView android:text="@string/description"
-                  android:layout_width="wrap_content"
-                  android:layout_height="wrap_content"/>
-        <EditText android:id="@+id/description"
-                  android:inputType="textMultiLine"
-                  android:minLines="2"
-                  android:maxLines="10"
-                  android:hint="@string/event_description_hint"
-                  android:layout_width="match_parent"
-                  android:layout_height="wrap_content"/>
-        <TextView android:text="@string/address"
-                  android:layout_width="wrap_content"
-                  android:layout_height="wrap_content"/>
-        <EditText android:id="@+id/address"
-                  android:inputType="textMultiLine"
-                  android:minLines="2"
-                  android:maxLines="3"
-                  android:hint="@string/event_address_hint"
-                  android:layout_width="match_parent"
-                  android:layout_height="wrap_content"/>
-        <FrameLayout android:layout_width="match_parent"
-                     android:layout_height="wrap_content">
+        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                      android:orientation="vertical"
+                      android:layout_width="match_parent"
+                      android:layout_height="wrap_content">
+            <android.support.v7.widget.Toolbar
+                    android:id="@+id/toolbar"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/abc_action_bar_default_height_material"
+                    android:background="?attr/colorPrimary"
+                    android:minHeight="?attr/actionBarSize"/>
+
             <LinearLayout
-                    android:layout_gravity="left"
-                    android:gravity="center"
-                    android:layout_width="wrap_content"
+                    android:paddingLeft="5dp"
+                    android:paddingRight="5dp"
+                    android:orientation="vertical"
                     android:layout_height="wrap_content"
+                    android:layout_width="match_parent"
                     >
-                <TextView android:id="@+id/people_number_label"
-                          android:text="@string/number_of_people"
+                <TextView android:text="@string/name"
                           android:layout_width="wrap_content"
                           android:layout_height="wrap_content"/>
-                <com.utilsframework.android.view.NumberPickerButton
-                        android:background="@drawable/people_number_picker"
-                        android:id="@+id/people_number"
-                        android:layout_margin="5dp"
-                        android:gravity="center"
-                        android:layout_width="40dp"
-                        android:layout_height="40dp"/>
+                <EditText android:id="@+id/name"
+                          android:singleLine="true"
+                          android:maxLength="50"
+                          android:hint="@string/event_name_hint"
+                          android:layout_width="match_parent"
+                          android:layout_height="wrap_content"/>
+                <TextView android:text="@string/description"
+                          android:layout_width="wrap_content"
+                          android:layout_height="wrap_content"/>
+                <EditText android:id="@+id/description"
+                          android:inputType="textMultiLine"
+                          android:minLines="2"
+                          android:maxLines="10"
+                          android:hint="@string/event_description_hint"
+                          android:layout_width="match_parent"
+                          android:layout_height="wrap_content"/>
+                <TextView android:text="@string/address"
+                          android:layout_width="wrap_content"
+                          android:layout_height="wrap_content"/>
+                <EditText android:id="@+id/address"
+                          android:inputType="textMultiLine"
+                          android:minLines="2"
+                          android:maxLines="3"
+                          android:hint="@string/event_address_hint"
+                          android:layout_width="match_parent"
+                          android:layout_height="wrap_content"/>
+                <FrameLayout android:layout_width="match_parent"
+                             android:layout_height="wrap_content">
+                    <LinearLayout
+                            android:layout_gravity="left"
+                            android:gravity="center"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            >
+                        <TextView android:id="@+id/people_number_label"
+                                  android:text="@string/number_of_people"
+                                  android:layout_width="wrap_content"
+                                  android:layout_height="wrap_content"/>
+                        <com.utilsframework.android.view.NumberPickerButton
+                                android:background="@drawable/people_number_picker"
+                                android:id="@+id/people_number"
+                                android:layout_margin="5dp"
+                                android:gravity="center"
+                                android:layout_width="40dp"
+                                android:layout_height="40dp"/>
+                    </LinearLayout>
+
+                    <com.utilsframework.android.view.DateTimePickerButton
+                            android:id="@+id/date_and_time"
+                            android:layout_gravity="right|center_vertical"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"/>
+                </FrameLayout>
+
+                <LinearLayout
+                        android:orientation="horizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        >
+                    <com.utilsframework.android.view.EditTextWithSuggestions
+                            android:id="@+id/add_tag_edit_text"
+                            android:layout_weight="1"
+                            android:layout_width="0dp"
+                            android:hint="@string/add_tag"
+                            android:layout_height="wrap_content"/>
+                    <ImageButton android:id="@+id/add_tag_button"
+                                 android:src="@drawable/add_icon"
+                                 android:layout_width="50dp"
+                                 android:layout_height="match_parent"/>
+                </LinearLayout>
+
+                <com.utilsframework.android.view.flowlayout.FlowLayout
+                        android:id="@+id/tags"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+
             </LinearLayout>
 
-            <com.utilsframework.android.view.DateTimePickerButton
-                    android:id="@+id/date_and_time"
-                    android:layout_gravity="right|center_vertical"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
-        </FrameLayout>
-
-        <LinearLayout
-                android:orientation="horizontal"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                >
-            <com.utilsframework.android.view.EditTextWithSuggestions
-                    android:id="@+id/add_tag_edit_text"
-                    android:layout_weight="1"
-                    android:layout_width="0dp"
-                    android:hint="@string/add_tag"
-                    android:layout_height="wrap_content"/>
-            <ImageButton android:id="@+id/add_tag_button"
-                         android:src="@drawable/add_icon"
-                         android:layout_width="50dp"
-                         android:layout_height="match_parent"/>
         </LinearLayout>
+    </ScrollView>
+</FrameLayout>
 
-        <com.utilsframework.android.view.flowlayout.FlowLayout
-                android:id="@+id/tags"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-
-    </LinearLayout>
-
-</LinearLayout>
