@@ -1,6 +1,5 @@
 package com.khevents.ui;
 
-import android.app.Activity;
 import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -15,19 +14,15 @@ import com.khevents.R;
 import com.khevents.network.EventArgs;
 import com.khevents.network.OnEventCreationFinished;
 import com.khevents.network.RequestManager;
-import com.khevents.vk.VkManager;
 import com.utils.framework.CollectionUtils;
 import com.utilsframework.android.adapters.StringSuggestionsAdapter;
-import com.utilsframework.android.threading.OnFinish;
+import com.utilsframework.android.resources.StringUtilities;
 import com.utilsframework.android.view.*;
 import com.utilsframework.android.view.flowlayout.FlowLayout;
-import com.vk.sdk.VKAccessToken;
 import com.vk.sdk.VKSdk;
 import com.vkandroid.VkActivity;
-import org.w3c.dom.Text;
 
 import java.io.IOException;
-import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -36,6 +31,9 @@ import java.util.List;
 public class CreateEventActivity extends VkActivity {
     public static final int MAX_PEOPLE_NUMBER = 9999;
     public static final int MIN_PEOPLE_NUMER = 2;
+    public static final int MIN_EVENT_NAME_LENGTH = 5;
+    public static final int MIN_DESCRIPTION_LENGTH = 5;
+    public static final int MIN_ADDRESS_LENGTH = 5;
     private RequestManager requestManager;
     private NumberPickerButton peopleNumber;
     private TextView name;
@@ -147,11 +145,37 @@ public class CreateEventActivity extends VkActivity {
         });
     }
 
+    private static class ValidateException extends Exception {}
+
+    private void validateField(String field, int fieldNameId, int min) throws ValidateException {
+        String fieldName = getString(fieldNameId);
+
+        if (field.isEmpty()) {
+            Alerts.showOkButtonAlert(this,
+                    StringUtilities.getFormatString(this, R.string.empty_event_field, fieldName));
+            throw new ValidateException();
+        } else if(field.length() < min) {
+            Alerts.showOkButtonAlert(this,
+                    StringUtilities.getFormatString(this, R.string.small_event_field, fieldName, min));
+            throw new ValidateException();
+        }
+    }
+
     private void create() {
         EventArgs args = new EventArgs();
-        args.name = name.getText().toString();
-        args.description = description.getText().toString();
-        args.address = address.getText().toString();
+        try {
+            args.name = name.getText().toString();
+            validateField(args.name, R.string.name, MIN_EVENT_NAME_LENGTH);
+
+            args.description = description.getText().toString();
+            validateField(args.description, R.string.description, MIN_DESCRIPTION_LENGTH);
+
+            args.address = address.getText().toString();
+            validateField(args.address, R.string.address, MIN_ADDRESS_LENGTH);
+        } catch (ValidateException e) {
+            return;
+        }
+
         args.date = (int) (date.getDate() / 1000);
         args.peopleNumber = peopleNumber.getValue();
         args.tags = getTags();

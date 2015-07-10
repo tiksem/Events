@@ -42,6 +42,7 @@
                           android:inputType="textMultiLine"
                           android:minLines="2"
                           android:maxLines="10"
+                          android:maxLength="500"
                           android:hint="@string/event_description_hint"
                           android:layout_width="match_parent"
                           android:layout_height="wrap_content"/>
@@ -52,6 +53,7 @@
                           android:inputType="textMultiLine"
                           android:minLines="2"
                           android:maxLines="3"
+                          android:maxLength="200"
                           android:hint="@string/event_address_hint"
                           android:layout_width="match_parent"
                           android:layout_height="wrap_content"/>
