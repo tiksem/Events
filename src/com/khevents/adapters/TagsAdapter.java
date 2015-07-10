@@ -17,7 +17,7 @@ public class TagsAdapter extends NavigationListAdapter<Tag, TagHolder> {
 
     @Override
     protected int getRootLayoutId(int viewType) {
-        return R.layout.tag;
+        return R.layout.tag_item;
     }
 
     @Override

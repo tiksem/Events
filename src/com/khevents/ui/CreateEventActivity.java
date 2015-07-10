@@ -7,6 +7,8 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.TextView;
 import com.khevents.EventsApp;
 import com.khevents.R;
@@ -17,9 +19,11 @@ import com.khevents.vk.VkManager;
 import com.utilsframework.android.adapters.StringSuggestionsAdapter;
 import com.utilsframework.android.threading.OnFinish;
 import com.utilsframework.android.view.*;
+import com.utilsframework.android.view.flowlayout.FlowLayout;
 import com.vk.sdk.VKAccessToken;
 import com.vk.sdk.VKSdk;
 import com.vkandroid.VkActivity;
+import org.w3c.dom.Text;
 
 import java.io.IOException;
 import java.util.Arrays;
@@ -37,6 +41,8 @@ public class CreateEventActivity extends VkActivity {
     private DateTimePickerButton date;
     private TextView address;
     private ProgressDialog progressDialog;
+    private FlowLayout tagsLayout;
+    private EditTextWithSuggestions addTagEditText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,16 +60,50 @@ public class CreateEventActivity extends VkActivity {
         address = (TextView) findViewById(R.id.address);
         date = (DateTimePickerButton) findViewById(R.id.date_and_time);
 
-        VKAccessToken accessToken = VKSdk.getAccessToken();
         requestManager = EventsApp.getInstance().getRequestManager();
 
         setSupportActionBar((Toolbar) findViewById(R.id.toolbar));
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        EditTextWithSuggestions addTagEditText = (EditTextWithSuggestions) findViewById(R.id.add_tag_edit_text);
+        setupTags();
+    }
+
+    private View createTag(String name) {
+        View root = View.inflate(this, R.layout.tag, null);
+        TextView nameView = (TextView) root.findViewById(R.id.tag);
+        nameView.setText(name);
+        return root;
+    }
+
+    private void addTag() {
+        String name = addTagEditText.getText().toString();
+        View tag = createTag(name);
+        tagsLayout.addView(tag);
+        addTagEditText.setText("");
+        EditTextUtils.hideKeyboard(addTagEditText);
+    }
+
+    private void setupTags() {
+        addTagEditText = (EditTextWithSuggestions) findViewById(R.id.add_tag_edit_text);
         StringSuggestionsAdapter suggestionsAdapter = new StringSuggestionsAdapter(this);
         suggestionsAdapter.setSuggestionsProvider(requestManager.getTagsSuggestionsProvider());
         addTagEditText.setAdapter(suggestionsAdapter);
+
+        tagsLayout = (FlowLayout) findViewById(R.id.tags);
+
+        findViewById(R.id.add_tag_button).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                addTag();
+            }
+        });
+
+        addTagEditText.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                addTag();
+            }
+        });
     }
 
     @Override
