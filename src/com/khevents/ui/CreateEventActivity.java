@@ -3,6 +3,8 @@ package com.khevents.ui;
 import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -32,7 +34,7 @@ import java.util.List;
  */
 public class CreateEventActivity extends VkActivity {
     public static final int MAX_PEOPLE_NUMBER = 9999;
-    public static final int MIN_PEOPLE_NUMER = 2;
+    public static final int MIN_PEOPLE_NUMBER = 2;
     public static final int MIN_EVENT_NAME_LENGTH = 5;
     public static final int MIN_DESCRIPTION_LENGTH = 5;
     public static final int MIN_ADDRESS_LENGTH = 5;
@@ -54,9 +56,9 @@ public class CreateEventActivity extends VkActivity {
         setContentView(R.layout.create_event_activity);
 
         peopleNumber = (NumberPickerButton) findViewById(R.id.people_number);
-        peopleNumber.setMinValue(MIN_PEOPLE_NUMER);
+        peopleNumber.setMinValue(MIN_PEOPLE_NUMBER);
         peopleNumber.setMaxValue(MAX_PEOPLE_NUMBER);
-        peopleNumber.setValue(MIN_PEOPLE_NUMER);
+        peopleNumber.setValue(MIN_PEOPLE_NUMBER);
         peopleNumber.setPickerDialogTitle(getString(R.string.people_number_dialog_title));
 
         name = (TextView) findViewById(R.id.name);
@@ -102,10 +104,29 @@ public class CreateEventActivity extends VkActivity {
         tagsLayout = (FlowLayout) findViewById(R.id.tags);
         tagsLayoutChildren = GuiUtilities.getChildrenAsListNonCopy(tagsLayout);
 
-        findViewById(R.id.add_tag_button).setOnClickListener(new View.OnClickListener() {
+        View addTagButton = findViewById(R.id.add_tag_button);
+        addTagButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 addTag();
+            }
+        });
+        addTagButton.setEnabled(addTagEditText.length() > 0);
+
+        addTagEditText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                addTagButton.setEnabled(s.length() > 0);
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
             }
         });
 
