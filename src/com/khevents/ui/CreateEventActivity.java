@@ -16,6 +16,7 @@ import com.khevents.network.EventArgs;
 import com.khevents.network.OnEventCreationFinished;
 import com.khevents.network.RequestManager;
 import com.khevents.vk.VkManager;
+import com.utils.framework.CollectionUtils;
 import com.utilsframework.android.adapters.StringSuggestionsAdapter;
 import com.utilsframework.android.threading.OnFinish;
 import com.utilsframework.android.view.*;
@@ -27,6 +28,7 @@ import org.w3c.dom.Text;
 
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.List;
 
 /**
  * Created by CM on 6/19/2015.
@@ -43,6 +45,7 @@ public class CreateEventActivity extends VkActivity {
     private ProgressDialog progressDialog;
     private FlowLayout tagsLayout;
     private EditTextWithSuggestions addTagEditText;
+    private List<View> tagsLayoutChildren;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,6 +75,12 @@ public class CreateEventActivity extends VkActivity {
         View root = View.inflate(this, R.layout.tag, null);
         TextView nameView = (TextView) root.findViewById(R.id.tag);
         nameView.setText(name);
+        root.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                GuiUtilities.removeView(v);
+            }
+        });
         return root;
     }
 
@@ -90,6 +99,7 @@ public class CreateEventActivity extends VkActivity {
         addTagEditText.setAdapter(suggestionsAdapter);
 
         tagsLayout = (FlowLayout) findViewById(R.id.tags);
+        tagsLayoutChildren = GuiUtilities.getChildrenAsListNonCopy(tagsLayout);
 
         findViewById(R.id.add_tag_button).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -128,6 +138,15 @@ public class CreateEventActivity extends VkActivity {
         }
     }
 
+    private List<String> getTags() {
+        return CollectionUtils.transform(tagsLayoutChildren, new CollectionUtils.Transformer<View, String>() {
+            @Override
+            public String get(View view) {
+                return ((TextView) view.findViewById(R.id.tag)).getText().toString();
+            }
+        });
+    }
+
     private void create() {
         EventArgs args = new EventArgs();
         args.name = name.getText().toString();
@@ -135,7 +154,7 @@ public class CreateEventActivity extends VkActivity {
         args.address = address.getText().toString();
         args.date = (int) (date.getDate() / 1000);
         args.peopleNumber = peopleNumber.getValue();
-        args.tags = Arrays.asList("gavno", "eblo"); //TODO Integrate tags
+        args.tags = getTags();
         args.accessToken = VKSdk.getAccessToken().accessToken;
 
         executeCreateEventRequest(args);
