@@ -35,6 +35,7 @@ public class CommentsFragment extends AbstractNavigationListFragment<Comment> im
     public static final String REQUEST_ADD_COMMENT_FOCUS = "requestAddCommentFocus";
     private long eventId;
     private EditText commentMessage;
+    private View addCommentButton;
 
     public static CommentsFragment create(long eventId, List<Comment> topComments, boolean requestAddCommentFocus) {
         CommentsFragment fragment = new CommentsFragment();
@@ -87,7 +88,8 @@ public class CommentsFragment extends AbstractNavigationListFragment<Comment> im
 
     public void setupAddCommentControl(View view) {
         commentMessage = (EditText) view.findViewById(R.id.add_comment_message);
-        view.findViewById(R.id.add_comment).setOnClickListener(new View.OnClickListener() {
+        addCommentButton = view.findViewById(R.id.add_comment);
+        addCommentButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 executeAddCommentRequest();
@@ -116,6 +118,7 @@ public class CommentsFragment extends AbstractNavigationListFragment<Comment> im
             getElements().add(0, null);
             getAdapter().notifyDataSetChanged();
             final String commentText = getCommentText(text.toString());
+            addCommentButton.setEnabled(false);
             getRequestManager().addComment(commentText, eventId,
                     VKSdk.getAccessToken().accessToken, new OnFinish<IOException>() {
                         @Override
@@ -127,8 +130,11 @@ public class CommentsFragment extends AbstractNavigationListFragment<Comment> im
                                 getElements().remove(0);
                                 getAdapter().notifyDataSetChanged();
                             }
+                            addCommentButton.setEnabled(true);
                         }
                     });
+        } else {
+            UiMessages.message(getActivity(), R.string.enter_comment_message);
         }
     }
 
