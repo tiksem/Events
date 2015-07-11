@@ -28,6 +28,10 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <style name="CheckBox">
+        <item name="android:textColorSecondary">@color/vk_white</item>
+    </style>
+
     <style name="contrastButton">
         <item name="android:textColor">@color/vk_white</item>
         <item name="android:background">@drawable/contrast_button</item>
