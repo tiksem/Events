@@ -2,10 +2,12 @@
 <resources>
     <color name="navigation_color">@color/vk_white</color>
     <color name="selected_navigation_item">#ff1d0833</color>
-    <color name="header">#ffff4d44</color>
+    <color name="header">@color/colorPrimaryDark</color>
     <color name="colorPrimary">#4DB1BC</color>
     <color name="colorPrimaryDark">#ff4597a2</color>
-    <color name="colorAccent">#fff</color>
+    <color name="colorAccent">@color/colorPrimary</color>
     <color name="warning">#ffffac1d</color>
     <color name="grey">#c1c1c1</color>
+    <color name="contrastColor">#ffff4d44</color>
+    <color name="contrastColorRipple">#ffca3e35</color>
 </resources>

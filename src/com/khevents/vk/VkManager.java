@@ -42,7 +42,7 @@ public class VkManager {
     }
 
     public static void initialize(Context context, int errorMessageId, OnAccessTokenGot onAccessTokenGot) {
-        VKAccessToken accessToken = VkApiUtils.getAccessTokenFromSharedPreferences(context);
+        VKAccessToken accessToken = null;//VkApiUtils.getAccessTokenFromSharedPreferences(context);
 
         VkApiUtils.initialize(context, APP_ID, SCOPES, new VkApiUtils.AuthorizationListener() {
             @Override

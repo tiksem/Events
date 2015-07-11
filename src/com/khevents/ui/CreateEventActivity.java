@@ -1,6 +1,7 @@
 package com.khevents.ui;
 
 import android.app.ProgressDialog;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
@@ -68,7 +69,9 @@ public class CreateEventActivity extends VkActivity {
 
         requestManager = EventsApp.getInstance().getRequestManager();
 
-        setSupportActionBar((Toolbar) findViewById(R.id.toolbar));
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar.setTitleTextColor(Color.rgb(255, 255, 255));
+        setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         setupTags();

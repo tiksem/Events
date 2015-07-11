@@ -50,10 +50,12 @@
             >
         <Button android:id="@+id/subscribe"
                 android:text="@string/i_will_go"
+                android:textColor="@color/vk_white"
+                android:background="@drawable/contrast_ripple_effect"
                 android:layout_gravity="center"
                 android:layout_margin="5dp"
-                android:layout_width="300dp"
-                android:layout_height="40dp"/>
+                android:layout_width="250dp"
+                android:layout_height="30dp"/>
 
         <TextView android:id="@+id/timeout_text"
                   android:visibility="gone"
@@ -70,7 +72,6 @@
 
 
     <TextView android:id="@+id/description"
-              android:textColor="@color/vk_white"
               android:layout_alignParentLeft="true"
               android:layout_below="@id/subscribe_layout"
               android:layout_width="wrap_content"
@@ -85,7 +86,6 @@
           android:background="#ffa7a7a7"/>
 
     <TextView style="@style/header3"
-              android:textColor="@color/vk_white"
               android:id="@+id/orginizer_label"
               android:paddingBottom="5dp"
               android:layout_below="@id/first_line"
@@ -101,7 +101,6 @@
 
     <TextView android:id="@+id/userName"
               android:padding="5dp"
-              android:textColor="@color/vk_white"
               android:layout_below="@id/orginizer_label"
               android:layout_toRightOf="@+id/avatar"
               android:layout_width="wrap_content"
@@ -109,7 +108,6 @@
 
     <TextView style="@style/header3"
               android:paddingTop="5dp"
-              android:textColor="@color/vk_white"
               android:id="@+id/address_label"
               android:layout_below="@+id/avatar"
               android:layout_alignLeft="@+id/description"

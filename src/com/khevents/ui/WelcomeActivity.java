@@ -13,6 +13,7 @@ import com.utilsframework.android.threading.Threading;
 import com.utilsframework.android.view.Alerts;
 import com.utilsframework.android.view.UiMessages;
 import com.vk.sdk.VKSdk;
+import com.vkandroid.VkActivity;
 import com.vkandroid.VkUser;
 
 import java.io.IOException;
@@ -20,7 +21,7 @@ import java.io.IOException;
 /**
  * Created by CM on 7/1/2015.
  */
-public class WelcomeActivity extends Activity {
+public class WelcomeActivity extends VkActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
