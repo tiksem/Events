@@ -22,7 +22,8 @@ public class UiUtils {
     }
 
     public static void setCommentMessage(Context context, Comment comment, TextView textView) {
-        SpannableString text = new SpannableString(comment.userName + " " + comment.text);
+        String commentText = comment.text.replaceAll("\\n+", " ");
+        SpannableString text = new SpannableString(comment.userName + " " + commentText);
 
         text.setSpan(new TextAppearanceSpan(context, R.style.header3), 0, comment.userName.length(),
                 Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);

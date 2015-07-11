@@ -33,12 +33,14 @@ public class CommentsAdapter extends NavigationListAdapter<Comment, CommentHolde
         holder.message = (TextView) view.findViewById(R.id.message);
         holder.avatar = (ImageView) view.findViewById(R.id.avatar);
         holder.date = (TextView) view.findViewById(R.id.date);
+        holder.name = (TextView) view.findViewById(R.id.name);
         return holder;
     }
 
     @Override
     protected void reuseView(Comment comment, CommentHolder holder, int position, View view) {
-        UiUtils.setCommentMessage(view.getContext(), comment, holder.message);
+        holder.name.setText(comment.userName);
+        holder.message.setText(comment.text);
         String date = TimeUtils.getAlternativeDisplayDateTime(comment.date * 1000l);
         holder.date.setText(date);
         IMAGE_LOADER.displayImage(comment.avatar, holder.avatar);

@@ -8,6 +8,7 @@ import android.widget.TextView;
  */
 public class CommentHolder {
     public TextView message;
+    public TextView name;
     public ImageView avatar;
     public TextView date;
 }
