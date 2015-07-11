@@ -40,6 +40,7 @@ public class EventFragment extends AbstractPageLoadingFragment<VkUser> implement
     private Event event;
     private Button subscribeButton;
     private List<Comment> topComments;
+    private TextView peopleNumber;
 
     public static EventFragment create(Event event) {
         return Fragments.createFragmentWith1Arg(new EventFragment(), EVENT, event);
@@ -75,8 +76,8 @@ public class EventFragment extends AbstractPageLoadingFragment<VkUser> implement
         TextView description = (TextView) content.findViewById(R.id.description);
         description.setText(event.description);
 
-        TextView peopleNumber = (TextView) content.findViewById(R.id.people_number);
-        UiUtils.setPeopleNumber(peopleNumber, event);
+        peopleNumber = (TextView) content.findViewById(R.id.people_number);
+        updatePeopleNumber();
 
         TextView dateView = (TextView) content.findViewById(R.id.date);
         String date = TimeUtils.getAlternativeDisplayDateTime(event.date * 1000l);
@@ -120,6 +121,10 @@ public class EventFragment extends AbstractPageLoadingFragment<VkUser> implement
                 GoogleMaps.startSearchAddressActivity(getActivity(), event.address);
             }
         });
+    }
+
+    private void updatePeopleNumber() {
+        UiUtils.setPeopleNumber(peopleNumber, event);
     }
 
     private void showSubscribers() {
@@ -215,6 +220,12 @@ public class EventFragment extends AbstractPageLoadingFragment<VkUser> implement
                             }
 
                             subscribeButton.setText(text);
+                            if (event.isSubscribed) {
+                                event.subscribersCount++;
+                            } else {
+                                event.subscribersCount--;
+                            }
+                            updatePeopleNumber();
                         }
                     }
                 });
