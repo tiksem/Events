@@ -9,13 +9,13 @@
             android:orientation="vertical"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="5dp"
+            android:layout_margin="15dp"
             android:gravity="center"
             >
         <ImageView android:id="@+id/people_icon"
                    android:src="@drawable/ic_people_grey"
-                   android:layout_width="48dp"
-                   android:layout_height="48dp"/>
+                   android:layout_width="32dp"
+                   android:layout_height="32dp"/>
         <TextView android:id="@+id/people_number"
                   android:textStyle="bold"
                   android:layout_width="wrap_content"

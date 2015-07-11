@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 android:layout_width="match_parent"
-                android:padding="5dp"
+                android:padding="10dp"
                 android:layout_height="wrap_content">
     <RelativeLayout
             android:id="@+id/header"
@@ -9,17 +9,18 @@
             android:layout_height="wrap_content"
             >
         <LinearLayout
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="15dp"
                 android:id="@+id/people_layout"
                 android:orientation="vertical"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="5dp"
                 android:gravity="center"
                 >
             <ImageView android:id="@+id/people_icon"
                        android:src="@drawable/ic_people_grey"
-                       android:layout_width="48dp"
-                       android:layout_height="48dp"/>
+                       android:layout_width="32dp"
+                       android:layout_height="32dp"/>
             <TextView android:id="@+id/people_number"
                       android:textStyle="bold"
                       android:layout_width="wrap_content"
@@ -28,7 +29,6 @@
 
         <TextView android:id="@+id/name"
                   style="@style/header"
-                  android:minLines="2"
                   android:layout_toRightOf="@+id/people_layout"
                   android:layout_width="wrap_content"
                   android:layout_height="wrap_content"/>
@@ -37,7 +37,7 @@
                   android:text="@string/event_date_title"
                   style="@style/date"
                   android:layout_below="@id/name"
-                  android:layout_alignParentRight="true"
+                  android:layout_toRightOf="@+id/people_layout"
                   android:layout_width="wrap_content"
                   android:layout_height="wrap_content"/>
     </RelativeLayout>
@@ -70,6 +70,7 @@
 
 
     <TextView android:id="@+id/description"
+              android:textColor="@color/vk_white"
               android:layout_alignParentLeft="true"
               android:layout_below="@id/subscribe_layout"
               android:layout_width="wrap_content"
@@ -81,7 +82,7 @@
           android:layout_height="1dp"
           android:layout_marginBottom="7dp"
           android:layout_marginTop="7dp"
-          android:background="#c0c0c0"/>
+          android:background="#ffa7a7a7"/>
 
     <TextView style="@style/header3"
               android:textColor="@color/vk_white"
@@ -134,14 +135,20 @@
                   android:layout_height="wrap_content"/>
     </LinearLayout>
 
+    <View android:id="@+id/second_line"
+          android:layout_width="match_parent"
+          android:layout_below="@+id/address_layout"
+          android:layout_height="1dp"
+          android:layout_marginBottom="7dp"
+          android:layout_marginTop="7dp"
+          android:background="#ffa7a7a7"/>
 
     <LinearLayout android:id="@+id/comments"
                   android:orientation="vertical"
-                  android:layout_below="@+id/address_layout"
+                  android:layout_below="@+id/second_line"
                   android:layout_width="match_parent"
                   android:layout_height="wrap_content">
         <TextView android:id="@+id/view_all_comments_text"
-                  android:paddingTop="10dp"
                   android:text="@string/view_all_comments"
                   android:layout_width="wrap_content"
                   android:layout_height="wrap_content"/>
