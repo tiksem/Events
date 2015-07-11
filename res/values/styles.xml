@@ -7,6 +7,11 @@
 
     <style name="header2">
         <item name="android:textColor">@color/header</item>
+        <item name="android:textSize">17sp</item>
+    </style>
+
+    <style name="header3">
+        <item name="android:textColor">@color/header</item>
     </style>
 
     <style name="date">

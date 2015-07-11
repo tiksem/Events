@@ -83,7 +83,7 @@
           android:layout_marginTop="7dp"
           android:background="#c0c0c0"/>
 
-    <TextView style="@style/header2"
+    <TextView style="@style/header3"
               android:textColor="@color/vk_white"
               android:id="@+id/orginizer_label"
               android:paddingBottom="5dp"
@@ -106,7 +106,7 @@
               android:layout_width="wrap_content"
               android:layout_height="wrap_content"/>
 
-    <TextView style="@style/header2"
+    <TextView style="@style/header3"
               android:paddingTop="5dp"
               android:textColor="@color/vk_white"
               android:id="@+id/address_label"
