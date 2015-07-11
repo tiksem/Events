@@ -71,12 +71,14 @@
                         <TextView android:id="@+id/people_number_label"
                                   android:text="@string/number_of_people"
                                   android:layout_width="wrap_content"
+                                  style="@style/header2"
                                   android:layout_height="wrap_content"/>
                         <com.utilsframework.android.view.NumberPickerButton
                                 android:background="@drawable/people_number_picker"
                                 android:id="@+id/people_number"
                                 android:layout_margin="5dp"
                                 android:gravity="center"
+                                android:textColor="@color/vk_white"
                                 android:layout_width="40dp"
                                 android:layout_height="40dp"/>
                     </LinearLayout>
