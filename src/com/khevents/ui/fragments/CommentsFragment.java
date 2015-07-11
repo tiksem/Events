@@ -115,12 +115,13 @@ public class CommentsFragment extends AbstractNavigationListFragment<Comment> im
             // show loading
             getElements().add(0, null);
             getAdapter().notifyDataSetChanged();
-            getRequestManager().addComment(text.toString(), eventId,
+            final String commentText = getCommentText(text.toString());
+            getRequestManager().addComment(commentText, eventId,
                     VKSdk.getAccessToken().accessToken, new OnFinish<IOException>() {
                         @Override
                         public void onFinish(IOException e) {
                             if (e == null) {
-                                addCommentToList(text.toString());
+                                addCommentToList(commentText);
                             } else {
                                 UiMessages.error(getActivity(), R.string.no_internet_connection);
                                 getElements().remove(0);
@@ -129,6 +130,10 @@ public class CommentsFragment extends AbstractNavigationListFragment<Comment> im
                         }
                     });
         }
+    }
+
+    public String getCommentText(String text) {
+        return text.replaceAll("\\n{2,}", "\n\n");
     }
 
     @Override
