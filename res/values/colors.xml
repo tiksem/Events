@@ -7,7 +7,8 @@
     <color name="colorPrimaryDark">#ff4597a2</color>
     <color name="colorAccent">@color/colorPrimary</color>
     <color name="warning">#ffffac1d</color>
+    <color name="warningDark">#ffcc8819</color>
     <color name="grey">#c1c1c1</color>
     <color name="contrastColor">#ffff4d44</color>
-    <color name="contrastColorRipple">#ffca3e35</color>
+    <color name="contrastColorDark">#ffca3e35</color>
 </resources>

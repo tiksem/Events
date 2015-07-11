@@ -148,6 +148,8 @@ public class EventFragment extends AbstractPageLoadingFragment<VkUser> implement
             });
         } else {
             subscribeButton.setText(R.string.cancel_event);
+            subscribeButton.setTextAppearance(getActivity(), R.style.cancelButton);
+            subscribeButton.setBackgroundResource(R.drawable.cancel_button);
             subscribeButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

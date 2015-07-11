@@ -50,8 +50,7 @@
             >
         <Button android:id="@+id/subscribe"
                 android:text="@string/i_will_go"
-                android:textColor="@color/vk_white"
-                android:background="@drawable/contrast_ripple_effect"
+                style="@style/contrastButton"
                 android:layout_gravity="center"
                 android:layout_margin="5dp"
                 android:layout_width="250dp"
@@ -154,7 +153,11 @@
     <Button android:id="@+id/add_comment"
             android:layout_below="@+id/comments"
             android:text="@string/add_comment"
+            android:layout_marginTop="5dp"
+            style="@style/contrastButton"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+            android:layout_height="30dp"/>
 </RelativeLayout>
 

@@ -27,4 +27,14 @@
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
     </style>
+
+    <style name="contrastButton">
+        <item name="android:textColor">@color/vk_white</item>
+        <item name="android:background">@drawable/contrast_button</item>
+    </style>
+
+    <style name="cancelButton">
+        <item name="android:textColor">@color/vk_white</item>
+        <item name="android:background">@drawable/cancel_button</item>
+    </style>
 </resources>

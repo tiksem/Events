@@ -28,7 +28,7 @@
                 />
         <ImageButton android:id="@+id/add_comment"
                      android:scaleType="fitCenter"
-                android:background="@color/header"
+                android:background="@drawable/comment_button"
                      android:src="@drawable/white_send"
                 android:layout_width="50dp"
                 android:layout_height="match_parent"/>
