@@ -92,10 +92,14 @@ public class CreateEventActivity extends VkActivity {
 
     private void addTag() {
         String name = addTagEditText.getText().toString();
-        View tag = createTag(name);
-        tagsLayout.addView(tag);
-        addTagEditText.setText("");
-        EditTextUtils.hideKeyboard(addTagEditText);
+        if (!name.isEmpty()) {
+            View tag = createTag(name);
+            tagsLayout.addView(tag);
+            addTagEditText.setText("");
+            EditTextUtils.hideKeyboard(addTagEditText);
+        } else {
+            UiMessages.error(this, R.string.enter_tag_name);
+        }
     }
 
     private void setupTags() {
@@ -112,24 +116,6 @@ public class CreateEventActivity extends VkActivity {
             @Override
             public void onClick(View v) {
                 addTag();
-            }
-        });
-        addTagButton.setEnabled(addTagEditText.length() > 0);
-
-        addTagEditText.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                addTagButton.setEnabled(s.length() > 0);
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-
             }
         });
 

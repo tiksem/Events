@@ -44,4 +44,5 @@
     <string name="small_event_field" formatted="false">The event %s should contain at least %d characters</string>
     <string name="invalid_date">The event date should be bigger than the current date</string>
     <string name="enter_comment_message">Enter comment message</string>
+    <string name="enter_tag_name">Enter tag name</string>
 </resources>
