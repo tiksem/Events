@@ -1,20 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:orientation="horizontal"
-              android:gravity="center_vertical"
-              android:background="?attr/colorPrimaryDark"
-              android:paddingTop="40dp"
-              android:paddingLeft="5dp"
-              android:paddingBottom="5dp"
-              android:layout_width="match_parent"
-              android:layout_height="wrap_content">
-    <ImageView android:id="@+id/avatar"
-               android:layout_width="50dp"
-               android:layout_height="50dp"/>
-    <TextView android:id="@id/userName"
-              android:textColor="@color/vk_white"
-              android:textStyle="bold"
-              android:paddingLeft="5dp"
-              android:layout_width="wrap_content"
-              android:layout_height="wrap_content"/>
-</LinearLayout>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        >
+    <LinearLayout android:orientation="horizontal"
+                  android:gravity="center_vertical"
+                  android:layout_gravity="left|center_vertical"
+                  android:background="?attr/colorPrimaryDark"
+                  android:paddingTop="40dp"
+                  android:paddingLeft="5dp"
+                  android:layout_width="match_parent"
+                  android:layout_height="wrap_content">
+        <ImageView android:id="@+id/avatar"
+                   android:paddingBottom="5dp"
+                   android:layout_width="50dp"
+                   android:layout_height="50dp"/>
+        <TextView android:id="@id/userName"
+                  android:paddingBottom="5dp"
+                  android:textColor="@color/vk_white"
+                  android:textStyle="bold"
+                  android:paddingLeft="5dp"
+                  android:paddingRight="5dp"
+                  android:layout_weight="1"
+                  android:layout_width="0dp"
+                  android:layout_height="wrap_content"/>
+
+        <Button android:id="@+id/log_out"
+                android:text="@string/log_out"
+                android:textColor="@color/vk_white"
+                android:background="@drawable/log_out_button"
+                android:layout_gravity="right|bottom"
+                android:layout_width="wrap_content"
+                android:padding="5dp"
+                android:layout_height="30dp"/>
+    </LinearLayout>
+</FrameLayout>

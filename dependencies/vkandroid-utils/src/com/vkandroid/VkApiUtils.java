@@ -134,4 +134,8 @@ public class VkApiUtils {
     public static VKAccessToken getAccessTokenFromSharedPreferences(Context context) {
         return VKAccessToken.tokenFromSharedPreferences(context, VK_ACCESS_TOKEN);
     }
+
+    public static void clearToken(Context context) {
+        VKAccessToken.removeTokenAtKey(context, VK_ACCESS_TOKEN);
+    }
 }
