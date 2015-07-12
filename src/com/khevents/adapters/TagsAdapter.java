@@ -32,7 +32,7 @@ public class TagsAdapter extends NavigationListAdapter<Tag, TagHolder> {
     @Override
     protected void reuseView(Tag tag, TagHolder holder, int position, View view) {
         holder.name.setText(tag.name);
-        holder.eventsCount.setText(tag.eventsCount + " " + view.getContext().getString(
-                R.string.events_count_ending));
+        holder.eventsCount.setText(view.getContext().getResources().getQuantityString(
+                R.plurals.events, tag.eventsCount, tag.eventsCount));
     }
 }
