@@ -16,11 +16,13 @@ import com.khevents.ui.fragments.SubscribedUserEventsListFragment;
 import com.khevents.ui.fragments.TagsListFragment;
 import com.khevents.vk.VkManager;
 import com.nostra13.universalimageloader.core.ImageLoader;
+import com.utilsframework.android.AndroidUtilities;
 import com.utilsframework.android.navdrawer.NavigationDrawerActivity;
 import com.utilsframework.android.social.SocialUtils;
 import com.utilsframework.android.threading.OnFinish;
 import com.vk.sdk.VKAccessToken;
 import com.vk.sdk.VKUIHelper;
+import com.vkandroid.VkApiUtils;
 import com.vkandroid.VkUser;
 
 public class MainActivity extends NavigationDrawerActivity {
@@ -130,10 +132,21 @@ public class MainActivity extends NavigationDrawerActivity {
         userName.setText(currentUser.name + " " + currentUser.lastName);
         navigationView.addHeaderView(header);
 
-        header.setOnClickListener(new View.OnClickListener() {
+        View.OnClickListener openProfileClickListener = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 SocialUtils.openVkUserProfile(MainActivity.this, currentUser.id);
+            }
+        };
+        userName.setOnClickListener(openProfileClickListener);
+        avatar.setOnClickListener(openProfileClickListener);
+
+        header.findViewById(R.id.log_out).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                VkApiUtils.logout(MainActivity.this);
+                finish();
+                AndroidUtilities.startActivity(MainActivity.this, WelcomeActivity.class);
             }
         });
     }

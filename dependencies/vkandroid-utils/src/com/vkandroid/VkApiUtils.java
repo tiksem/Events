@@ -135,7 +135,8 @@ public class VkApiUtils {
         return VKAccessToken.tokenFromSharedPreferences(context, VK_ACCESS_TOKEN);
     }
 
-    public static void clearToken(Context context) {
+    public static void logout(Context context) {
         VKAccessToken.removeTokenAtKey(context, VK_ACCESS_TOKEN);
+        VKSdk.logout();
     }
 }
