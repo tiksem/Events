@@ -40,7 +40,7 @@ public class EventsAdapter extends NavigationListAdapter<Event, EventHolder> {
         UiUtils.setPeopleNumber(holder.peopleCount, event);
         holder.description.setText(event.description);
         long dateMillis = event.date * 1000l;
-        String date = TimeUtils.getAlternativeDisplayDateTime(dateMillis);
+        String date = TimeUtils.getAlternativeDisplayDateTime(view.getContext(), dateMillis);
         holder.date.setText(date);
         holder.timeoutIcon.setVisibility(System.currentTimeMillis() < dateMillis ? View.GONE : View.VISIBLE);
     }

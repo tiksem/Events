@@ -41,7 +41,7 @@ public class CommentsAdapter extends NavigationListAdapter<Comment, CommentHolde
     protected void reuseView(Comment comment, CommentHolder holder, int position, View view) {
         holder.name.setText(comment.userName);
         holder.message.setText(comment.text);
-        String date = TimeUtils.getAlternativeDisplayDateTime(comment.date * 1000l);
+        String date = TimeUtils.getAlternativeDisplayDateTime(view.getContext(), comment.date * 1000l);
         holder.date.setText(date);
         IMAGE_LOADER.displayImage(comment.avatar, holder.avatar);
     }

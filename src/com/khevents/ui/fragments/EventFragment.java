@@ -80,7 +80,7 @@ public class EventFragment extends AbstractPageLoadingFragment<VkUser> implement
         updatePeopleNumber();
 
         TextView dateView = (TextView) content.findViewById(R.id.date);
-        String date = TimeUtils.getAlternativeDisplayDateTime(event.date * 1000l);
+        String date = TimeUtils.getAlternativeDisplayDateTime(getActivity(), event.date * 1000l);
         dateView.setText(getString(R.string.event_date_title) + " " + date);
 
         ImageView avatar = (ImageView) content.findViewById(R.id.avatar);
