@@ -7,10 +7,12 @@ import com.utils.framework.io.IOUtilities;
 import com.utils.framework.strings.Strings;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
+import com.utilsframework.android.resources.LocaleUtils;
 import com.vk.sdk.util.VKUtil;
 import com.vkandroid.VkUser;
 
 import java.io.IOException;
+import java.util.Locale;
 
 /**
  * Created by CM on 6/17/2015.
@@ -25,6 +27,8 @@ public class EventsApp extends Application {
     public void onCreate() {
         super.onCreate();
         instance = this;
+
+        LocaleUtils.setLocale(this, new Locale("ru"));
 
         ImageLoaderConfiguration.Builder builder = new ImageLoaderConfiguration.Builder(this);
         builder.memoryCacheSize(2 * 1024 * 1024);

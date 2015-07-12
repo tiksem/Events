@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">События</string>
+    <string name="name">Имя</string>
+    <string name="event_name_hint">Введите имя события</string>
+    <string name="description">Описание</string>
+    <string name="address">Адрес</string>
+    <string name="event_description_hint">Введите описание события</string>
+    <string name="event_address_hint">Введите место встречи</string>
+    <string name="number_of_people">Колличество людей</string>
+    <string name="people_number_dialog_title">Выберите колличество людей</string>
+    <string name="date_filter">Фильтр по дате</string>
+    <string name="from">От</string>
+    <string name="to">До</string>
+    <string name="events">События</string>
+    <string name="create">Создать</string>
+    <string name="event_created">Создано новое событие</string>
+    <string name="vk_login_error">
+        Вы должны разрешить приложению События доступ к вашему аккаунту Вконтакте,
+        для дальнейшего использования функционала.
+    </string>
+    <string name="please_wait">Пожалуйста подождите…</string>
+    <string name="my_events">Мои события</string>
+    <string name="tags">Теги</string>
+    <string name="subscribed">Подписанные</string>
+    <string name="created">Созданные</string>
+    <string name="event_date_title">Дата события:</string>
+    <string name="i_will_go">Я Пойду</string>
+    <string name="i_will_not_go">Я Не Пойду</string>
+    <string name="subscribe_message">Вы подписались на событие</string>
+    <string name="cancel_event">Отменить Событие</string>
+    <string name="cancel_event_confirm_message">
+        Вы действительно хотите отменить событие?
+    </string>
+    <string name="event_canceled">Событие отменено</string>
+    <string name="add_comment">Добавить Комментарий</string>
+    <string name="view_all_comments">Просмотреть Все Комментарии</string>
+    <string name="add_comment_hint">Добавьте комментарий</string>
+    <string name="no_comments">Нет комментариев. Прокомментируйте первым!</string>
+    <string name="comments">Комментарии</string>
+    <string name="event">Событие</string>
+    <string name="participants">Участники</string>
+    <string name="timeout_text">Данное событие уже не актуально</string>
+    <string name="orginizer">Организатор</string>
+    <string name="add_tag">Добавьте тег для поиска</string>
+    <string name="empty_event_field" formatted="false">%s события не может быть пустым</string>
+    <string name="small_event_field" formatted="false">%s должно содержать как минимум %d символов</string>
+    <string name="invalid_date">Дата события должна превышать текущую дату.</string>
+    <string name="enter_comment_message">Введите сообщение комментария</string>
+    <string name="enter_tag_name">Введите имя тега</string>
+    <string name="log_out">Выйти</string>
+</resources>
