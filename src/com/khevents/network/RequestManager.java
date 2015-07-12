@@ -188,7 +188,7 @@ public class RequestManager implements IOErrorListenersSet {
         }, onFinish, IOException.class);
     }
 
-    public SuggestionsProvider<String> getTagsSuggestionsProvider() {
-        return new TagsSuggestionsProvider(rootUrl, requestExecutor);
+    public SuggestionsProvider<String> getTagsSuggestionsProvider(IgnoreTagsProvider ignoreTagsProvider) {
+        return new TagsSuggestionsProvider(rootUrl, ignoreTagsProvider, requestExecutor);
     }
 }

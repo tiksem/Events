@@ -16,6 +16,7 @@ import com.jsonutils.RequestException;
 import com.khevents.EventsApp;
 import com.khevents.R;
 import com.khevents.network.EventArgs;
+import com.khevents.network.IgnoreTagsProvider;
 import com.khevents.network.OnEventCreationFinished;
 import com.khevents.network.RequestManager;
 import com.utils.framework.CollectionUtils;
@@ -105,7 +106,12 @@ public class CreateEventActivity extends VkActivity {
     private void setupTags() {
         addTagEditText = (EditTextWithSuggestions) findViewById(R.id.add_tag_edit_text);
         StringSuggestionsAdapter suggestionsAdapter = new StringSuggestionsAdapter(this);
-        suggestionsAdapter.setSuggestionsProvider(requestManager.getTagsSuggestionsProvider());
+        suggestionsAdapter.setSuggestionsProvider(requestManager.getTagsSuggestionsProvider(new IgnoreTagsProvider() {
+            @Override
+            public List<String> getIgnoreTags() {
+                return getTags();
+            }
+        }));
         addTagEditText.setAdapter(suggestionsAdapter);
 
         tagsLayout = (FlowLayout) findViewById(R.id.tags);
