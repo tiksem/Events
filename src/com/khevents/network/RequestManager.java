@@ -1,5 +1,6 @@
 package com.khevents.network;
 
+import android.content.Context;
 import android.util.Log;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.jsonutils.Json;
@@ -71,13 +72,8 @@ public class RequestManager implements IOErrorListenersSet {
             }
 
             @Override
-            public void onSuccess(Integer id) {
-                onFinish.onComplete(id, null);
-            }
-
-            @Override
-            public void onError(IOException error) {
-                onFinish.onComplete(-1, error);
+            public void onComplete(Integer id, IOException error) {
+                onFinish.onComplete(id == null ? -1 : id, null);
             }
         }, IOException.class);
     }
@@ -169,26 +165,37 @@ public class RequestManager implements IOErrorListenersSet {
         return new CommentsNavigationList(rootUrl, eventId, topComments, requestExecutor);
     }
 
-    public void addComment(String text, long eventId, String accessToken,
-                           OnFinish<IOException> onFinish) {
+    private void executeRequestCheckForErrors(String url, Map<String, Object> args,
+                                              OnFinish<IOException> onFinish) {
         Threading.runOnBackground(new ThrowingRunnable<IOException>() {
             @Override
             public void run() throws IOException {
-                String url = rootUrl + "addComment";
-                Map<String, Object> args = new HashMap<String, Object>() {
-                    {
-                        put("text", text);
-                        put("token", accessToken);
-                        put("id", eventId);
-                    }
-                };
-                String json = requestExecutor.executeRequest(url, args);
+                String json = requestExecutor.executeRequest(rootUrl + url, args);
                 Json.checkError(json);
             }
         }, onFinish, IOException.class);
     }
 
+    public void addComment(String text, long eventId, String accessToken,
+                           OnFinish<IOException> onFinish) {
+        String url = "addComment";
+        Map<String, Object> args = new HashMap<String, Object>() {
+            {
+                put("text", text);
+                put("token", accessToken);
+                put("id", eventId);
+            }
+        };
+
+        executeRequestCheckForErrors(url, args, onFinish);
+    }
+
     public SuggestionsProvider<String> getTagsSuggestionsProvider(IgnoreTagsProvider ignoreTagsProvider) {
         return new TagsSuggestionsProvider(rootUrl, ignoreTagsProvider, requestExecutor);
+    }
+
+    public void loginGCMToken(String deviceToken, String vkToken, OnFinish<IOException> onFinish) {
+        String url = "getNotification?id=" + deviceToken;
+        executeRequestCheckForErrors(url, null, onFinish);
     }
 }

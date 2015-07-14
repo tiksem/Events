@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 import com.khevents.EventsApp;
 import com.khevents.R;
+import com.khevents.gcm.GCM;
 import com.khevents.vk.VkManager;
 import com.utilsframework.android.AndroidUtilities;
 import com.utilsframework.android.threading.AsyncOperationCallback;
@@ -48,33 +49,29 @@ public class WelcomeActivity extends VkActivity {
     }
 
     public void onAccessTokenGot() {
-        if (EventsApp.getInstance().getCurrentUser() == null) {
-            ProgressDialog progressDialog = Alerts.showCircleProgressDialog(this, R.string.please_wait);
-            Threading.executeAsyncTask(new Threading.Task<IOException, VkUser>() {
-                @Override
-                public VkUser runOnBackground() throws IOException {
-                    return getCurrentVkUser();
-                }
+        ProgressDialog progressDialog = Alerts.showCircleProgressDialog(this, R.string.please_wait);
+        Threading.executeAsyncTask(new Threading.Task<IOException, VkUser>() {
+            @Override
+            public VkUser runOnBackground() throws IOException {
+                return getCurrentVkUser();
+            }
 
-                @Override
-                public void onError(IOException error) {
+            @Override
+            public void onComplete(VkUser vkUser, IOException error) {
+                if (vkUser != null) {
+                    onVkUserReached(vkUser);
+                } else {
                     UiMessages.error(WelcomeActivity.this, R.string.no_internet_connection);
                 }
+                progressDialog.dismiss();
+            }
+        }, IOException.class);
+    }
 
-                @Override
-                public void onSuccess(VkUser vkUser) {
-                    EventsApp.getInstance().initVkUser(vkUser);
-                    startMainActivity();
-                }
-
-                @Override
-                public void onComplete() {
-                    progressDialog.dismiss();
-                }
-            }, IOException.class);
-        } else {
-            startMainActivity();
-        }
+    public void onVkUserReached(VkUser vkUser) {
+        EventsApp.getInstance().initVkUser(vkUser);
+        GCM.initServices(this);
+        startMainActivity();
     }
 
     private VkUser getCurrentVkUser() throws IOException {
