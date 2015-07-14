@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <plurals name="events">
+        <item quantity="one">%d событие</item>
+        <item quantity="other">%d событий</item>
+        <item quantity="few">%d события</item>
+        <item quantity="many">%d событий</item>
+    </plurals>
+</resources>

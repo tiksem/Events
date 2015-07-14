@@ -15,10 +15,7 @@
     <string name="events">События</string>
     <string name="create">Создать</string>
     <string name="event_created">Создано новое событие</string>
-    <string name="vk_login_error">
-        Вы должны разрешить приложению События доступ к вашему аккаунту Вконтакте,
-        для дальнейшего использования функционала.
-    </string>
+    <string name="vk_login_error">Приложению События необходим доступ к Вашему аккаунту Вконтакте</string>
     <string name="please_wait">Пожалуйста подождите…</string>
     <string name="my_events">Мои события</string>
     <string name="tags">Теги</string>
@@ -29,9 +26,7 @@
     <string name="i_will_not_go">Я Не Пойду</string>
     <string name="subscribe_message">Вы подписались на событие</string>
     <string name="cancel_event">Отменить Событие</string>
-    <string name="cancel_event_confirm_message">
-        Вы действительно хотите отменить событие?
-    </string>
+    <string name="cancel_event_confirm_message">Вы действительно хотите отменить событие?</string>
     <string name="event_canceled">Событие отменено</string>
     <string name="add_comment">Добавить Комментарий</string>
     <string name="view_all_comments">Просмотреть Все Комментарии</string>
