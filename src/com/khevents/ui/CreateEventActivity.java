@@ -21,6 +21,7 @@ import com.khevents.network.OnEventCreationFinished;
 import com.khevents.network.RequestManager;
 import com.utils.framework.CollectionUtils;
 import com.utils.framework.Objects;
+import com.utils.framework.strings.Strings;
 import com.utilsframework.android.adapters.StringSuggestionsAdapter;
 import com.utilsframework.android.resources.StringUtilities;
 import com.utilsframework.android.view.*;
@@ -139,6 +140,24 @@ public class CreateEventActivity extends VkActivity {
         inflater.inflate(R.menu.creat_event, menu);
 
         return true;
+    }
+
+    private boolean shouldShowBackConfirm() {
+        return Strings.containsAnyNotEmpty(name.getText(), address.getText(), description.getText());
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (shouldShowBackConfirm()) {
+            Alerts.showYesNoAlert(this, new OnYes() {
+                @Override
+                public void onYes() {
+                    CreateEventActivity.super.onBackPressed();
+                }
+            }, R.string.create_event_back_confirm);
+        } else {
+            super.onBackPressed();
+        }
     }
 
     @Override

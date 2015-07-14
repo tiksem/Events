@@ -44,4 +44,5 @@
     <string name="enter_comment_message">Введите сообщение комментария</string>
     <string name="enter_tag_name">Введите имя тега</string>
     <string name="log_out">Выйти</string>
+    <string name="create_event_back_confirm">Вы уверены, что хотите отменить создание события?</string>
 </resources>
