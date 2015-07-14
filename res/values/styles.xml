@@ -32,7 +32,8 @@
         <item name="colorControlActivated">#fff</item>
     </style>
 
-    <style name="CheckBox">
+    <style name="DateFilterCheckBoxTheme" parent="AppBaseTheme">
+        <item name="colorAccent">@color/contrastColor</item>
         <item name="android:textColorSecondary">@color/vk_white</item>
     </style>
 
