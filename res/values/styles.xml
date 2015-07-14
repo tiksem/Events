@@ -28,6 +28,10 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <style name="ActionBarTheme" parent="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+        <item name="colorControlActivated">#fff</item>
+    </style>
+
     <style name="CheckBox">
         <item name="android:textColorSecondary">@color/vk_white</item>
     </style>

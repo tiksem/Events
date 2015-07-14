@@ -10,17 +10,14 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import com.khevents.EventsApp;
 import com.khevents.R;
-import com.khevents.ui.fragments.CreatedUserEventsListFragment;
 import com.khevents.ui.fragments.AllEventsListFragment;
+import com.khevents.ui.fragments.CreatedUserEventsListFragment;
 import com.khevents.ui.fragments.SubscribedUserEventsListFragment;
 import com.khevents.ui.fragments.TagsListFragment;
-import com.khevents.vk.VkManager;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.utilsframework.android.AndroidUtilities;
 import com.utilsframework.android.navdrawer.NavigationDrawerActivity;
 import com.utilsframework.android.social.SocialUtils;
-import com.utilsframework.android.threading.OnFinish;
-import com.vk.sdk.VKAccessToken;
 import com.vk.sdk.VKUIHelper;
 import com.vkandroid.VkApiUtils;
 import com.vkandroid.VkUser;
@@ -149,5 +146,10 @@ public class MainActivity extends NavigationDrawerActivity {
                 AndroidUtilities.startActivity(MainActivity.this, WelcomeActivity.class);
             }
         });
+    }
+
+    @Override
+    protected int getToolbarLayoutId() {
+        return R.layout.toolbar;
     }
 }
