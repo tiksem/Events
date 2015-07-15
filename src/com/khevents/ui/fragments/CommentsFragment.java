@@ -2,7 +2,6 @@ package com.khevents.ui.fragments;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.view.View;
@@ -17,7 +16,7 @@ import com.utilsframework.android.adapters.ViewArrayAdapter;
 import com.utilsframework.android.navdrawer.ActionBarTitleProvider;
 import com.utilsframework.android.social.SocialUtils;
 import com.utilsframework.android.threading.OnFinish;
-import com.utilsframework.android.view.GuiUtilities;
+import com.utilsframework.android.view.EditTextUtils;
 import com.utilsframework.android.view.UiMessages;
 import com.vk.sdk.VKSdk;
 import com.vkandroid.VkUser;
@@ -82,7 +81,7 @@ public class CommentsFragment extends AbstractNavigationListFragment<Comment> im
 
         if (getArguments().getBoolean(REQUEST_ADD_COMMENT_FOCUS)) {
             getArguments().putBoolean(REQUEST_ADD_COMMENT_FOCUS, false);
-            GuiUtilities.showKeyboard(commentMessage);
+            EditTextUtils.showKeyboard(commentMessage);
         }
     }
 

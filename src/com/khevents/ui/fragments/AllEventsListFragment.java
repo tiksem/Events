@@ -14,6 +14,7 @@ import com.utils.framework.collections.NavigationList;
 import com.utilsframework.android.AndroidUtilities;
 import com.utilsframework.android.fab.FloatingActionButton;
 import com.utilsframework.android.view.DatePickerButton;
+import com.utilsframework.android.view.KeyboardIsShownListener;
 
 /**
  * Created by CM on 6/20/2015.
@@ -23,6 +24,7 @@ public class AllEventsListFragment extends EventsListFragment {
     private CheckBox dateFilterCheckbox;
     private DatePickerButton datePickerButton;
     private boolean datePickerButtonCheckedListenerCalled = false;
+    private KeyboardIsShownListener keyboardIsShownListener;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -41,7 +43,7 @@ public class AllEventsListFragment extends EventsListFragment {
                 if (!datePickerButtonCheckedListenerCalled) {
                     datePickerButton.performClick();
                     datePickerButtonCheckedListenerCalled = true;
-                } else if(datePickerButton.getVisibility() == View.VISIBLE) {
+                } else if (datePickerButton.getVisibility() == View.VISIBLE) {
                     updateNavigationListWithLastFilter();
                 }
 
@@ -67,6 +69,19 @@ public class AllEventsListFragment extends EventsListFragment {
                         CreateEventActivity.class, CREATE_EVENT);
             }
         });
+
+        keyboardIsShownListener = new KeyboardIsShownListener(getActivity()) {
+            @Override
+            protected void onKeyboardStateChanged(boolean isShown) {
+                floatingActionButton.setVisibility(isShown ? View.INVISIBLE : View.VISIBLE);
+            }
+        };
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        keyboardIsShownListener.destroy();
     }
 
     @Override
