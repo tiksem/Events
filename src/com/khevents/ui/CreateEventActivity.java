@@ -4,8 +4,6 @@ import android.app.ProgressDialog;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -94,14 +92,20 @@ public class CreateEventActivity extends VkActivity {
 
     private void addTag() {
         String name = addTagEditText.getText().toString();
-        if (!name.isEmpty()) {
-            View tag = createTag(name);
-            tagsLayout.addView(tag);
-            addTagEditText.setText("");
-            EditTextUtils.hideKeyboard(addTagEditText);
-        } else {
-            UiMessages.error(this, R.string.enter_tag_name);
+        if (name.isEmpty()) {
+            Toasts.error(this, R.string.enter_tag_name);
+            return;
         }
+
+        if (getTags().contains(name)) {
+            Toasts.error(this, R.string.tag_already_added, name);
+            return;
+        }
+
+        View tag = createTag(name);
+        tagsLayout.addView(tag);
+        addTagEditText.setText("");
+        EditTextUtils.hideKeyboard(addTagEditText);
     }
 
     private void setupTags() {
@@ -229,7 +233,7 @@ public class CreateEventActivity extends VkActivity {
             @Override
             public void onComplete(int id, IOException error) {
                 if (error == null) {
-                    UiMessages.message(name.getContext(), R.string.event_created);
+                    Toasts.message(name.getContext(), R.string.event_created);
                     setResult(RESULT_OK);
                     finish();
                 } else {

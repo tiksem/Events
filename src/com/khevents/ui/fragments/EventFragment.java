@@ -22,12 +22,11 @@ import com.utilsframework.android.time.TimeUtils;
 import com.utilsframework.android.view.Alerts;
 import com.utilsframework.android.view.GuiUtilities;
 import com.utilsframework.android.view.OnYes;
-import com.utilsframework.android.view.UiMessages;
+import com.utilsframework.android.view.Toasts;
 import com.vk.sdk.VKSdk;
 import com.vkandroid.VkUser;
 
 import java.io.IOException;
-import java.util.Collections;
 import java.util.List;
 
 /**
@@ -183,7 +182,7 @@ public class EventFragment extends AbstractPageLoadingFragment<VkUser> implement
                     @Override
                     public void onFinish(IOException e) {
                         if (e == null) {
-                            UiMessages.message(getActivity(), R.string.event_canceled);
+                            Toasts.message(getActivity(), R.string.event_canceled);
                             EventsListFragment eventsFragment = (EventsListFragment)
                                     getNavigationDrawerActivity().getLatestBackStackFragment();
                             Fragments.executeWhenViewCreated(eventsFragment, new GuiUtilities.OnViewCreated() {
@@ -194,7 +193,7 @@ public class EventFragment extends AbstractPageLoadingFragment<VkUser> implement
                             });
                             getActivity().onBackPressed();
                         } else {
-                            UiMessages.error(getActivity(), R.string.no_internet_connection);
+                            Toasts.error(getActivity(), R.string.no_internet_connection);
                         }
 
                         progressDialog.dismiss();
@@ -216,7 +215,7 @@ public class EventFragment extends AbstractPageLoadingFragment<VkUser> implement
                             event.isSubscribed = !event.isSubscribed;
                             int text = getSubscribeButtonText();
                             if (text == R.string.i_will_not_go) {
-                                UiMessages.message(getActivity(), R.string.subscribe_message);
+                                Toasts.message(getActivity(), R.string.subscribe_message);
                             }
 
                             subscribeButton.setText(text);

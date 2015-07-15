@@ -1,6 +1,5 @@
 package com.khevents.ui;
 
-import android.app.Activity;
 import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.view.View;
@@ -9,10 +8,9 @@ import com.khevents.R;
 import com.khevents.gcm.GCM;
 import com.khevents.vk.VkManager;
 import com.utilsframework.android.AndroidUtilities;
-import com.utilsframework.android.threading.AsyncOperationCallback;
 import com.utilsframework.android.threading.Threading;
 import com.utilsframework.android.view.Alerts;
-import com.utilsframework.android.view.UiMessages;
+import com.utilsframework.android.view.Toasts;
 import com.vk.sdk.VKSdk;
 import com.vkandroid.VkActivity;
 import com.vkandroid.VkUser;
@@ -61,7 +59,7 @@ public class WelcomeActivity extends VkActivity {
                 if (vkUser != null) {
                     onVkUserReached(vkUser);
                 } else {
-                    UiMessages.error(WelcomeActivity.this, R.string.no_internet_connection);
+                    Toasts.error(WelcomeActivity.this, R.string.no_internet_connection);
                 }
                 progressDialog.dismiss();
             }

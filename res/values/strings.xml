@@ -46,4 +46,5 @@
     <string name="enter_tag_name">Enter tag name</string>
     <string name="log_out">Log out</string>
     <string name="create_event_back_confirm">Are you sure you want to cancel the event creation?</string>
+    <string name="tag_already_added">Tag %s is already selected</string>
 </resources>
