@@ -7,6 +7,7 @@ import com.utilsframework.android.AndroidUtilities;
 import com.utilsframework.android.network.AndroidNetwork;
 import com.utilsframework.android.network.NetworkStateReceiver;
 import com.utilsframework.android.threading.OnFinish;
+import com.vk.sdk.VKSdk;
 
 import java.io.IOException;
 
@@ -14,16 +15,17 @@ import java.io.IOException;
  * Created by CM on 7/13/2015.
  */
 public class MyInstanceIDListenerService extends InstanceIDListenerService {
-    private void obtainNewToken() {
+    private void obtainNewToken(String oldDeviceToken) {
         GCM.obtainNewToken(this, new GCM.OnNewTokenObtainFinished() {
             @Override
             public void onFinished(String token, IOException e) {
-                EventsApp.getInstance().getRequestManager().loginGCMToken(token, null,
+                EventsApp.getInstance().getRequestManager().loginGCMToken(token, oldDeviceToken,
+                        VKSdk.getAccessToken().accessToken,
                         new OnFinish<IOException>() {
                             @Override
                             public void onFinish(IOException e) {
                                 if (e == null) {
-                                    saveTokenToSharedPreferences();
+                                    saveTokenToSharedPreferences(token);
                                 } else {
                                     e.printStackTrace();
                                 }
@@ -33,15 +35,15 @@ public class MyInstanceIDListenerService extends InstanceIDListenerService {
         });
     }
 
-    private void saveTokenToSharedPreferences() {
-
+    private void saveTokenToSharedPreferences(String token) {
+        GCM.saveTokenToSharedPreferences(this, token);
     }
 
     @Override
     public void onCreate() {
-        String token = null;//GCM.getTokenFromSharedPreferences(this);
+        String token = GCM.getTokenFromSharedPreferences(this);
         if (token == null) {
-            obtainNewToken();
+            obtainNewToken(null);
         }
         super.onCreate();
     }
@@ -49,6 +51,6 @@ public class MyInstanceIDListenerService extends InstanceIDListenerService {
     @Override
     public void onTokenRefresh() {
         super.onTokenRefresh();
-        obtainNewToken();
+        obtainNewToken(GCM.getTokenFromSharedPreferences(this));
     }
 }

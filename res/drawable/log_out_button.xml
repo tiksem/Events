@@ -1,11 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ripple xmlns:android="http://schemas.android.com/apk/res/android"
-        android:color="@color/contrastColorDark"
-        >
-
-    <item>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:state_pressed="false">
         <shape>
             <solid android:color="@color/contrastColor" />
         </shape>
     </item>
-</ripple>
+
+    <item android:state_pressed="true">
+        <shape>
+            <solid android:color="@color/contrastColorDark" />
+        </shape>
+    </item>
+</selector>

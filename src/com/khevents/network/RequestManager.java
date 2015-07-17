@@ -117,18 +117,12 @@ public class RequestManager implements IOErrorListenersSet {
     }
 
     public void subscribe(long eventId, String token, OnFinish<IOException> onFinish) {
-        Threading.runOnBackground(new ThrowingRunnable<IOException>() {
-            @Override
-            public void run() throws IOException {
-                String response = requestExecutor.executeRequest(rootUrl + "subscribe", new HashMap<String, Object>() {
-                    {
-                        put("token", token);
-                        put("id", eventId);
-                    }
-                });
-                Json.checkError(response);
+        executeRequestCheckForErrors("subscribe", new HashMap<String, Object>() {
+            {
+                put("token", token);
+                put("id", eventId);
             }
-        }, onFinish, IOException.class);
+        }, onFinish);
     }
 
     public void cancelEvent(long id, String accessToken) throws IOException {
@@ -194,8 +188,18 @@ public class RequestManager implements IOErrorListenersSet {
         return new TagsSuggestionsProvider(rootUrl, ignoreTagsProvider, requestExecutor);
     }
 
-    public void loginGCMToken(String deviceToken, String vkToken, OnFinish<IOException> onFinish) {
-        String url = "getNotification?id=" + deviceToken;
-        executeRequestCheckForErrors(url, null, onFinish);
+    public void loginGCMToken(String deviceToken, String oldDeviceToken, String vkToken,
+                              OnFinish<IOException> onFinish) {
+        Map<String, Object> args = new HashMap<>();
+        if (oldDeviceToken != null) {
+            args.put("deviceId", oldDeviceToken);
+            args.put("newDeviceId", deviceToken);
+        } else {
+            args.put("deviceId", deviceToken);
+        }
+        args.put("token", vkToken);
+
+        String url = "registerDevice";
+        executeRequestCheckForErrors(url, args, onFinish);
     }
 }

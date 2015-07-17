@@ -39,6 +39,8 @@
                   android:label="@string/app_name">
         </activity>
 
+        <activity android:name="com.vk.sdk.VKOpenAuthActivity" />
+
         <receiver
                 android:name="com.google.android.gms.gcm.GcmReceiver"
                 android:exported="true"
