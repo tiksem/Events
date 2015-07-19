@@ -16,33 +16,15 @@ import java.io.IOException;
  */
 public class MyInstanceIDListenerService extends InstanceIDListenerService {
     private void obtainNewToken(String oldDeviceToken) {
-        GCM.obtainNewToken(this, new GCM.OnNewTokenObtainFinished() {
-            @Override
-            public void onFinished(String token, IOException e) {
-                EventsApp.getInstance().getRequestManager().loginGCMToken(token, oldDeviceToken,
-                        VKSdk.getAccessToken().accessToken,
-                        new OnFinish<IOException>() {
-                            @Override
-                            public void onFinish(IOException e) {
-                                if (e == null) {
-                                    saveTokenToSharedPreferences(token);
-                                } else {
-                                    e.printStackTrace();
-                                }
-                            }
-                        });
-            }
-        });
-    }
-
-    private void saveTokenToSharedPreferences(String token) {
-        GCM.saveTokenToSharedPreferences(this, token);
+        GCM.obtainAndLoginNewToken(this, oldDeviceToken);
     }
 
     @Override
     public void onCreate() {
         String token = GCM.getTokenFromSharedPreferences(this);
-        obtainNewToken(null);
+        if (token == null) {
+            obtainNewToken(null);
+        }
         super.onCreate();
     }
 

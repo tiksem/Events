@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import com.khevents.EventsApp;
 import com.khevents.R;
+import com.khevents.gcm.GCM;
 import com.khevents.ui.fragments.AllEventsListFragment;
 import com.khevents.ui.fragments.CreatedUserEventsListFragment;
 import com.khevents.ui.fragments.SubscribedUserEventsListFragment;
@@ -141,11 +142,15 @@ public class MainActivity extends NavigationDrawerActivity {
         header.findViewById(R.id.log_out).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                VkApiUtils.logout(MainActivity.this);
-                finish();
-                AndroidUtilities.startActivity(MainActivity.this, WelcomeActivity.class);
+                logout();
             }
         });
+    }
+
+    private void logout() {
+        VkApiUtils.logout(MainActivity.this);
+        finish();
+        AndroidUtilities.startActivity(MainActivity.this, WelcomeActivity.class);
     }
 
     @Override
