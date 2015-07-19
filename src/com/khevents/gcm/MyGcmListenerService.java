@@ -8,10 +8,14 @@ import android.util.Log;
 import android.widget.Toast;
 import com.google.android.gms.gcm.GcmListenerService;
 import com.jsonutils.Json;
+import com.khevents.EventsApp;
 import com.khevents.R;
+import com.khevents.data.Comment;
 import com.khevents.data.GCMData;
 import com.utilsframework.android.bitmap.BitmapUtilities;
 import com.utilsframework.android.view.Notifications;
+import com.vkandroid.VkApiUtils;
+import com.vkandroid.VkUser;
 
 import java.io.IOException;
 
@@ -19,11 +23,18 @@ import java.io.IOException;
  * Created by CM on 7/13/2015.
  */
 public class MyGcmListenerService extends GcmListenerService {
-    private Notification.Builder createNotification(GCMData data) {
+    private void setupCommentNotification(Comment comment, Notification.Builder builder) throws IOException {
+        VkUser vkUser = EventsApp.getInstance().getRequestManager().getVkUserById(comment.userId);
+        builder.setLargeIcon(BitmapUtilities.getBitmapFromURL(vkUser.avatar));
+        builder.setContentTitle(vkUser.name + " " + vkUser.lastName);
+        builder.setContentText(comment.text);
+    }
+
+    private Notification.Builder createNotification(GCMData data) throws IOException {
         Notification.Builder builder = new Notification.Builder(this);
-        builder.setLargeIcon(BitmapUtilities.getBitmapFromURL(data.icon));
-        builder.setContentText(data.message);
-        builder.setContentTitle(data.title);
+        if (data.comment != null) {
+            setupCommentNotification(data.comment, builder);
+        }
         builder.setSmallIcon(R.drawable.add_icon);
         return builder;
     }
@@ -43,14 +54,18 @@ public class MyGcmListenerService extends GcmListenerService {
             return;
         }
 
-        Notification.Builder notification = createNotification(data);
+        try {
+            Notification.Builder notification = createNotification(data);
 
-        new Handler(getMainLooper()).post(new Runnable() {
-            @Override
-            public void run() {
-                postNotification(notification);
-            }
-        });
+            new Handler(getMainLooper()).post(new Runnable() {
+                @Override
+                public void run() {
+                    postNotification(notification);
+                }
+            });
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     private void postNotification(Notification.Builder builder) {
