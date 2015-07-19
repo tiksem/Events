@@ -85,6 +85,13 @@
                             android:layout_height="wrap_content"/>
                 </FrameLayout>
 
+                <CheckBox android:text="@string/share_with_friends"
+                          android:textColor="@color/header"
+                          android:checked="true"
+                          android:id="@+id/share_with_friends"
+                          android:layout_width="wrap_content"
+                          android:layout_height="wrap_content"/>
+
                 <LinearLayout
                         android:orientation="horizontal"
                         android:layout_width="match_parent"

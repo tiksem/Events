@@ -46,4 +46,5 @@
     <string name="log_out">Выйти</string>
     <string name="create_event_back_confirm">Вы уверены, что хотите отменить создание события?</string>
     <string name="tag_already_added">Тег %s уже выбран</string>
+    <string name="share_with_friends">Рассказать друзьям</string>
 </resources>

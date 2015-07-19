@@ -25,6 +25,7 @@ import com.utilsframework.android.resources.StringUtilities;
 import com.utilsframework.android.view.*;
 import com.utilsframework.android.view.flowlayout.FlowLayout;
 import com.vk.sdk.VKSdk;
+import com.vk.sdk.api.*;
 import com.vkandroid.VkActivity;
 
 import java.io.IOException;
@@ -226,6 +227,30 @@ public class CreateEventActivity extends VkActivity {
         executeCreateEventRequest(args);
     }
 
+    private void onEventCreated() {
+        Toasts.message(name.getContext(), R.string.event_created);
+        setResult(RESULT_OK);
+        finish();
+        postToVK();
+    }
+
+    private void postToVK() {
+        VKParameters parameters = new VKParameters();
+        parameters.put("attachments", "https://www.youtube.com/watch?v=lJTzzVsUNAU");
+        VKRequest request = VKApi.wall().post(parameters);
+        request.executeWithListener(new VKRequest.VKRequestListener() {
+            @Override
+            public void onComplete(VKResponse response) {
+                super.onComplete(response);
+            }
+
+            @Override
+            public void onError(VKError error) {
+                super.onError(error);
+            }
+        });
+    }
+
     private void executeCreateEventRequest(EventArgs args) {
         progressDialog = Alerts.showCircleProgressDialog(this, R.string.please_wait);
 
@@ -233,9 +258,7 @@ public class CreateEventActivity extends VkActivity {
             @Override
             public void onComplete(int id, IOException error) {
                 if (error == null) {
-                    Toasts.message(name.getContext(), R.string.event_created);
-                    setResult(RESULT_OK);
-                    finish();
+                    onEventCreated();
                 } else {
                     if (error instanceof RequestException) {
                         RequestException requestException = (RequestException) error;
