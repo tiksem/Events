@@ -4,6 +4,7 @@ import android.app.Notification;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.widget.Toast;
 import com.google.android.gms.gcm.GcmListenerService;
 import com.jsonutils.Json;
@@ -36,6 +37,7 @@ public class MyGcmListenerService extends GcmListenerService {
     public void onMessageReceived(String from, Bundle bundle) {
         super.onMessageReceived(from, bundle);
         String json = bundle.getString("data");
+        Log.i("GCM", "message received: " + json);
         GCMData data = Json.readNoThrow(json, GCMData.class);
         if (data == null) {
             return;

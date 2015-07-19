@@ -73,7 +73,7 @@ public class RequestManager implements IOErrorListenersSet {
 
             @Override
             public void onComplete(Integer id, IOException error) {
-                onFinish.onComplete(id == null ? -1 : id, null);
+                onFinish.onComplete(id == null ? -1 : id, error);
             }
         }, IOException.class);
     }

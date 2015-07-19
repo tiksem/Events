@@ -231,7 +231,7 @@ public class CreateEventActivity extends VkActivity {
         Toasts.message(name.getContext(), R.string.event_created);
         setResult(RESULT_OK);
         finish();
-        postToVK();
+        //postToVK();
     }
 
     private void postToVK() {
