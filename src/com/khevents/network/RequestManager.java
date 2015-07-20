@@ -202,4 +202,10 @@ public class RequestManager implements IOErrorListenersSet {
         String url = "registerDevice";
         executeRequestCheckForErrors(url, args, onFinish);
     }
+
+    public Event getEventById(long eventId) throws IOException {
+        String url = rootUrl + "getEventById?id=" + eventId;
+        String json = requestExecutor.executeRequest(url, null);
+        return Json.read(json, Event.class);
+    }
 }

@@ -7,6 +7,7 @@ import com.utils.framework.io.IOUtilities;
 import com.utils.framework.strings.Strings;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
+import com.utilsframework.android.UiLoopEvent;
 import com.utilsframework.android.resources.LocaleUtils;
 import com.vk.sdk.util.VKUtil;
 import com.vkandroid.VkUser;
@@ -45,6 +46,13 @@ public class EventsApp extends Application {
 
         String[] fingerprints = VKUtil.getCertificateFingerprint(this, this.getPackageName());
         Strings.join(fingerprints, ':');
+
+        new UiLoopEvent(this).run(new Runnable() {
+            @Override
+            public void run() {
+
+            }
+        });
     }
 
     public static EventsApp getInstance() {

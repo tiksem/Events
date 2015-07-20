@@ -1,7 +1,9 @@
 package com.khevents.ui;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -9,12 +11,11 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import com.khevents.EventsApp;
+import com.khevents.Level;
 import com.khevents.R;
+import com.khevents.data.Event;
 import com.khevents.gcm.GCM;
-import com.khevents.ui.fragments.AllEventsListFragment;
-import com.khevents.ui.fragments.CreatedUserEventsListFragment;
-import com.khevents.ui.fragments.SubscribedUserEventsListFragment;
-import com.khevents.ui.fragments.TagsListFragment;
+import com.khevents.ui.fragments.*;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.utilsframework.android.AndroidUtilities;
 import com.utilsframework.android.navdrawer.NavigationDrawerActivity;
@@ -24,9 +25,12 @@ import com.vkandroid.VkApiUtils;
 import com.vkandroid.VkUser;
 
 public class MainActivity extends NavigationDrawerActivity {
+    public static final String COMMENT_NOTIFICATION_EVENT = "COMMENT_NOTIFICATION_EVENT";
 
     public static final int SUBSCRIBED_EVENTS_TAB = 0;
     private static final int CREATED_EVENTS_TAB = 1;
+
+    private static boolean isRunning = false;
 
     /**
      * Called when the activity is first created.
@@ -36,6 +40,15 @@ public class MainActivity extends NavigationDrawerActivity {
         super.onCreate(savedInstanceState);
         VKUIHelper.onCreate(this);
         setupNavigationHeader();
+        isRunning = true;
+
+        Event event = getIntent().getParcelableExtra(COMMENT_NOTIFICATION_EVENT);
+        if (event != null) {
+            performMenuItemSelection(R.id.my_events);
+            selectTab(CREATED_EVENTS_TAB);
+            Fragment fragment = EventFragment.create(event);
+            replaceFragment(fragment, Level.EVENT_PAGE);
+        }
     }
 
     @Override
@@ -53,6 +66,7 @@ public class MainActivity extends NavigationDrawerActivity {
     protected void onDestroy() {
         super.onDestroy();
         VKUIHelper.onDestroy(this);
+        isRunning = false;
     }
 
     @Override
@@ -156,5 +170,9 @@ public class MainActivity extends NavigationDrawerActivity {
     @Override
     protected int getToolbarLayoutId() {
         return R.layout.toolbar;
+    }
+
+    public static boolean isRunning() {
+        return isRunning;
     }
 }

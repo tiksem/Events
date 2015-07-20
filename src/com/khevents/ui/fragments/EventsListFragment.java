@@ -5,6 +5,7 @@ import com.khevents.Level;
 import com.khevents.adapters.EventsAdapter;
 import com.khevents.data.Event;
 import com.khevents.network.RequestManager;
+import com.khevents.ui.UiUtils;
 import com.utilsframework.android.adapters.ViewArrayAdapter;
 
 /**
