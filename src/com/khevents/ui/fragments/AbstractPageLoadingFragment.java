@@ -5,6 +5,7 @@ import android.support.v4.app.Fragment;
 import com.khevents.EventsApp;
 import com.khevents.network.RequestManager;
 import com.utilsframework.android.fragments.PageLoadingFragment;
+import com.utilsframework.android.navdrawer.NavigationActivityInterface;
 import com.utilsframework.android.navdrawer.NavigationDrawerActivity;
 
 import java.io.IOException;
@@ -29,11 +30,15 @@ public abstract class AbstractPageLoadingFragment<Data> extends PageLoadingFragm
         super(IOException.class);
     }
 
+    protected NavigationActivityInterface getNavigationActivityInterface() {
+        return (NavigationActivityInterface) getActivity();
+    }
+
     protected NavigationDrawerActivity getNavigationDrawerActivity() {
         return (NavigationDrawerActivity) getActivity();
     }
 
     public void replaceFragment(Fragment newFragment, int navigationLevel) {
-        getNavigationDrawerActivity().replaceFragment(newFragment, navigationLevel);
+        getNavigationActivityInterface().replaceFragment(newFragment, navigationLevel);
     }
 }

@@ -1,12 +1,11 @@
 package com.khevents.gcm;
 
 import android.app.Notification;
+import android.app.PendingIntent;
 import android.content.Intent;
-import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
-import android.widget.Toast;
 import com.google.android.gms.gcm.GcmListenerService;
 import com.jsonutils.Json;
 import com.khevents.EventsApp;
@@ -17,10 +16,10 @@ import com.khevents.data.GCMData;
 import com.khevents.network.RequestManager;
 import com.khevents.ui.MainActivity;
 import com.khevents.ui.fragments.EventFragment;
+import com.utils.framework.threading.Threads;
 import com.utilsframework.android.bitmap.BitmapUtilities;
 import com.utilsframework.android.fragments.OneFragmentActivity;
 import com.utilsframework.android.view.Notifications;
-import com.vkandroid.VkApiUtils;
 import com.vkandroid.VkUser;
 
 import java.io.IOException;
@@ -29,6 +28,9 @@ import java.io.IOException;
  * Created by CM on 7/13/2015.
  */
 public class MyGcmListenerService extends GcmListenerService {
+
+    public static final String NOTIFICATION_ACTION = "com.khevents.Notification";
+
     private void setupCommentNotification(Comment comment, Notification.Builder builder) throws IOException {
         RequestManager requestManager = EventsApp.getInstance().getRequestManager();
 
@@ -38,16 +40,8 @@ public class MyGcmListenerService extends GcmListenerService {
         builder.setContentText(comment.text);
 
         Event event = requestManager.getEventById(comment.eventId);
-        Intent intent;
-        if (MainActivity.isRunning()) {
-            Bundle args = new Bundle();
-            args.putParcelable(EventFragment.EVENT, event);
-            intent = OneFragmentActivity.getStartIntent(this, EventFragment.class, args, R.layout.toolbar);
-        } else {
-            intent = new Intent(this, MainActivity.class);
-            intent.putExtra(MainActivity.COMMENT_NOTIFICATION_EVENT, event);
-        }
-        Notifications.setIntent(this, builder, intent);
+        Intent intent = new Intent(NOTIFICATION_ACTION).putExtra(EventFragment.EVENT, event);
+        builder.setContentIntent(PendingIntent.getBroadcast(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT));
     }
 
     private Notification.Builder createNotification(GCMData data) throws IOException {

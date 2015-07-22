@@ -71,5 +71,11 @@
             </intent-filter>
         </service>
 
+        <receiver android:exported="false" android:name=".gcm.NotificationBroadCastReceiver" >
+            <intent-filter>
+                <action android:name="com.khevents.Notification" />
+            </intent-filter>
+        </receiver>
+        
     </application>
 </manifest>

@@ -6,6 +6,7 @@ import android.view.View;
 import com.khevents.EventsApp;
 import com.khevents.R;
 import com.khevents.gcm.GCM;
+import com.khevents.vk.VkInitManager;
 import com.khevents.vk.VkManager;
 import com.utilsframework.android.AndroidUtilities;
 import com.utilsframework.android.threading.Threading;
@@ -21,12 +22,20 @@ import java.io.IOException;
  * Created by CM on 7/1/2015.
  */
 public class WelcomeActivity extends VkActivity {
+    private VkInitManager vkInitManager = new VkInitManager(this) {
+        @Override
+        protected void onVkUserReached(VkUser vkUser) {
+            super.onVkUserReached(vkUser);
+            startMainActivity();
+        }
+    };
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.welcome);
 
-        initVk();
+        vkInitManager.execute(true);
 
         findViewById(R.id.login).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -34,47 +43,6 @@ public class WelcomeActivity extends VkActivity {
                 loginVK();
             }
         });
-    }
-
-    private void initVk() {
-        VkManager.initialize(this, R.string.vk_login_error,
-                new VkManager.OnAccessTokenGot() {
-                    @Override
-                    public void onAccessToken() {
-                        onAccessTokenGot();
-                    }
-                });
-    }
-
-    public void onAccessTokenGot() {
-        ProgressDialog progressDialog = Alerts.showCircleProgressDialog(this, R.string.please_wait);
-        Threading.executeAsyncTask(new Threading.Task<IOException, VkUser>() {
-            @Override
-            public VkUser runOnBackground() throws IOException {
-                return getCurrentVkUser();
-            }
-
-            @Override
-            public void onComplete(VkUser vkUser, IOException error) {
-                if (vkUser != null) {
-                    onVkUserReached(vkUser);
-                } else {
-                    Toasts.error(WelcomeActivity.this, R.string.no_internet_connection);
-                }
-                progressDialog.dismiss();
-            }
-        }, IOException.class);
-    }
-
-    public void onVkUserReached(VkUser vkUser) {
-        EventsApp.getInstance().initVkUser(vkUser);
-        GCM.initServices(this);
-        startMainActivity();
-    }
-
-    private VkUser getCurrentVkUser() throws IOException {
-        return EventsApp.getInstance().getRequestManager().getVkUserById(
-                Long.valueOf(VKSdk.getAccessToken().userId));
     }
 
     private void loginVK() {

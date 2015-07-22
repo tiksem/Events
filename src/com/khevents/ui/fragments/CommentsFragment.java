@@ -106,7 +106,7 @@ public class CommentsFragment extends AbstractNavigationListFragment<Comment> im
         getElements().set(0, comment);
         getAdapter().notifyDataSetChanged();
         commentMessage.setText("");
-        EventFragment eventFragment = (EventFragment) getNavigationActivity().getLatestBackStackFragment();
+        EventFragment eventFragment = (EventFragment) getNavigationActivityInterface().getLatestBackStackFragment();
         eventFragment.addTopComment(comment);
     }
 

@@ -2,15 +2,20 @@ package com.khevents.ui.fragments;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.os.Bundle;
+import android.support.annotation.Nullable;
+import android.support.v4.app.FragmentActivity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.*;
+import com.khevents.EventsApp;
 import com.khevents.Level;
 import com.khevents.R;
 import com.khevents.data.Comment;
 import com.khevents.data.Event;
 import com.khevents.network.RequestManager;
 import com.khevents.ui.UiUtils;
+import com.khevents.vk.VkInitManager;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.utils.framework.CollectionUtils;
 import com.utilsframework.android.fragments.Fragments;
@@ -54,6 +59,21 @@ public class EventFragment extends AbstractPageLoadingFragment<VkUser> implement
     @Override
     protected int getContentLayoutId() {
         return R.layout.event_page;
+    }
+
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        if (EventsApp.getInstance().getCurrentUser() != null) {
+            super.onViewCreated(view, savedInstanceState);
+        } else {
+            new VkInitManager(getActivity()) {
+                @Override
+                protected void onVkUserReached(VkUser vkUser) {
+                    super.onVkUserReached(vkUser);
+                    EventFragment.super.onViewCreated(view, savedInstanceState);
+                }
+            }.execute(false);
+        }
     }
 
     @Override
@@ -181,19 +201,13 @@ public class EventFragment extends AbstractPageLoadingFragment<VkUser> implement
                 new OnFinish<IOException>() {
                     @Override
                     public void onFinish(IOException e) {
+                        FragmentActivity activity = getActivity();
                         if (e == null) {
-                            Toasts.message(getActivity(), R.string.event_canceled);
-                            EventsListFragment eventsFragment = (EventsListFragment)
-                                    getNavigationDrawerActivity().getLatestBackStackFragment();
-                            Fragments.executeWhenViewCreated(eventsFragment, new GuiUtilities.OnViewCreated() {
-                                @Override
-                                public void onViewCreated(View view) {
-                                    eventsFragment.updateNavigationListWithLastFilter();
-                                }
-                            });
-                            getActivity().onBackPressed();
+                            Toasts.message(activity, R.string.event_canceled);
+                            EventsListFragment.update(activity);
+                            activity.onBackPressed();
                         } else {
-                            Toasts.error(getActivity(), R.string.no_internet_connection);
+                            Toasts.error(activity, R.string.no_internet_connection);
                         }
 
                         progressDialog.dismiss();

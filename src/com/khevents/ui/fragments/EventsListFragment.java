@@ -22,4 +22,9 @@ public abstract class EventsListFragment extends AbstractNavigationListFragment<
         Fragment fragment = EventFragment.create(event);
         replaceFragment(fragment, Level.EVENT_PAGE);
     }
+
+    @Override
+    protected boolean useUpdateBroadcastReceiver() {
+        return true;
+    }
 }
