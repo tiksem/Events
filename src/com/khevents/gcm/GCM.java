@@ -80,9 +80,4 @@ public class GCM {
         SharedPreferences sharedPreferences = getSharedPreferences(context);
         return sharedPreferences.getString(TOKEN_KEY, null);
     }
-
-    public static void initServices(Context context) {
-        Intent intent = new Intent(context, MyInstanceIDListenerService.class);
-        context.startService(intent);
-    }
 }

@@ -41,7 +41,7 @@ public class VkManager {
         public void onAccessToken();
     }
 
-    public static void initialize(Context context, int errorMessageId, OnAccessTokenGot onAccessTokenGot) {
+    public static boolean initialize(Context context, int errorMessageId, OnAccessTokenGot onAccessTokenGot) {
         VKAccessToken accessToken = VkApiUtils.getAccessTokenFromSharedPreferences(context);
 
         VkApiUtils.initialize(context, APP_ID, SCOPES, new VkApiUtils.AuthorizationListener() {
@@ -55,6 +55,8 @@ public class VkManager {
                 Alerts.showOkButtonAlert(context, context.getString(errorMessageId));
             }
         }, accessToken);
+
+        return accessToken != null;
     }
 
     public static void authorize() {

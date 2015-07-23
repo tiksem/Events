@@ -189,7 +189,7 @@ public class MainActivity extends NavigationDrawerActivity {
     }
 
     private void logout() {
-        VkApiUtils.logout(MainActivity.this);
+        EventsApp.getInstance().logout();
         finish();
         AndroidUtilities.startActivity(MainActivity.this, WelcomeActivity.class);
     }

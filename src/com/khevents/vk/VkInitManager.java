@@ -20,6 +20,7 @@ public class VkInitManager {
     private Context context;
     private boolean showProgressDialog = true;
     private ProgressDialog progressDialog;
+    private boolean updateDeviceVkUser = false;
 
     public VkInitManager(Context context) {
         this.context = context;
@@ -27,7 +28,7 @@ public class VkInitManager {
 
     public void execute(boolean showProgressDialog) {
         this.showProgressDialog = showProgressDialog;
-        VkManager.initialize(context, R.string.vk_login_error,
+        updateDeviceVkUser = !VkManager.initialize(context, R.string.vk_login_error,
                 new VkManager.OnAccessTokenGot() {
                     @Override
                     public void onAccessToken() {
@@ -62,8 +63,17 @@ public class VkInitManager {
     }
 
     protected void onVkUserReached(VkUser vkUser) {
-        EventsApp.getInstance().initVkUser(vkUser);
-        GCM.initServices(context);
+        EventsApp eventsApp = EventsApp.getInstance();
+        eventsApp.initVkUser(vkUser);
+        String token = GCM.getTokenFromSharedPreferences(context);
+        if (token == null) {
+            GCM.obtainAndLoginNewToken(context, null);
+            return;
+        }
+
+        if (updateDeviceVkUser) {
+            GCM.obtainAndLoginNewToken(context, token);
+        }
     }
 
     private VkUser getCurrentVkUser() throws IOException {

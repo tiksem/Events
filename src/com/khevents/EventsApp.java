@@ -2,6 +2,7 @@ package com.khevents;
 
 import android.app.Application;
 import android.os.Environment;
+import com.khevents.gcm.GCM;
 import com.khevents.network.RequestManager;
 import com.utils.framework.io.IOUtilities;
 import com.utils.framework.strings.Strings;
@@ -10,6 +11,7 @@ import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.utilsframework.android.UiLoopEvent;
 import com.utilsframework.android.resources.LocaleUtils;
 import com.vk.sdk.util.VKUtil;
+import com.vkandroid.VkApiUtils;
 import com.vkandroid.VkUser;
 
 import java.io.IOException;
@@ -61,6 +63,11 @@ public class EventsApp extends Application {
 
     public RequestManager getRequestManager() {
         return requestManager;
+    }
+
+    public void logout() {
+        VkApiUtils.logout(this);
+        currentUser = null;
     }
 
     public void initVkUser(VkUser vkUser) {

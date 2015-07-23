@@ -6,4 +6,5 @@ package com.khevents.data;
 public class GCMData {
     public Comment comment;
     public Long cancelEventId;
+    public SubscribeInfo subscribe;
 }

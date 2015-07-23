@@ -13,6 +13,7 @@ import com.khevents.R;
 import com.khevents.data.Comment;
 import com.khevents.data.Event;
 import com.khevents.data.GCMData;
+import com.khevents.data.SubscribeInfo;
 import com.khevents.network.RequestManager;
 import com.khevents.ui.MainActivity;
 import com.utilsframework.android.bitmap.BitmapUtilities;
@@ -57,9 +58,21 @@ public class MyGcmListenerService extends GcmListenerService {
             setupCommentNotification(data.comment, builder);
         } else if(data.cancelEventId != null) {
             setupCancelEventNotification(data.cancelEventId, builder);
+        } else if(data.subscribe != null) {
+            setupSubscribeEventNotification(data.subscribe, builder);
         }
         builder.setSmallIcon(R.drawable.add_icon);
         return builder;
+    }
+
+    private void setupSubscribeEventNotification(SubscribeInfo subscribe, Notification.Builder builder)
+            throws IOException {
+        RequestManager requestManager = EventsApp.getInstance().getRequestManager();
+
+        Event event = requestManager.getEventById(subscribe.eventId);
+        setupVkUserNotification(subscribe.userId, builder, requestManager);
+        builder.setContentText(getString(R.string.subscribe_event_notification, event.name));
+        setupEventNotificationIntent(builder, event);
     }
 
     private void setupCancelEventNotification(long cancelEventId, Notification.Builder builder) throws IOException {

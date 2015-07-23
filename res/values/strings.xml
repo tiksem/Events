@@ -50,4 +50,5 @@
     <string name="share_with_friends">Share with friends</string>
     <string name="cancel_event_notification" formatted="false">canceled event %s</string>
     <string name="event_canceled_page_text">The event is canceled</string>
+    <string name="subscribe_event_notification" formatted="false">subscribed for event %s</string>
 </resources>

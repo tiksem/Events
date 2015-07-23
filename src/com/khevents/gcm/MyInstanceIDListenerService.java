@@ -20,15 +20,6 @@ public class MyInstanceIDListenerService extends InstanceIDListenerService {
     }
 
     @Override
-    public void onCreate() {
-        String token = GCM.getTokenFromSharedPreferences(this);
-        if (token == null) {
-            obtainNewToken(null);
-        }
-        super.onCreate();
-    }
-
-    @Override
     public void onTokenRefresh() {
         super.onTokenRefresh();
         obtainNewToken(GCM.getTokenFromSharedPreferences(this));
