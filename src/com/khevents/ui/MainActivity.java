@@ -16,6 +16,7 @@ import com.khevents.R;
 import com.khevents.data.Event;
 import com.khevents.gcm.GCM;
 import com.khevents.ui.fragments.*;
+import com.khevents.vk.VkInitManager;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.utilsframework.android.AndroidUtilities;
 import com.utilsframework.android.navdrawer.NavigationDrawerActivity;
@@ -39,8 +40,23 @@ public class MainActivity extends NavigationDrawerActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         VKUIHelper.onCreate(this);
-        setupNavigationHeader();
         isRunning = true;
+
+        if (EventsApp.getInstance().getCurrentUser() != null) {
+            onVkInitFinished();
+        } else {
+            new VkInitManager(this) {
+                @Override
+                protected void onVkUserReached(VkUser vkUser) {
+                    super.onVkUserReached(vkUser);
+                    onVkInitFinished();
+                }
+            }.execute(false);
+        }
+    }
+
+    private void onVkInitFinished() {
+        setupNavigationHeader();
 
         Event event = getIntent().getParcelableExtra(COMMENT_NOTIFICATION_EVENT);
         if (event != null) {

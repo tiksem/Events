@@ -1,5 +1,6 @@
 package com.khevents.ui;
 
+import android.app.PendingIntent;
 import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.view.View;
@@ -35,7 +36,11 @@ public class WelcomeActivity extends VkActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.welcome);
 
-        vkInitManager.execute(true);
+        if (EventsApp.getInstance().getCurrentUser() == null) {
+            vkInitManager.execute(true);
+        } else {
+            startMainActivity();
+        }
 
         findViewById(R.id.login).setOnClickListener(new View.OnClickListener() {
             @Override

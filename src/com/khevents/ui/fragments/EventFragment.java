@@ -62,21 +62,6 @@ public class EventFragment extends AbstractPageLoadingFragment<VkUser> implement
     }
 
     @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        if (EventsApp.getInstance().getCurrentUser() != null) {
-            super.onViewCreated(view, savedInstanceState);
-        } else {
-            new VkInitManager(getActivity()) {
-                @Override
-                protected void onVkUserReached(VkUser vkUser) {
-                    super.onVkUserReached(vkUser);
-                    EventFragment.super.onViewCreated(view, savedInstanceState);
-                }
-            }.execute(false);
-        }
-    }
-
-    @Override
     protected VkUser loadOnBackground() throws IOException {
         RequestManager requestManager = getRequestManager();
         event.isSubscribed = requestManager.isSubscribed(event.id, VKSdk.getAccessToken().accessToken);

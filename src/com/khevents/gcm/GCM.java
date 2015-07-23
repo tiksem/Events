@@ -84,7 +84,5 @@ public class GCM {
     public static void initServices(Context context) {
         Intent intent = new Intent(context, MyInstanceIDListenerService.class);
         context.startService(intent);
-        intent = new Intent(context, MyGcmListenerService.class);
-        context.startService(intent);
     }
 }
