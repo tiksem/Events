@@ -47,4 +47,6 @@
     <string name="create_event_back_confirm">Вы уверены, что хотите отменить создание события?</string>
     <string name="tag_already_added">Тег %s уже выбран</string>
     <string name="share_with_friends">Рассказать друзьям</string>
+    <string name="cancel_event_notification" formatted="false">отменил событие %s</string>
+    <string name="event_canceled_page_text">Событие отменено</string>
 </resources>

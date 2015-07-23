@@ -19,12 +19,15 @@ public class Event implements Parcelable {
     @JsonIgnore
     public boolean isSubscribed;
 
-    public Event() {
-    }
+    @JsonIgnore
+    public boolean isCanceled;
 
     @Override
     public int describeContents() {
         return 0;
+    }
+
+    public Event() {
     }
 
     @Override
@@ -38,6 +41,7 @@ public class Event implements Parcelable {
         dest.writeInt(this.subscribersCount);
         dest.writeInt(this.date);
         dest.writeByte(isSubscribed ? (byte) 1 : (byte) 0);
+        dest.writeByte(isCanceled ? (byte) 1 : (byte) 0);
     }
 
     protected Event(Parcel in) {
@@ -50,6 +54,7 @@ public class Event implements Parcelable {
         this.subscribersCount = in.readInt();
         this.date = in.readInt();
         this.isSubscribed = in.readByte() != 0;
+        this.isCanceled = in.readByte() != 0;
     }
 
     public static final Creator<Event> CREATOR = new Creator<Event>() {

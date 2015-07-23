@@ -14,4 +14,8 @@ public class VkUser {
     public String name;
     @JsonProperty("last_name")
     public String lastName;
+
+    public String getFullName() {
+        return name + " " + lastName;
+    }
 }

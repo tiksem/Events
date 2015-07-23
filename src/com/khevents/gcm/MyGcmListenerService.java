@@ -15,10 +15,7 @@ import com.khevents.data.Event;
 import com.khevents.data.GCMData;
 import com.khevents.network.RequestManager;
 import com.khevents.ui.MainActivity;
-import com.khevents.ui.fragments.EventFragment;
-import com.utils.framework.threading.Threads;
 import com.utilsframework.android.bitmap.BitmapUtilities;
-import com.utilsframework.android.fragments.OneFragmentActivity;
 import com.utilsframework.android.view.Notifications;
 import com.vkandroid.VkUser;
 
@@ -34,23 +31,45 @@ public class MyGcmListenerService extends GcmListenerService {
     private void setupCommentNotification(Comment comment, Notification.Builder builder) throws IOException {
         RequestManager requestManager = EventsApp.getInstance().getRequestManager();
 
-        VkUser vkUser = requestManager.getVkUserById(comment.userId);
-        builder.setLargeIcon(BitmapUtilities.getBitmapFromURL(vkUser.avatar));
-        builder.setContentTitle(vkUser.name + " " + vkUser.lastName);
+        setupVkUserNotification(comment.userId, builder, requestManager);
         builder.setContentText(comment.text);
 
         Event event = requestManager.getEventById(comment.eventId);
-        Intent intent = new Intent(NOTIFICATION_ACTION).putExtra(EventFragment.EVENT, event);
+        setupEventNotificationIntent(builder, event);
+    }
+
+    private void setupEventNotificationIntent(Notification.Builder builder, Event event) {
+        Intent intent = new Intent(NOTIFICATION_ACTION).putExtra(MainActivity.NOTIFICATION_EVENT, event);
         builder.setContentIntent(PendingIntent.getBroadcast(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT));
+    }
+
+    private VkUser setupVkUserNotification(long userId, Notification.Builder builder, RequestManager requestManager)
+            throws IOException {
+        VkUser vkUser = requestManager.getVkUserById(userId);
+        builder.setLargeIcon(BitmapUtilities.getBitmapFromURL(vkUser.avatar));
+        builder.setContentTitle(vkUser.name + " " + vkUser.lastName);
+        return vkUser;
     }
 
     private Notification.Builder createNotification(GCMData data) throws IOException {
         Notification.Builder builder = new Notification.Builder(this);
         if (data.comment != null) {
             setupCommentNotification(data.comment, builder);
+        } else if(data.cancelEventId != null) {
+            setupCancelEventNotification(data.cancelEventId, builder);
         }
         builder.setSmallIcon(R.drawable.add_icon);
         return builder;
+    }
+
+    private void setupCancelEventNotification(long cancelEventId, Notification.Builder builder) throws IOException {
+        RequestManager requestManager = EventsApp.getInstance().getRequestManager();
+
+        Event event = requestManager.getEventById(cancelEventId);
+        event.isCanceled = true;
+        setupVkUserNotification(event.userId, builder, requestManager);
+        builder.setContentText(getString(R.string.cancel_event_notification, event.name));
+        setupEventNotificationIntent(builder, event);
     }
 
     @Override

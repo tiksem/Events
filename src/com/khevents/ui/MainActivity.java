@@ -24,7 +24,7 @@ import com.vkandroid.VkApiUtils;
 import com.vkandroid.VkUser;
 
 public class MainActivity extends NavigationDrawerActivity {
-    public static final String COMMENT_NOTIFICATION_EVENT = "COMMENT_NOTIFICATION_EVENT";
+    public static final String NOTIFICATION_EVENT = "NOTIFICATION_EVENT";
 
     public static final int SUBSCRIBED_EVENTS_TAB = 0;
     private static final int CREATED_EVENTS_TAB = 1;
@@ -57,14 +57,16 @@ public class MainActivity extends NavigationDrawerActivity {
     @Override
     protected void onPreCreate() {
         super.onPreCreate();
-        commentNotificationEvent = getIntent().getParcelableExtra(COMMENT_NOTIFICATION_EVENT);
+        commentNotificationEvent = getIntent().getParcelableExtra(NOTIFICATION_EVENT);
     }
 
     private void onVkInitFinished() {
         setupNavigationHeader();
 
         if (commentNotificationEvent != null) {
-            selectTab(CREATED_EVENTS_TAB);
+            if (!commentNotificationEvent.isCanceled) {
+                selectTab(CREATED_EVENTS_TAB);
+            }
             FragmentManager fragmentManager = getSupportFragmentManager();
             fragmentManager.executePendingTransactions();
             Fragment fragment = EventFragment.create(commentNotificationEvent);

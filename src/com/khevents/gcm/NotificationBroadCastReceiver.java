@@ -16,7 +16,7 @@ import com.utilsframework.android.fragments.OneFragmentActivity;
 public class NotificationBroadCastReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
-        Event event = intent.getParcelableExtra(EventFragment.EVENT);
+        Event event = intent.getParcelableExtra(MainActivity.NOTIFICATION_EVENT);
         if (event != null) {
             if (MainActivity.isRunning()) {
                 Bundle args = new Bundle();
@@ -24,7 +24,7 @@ public class NotificationBroadCastReceiver extends BroadcastReceiver {
                 intent = OneFragmentActivity.getStartIntent(context, EventFragment.class, args, R.layout.toolbar);
             } else {
                 intent = new Intent(context, MainActivity.class);
-                intent.putExtra(MainActivity.COMMENT_NOTIFICATION_EVENT, event);
+                intent.putExtra(MainActivity.NOTIFICATION_EVENT, event);
             }
         }
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
