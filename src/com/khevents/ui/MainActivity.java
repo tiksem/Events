@@ -1,12 +1,11 @@
 package com.khevents.ui;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -14,7 +13,6 @@ import com.khevents.EventsApp;
 import com.khevents.Level;
 import com.khevents.R;
 import com.khevents.data.Event;
-import com.khevents.gcm.GCM;
 import com.khevents.ui.fragments.*;
 import com.khevents.vk.VkInitManager;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -32,6 +30,7 @@ public class MainActivity extends NavigationDrawerActivity {
     private static final int CREATED_EVENTS_TAB = 1;
 
     private static boolean isRunning = false;
+    private Event commentNotificationEvent;
 
     /**
      * Called when the activity is first created.
@@ -55,14 +54,20 @@ public class MainActivity extends NavigationDrawerActivity {
         }
     }
 
+    @Override
+    protected void onPreCreate() {
+        super.onPreCreate();
+        commentNotificationEvent = getIntent().getParcelableExtra(COMMENT_NOTIFICATION_EVENT);
+    }
+
     private void onVkInitFinished() {
         setupNavigationHeader();
 
-        Event event = getIntent().getParcelableExtra(COMMENT_NOTIFICATION_EVENT);
-        if (event != null) {
-            performMenuItemSelection(R.id.my_events);
+        if (commentNotificationEvent != null) {
             selectTab(CREATED_EVENTS_TAB);
-            Fragment fragment = EventFragment.create(event);
+            FragmentManager fragmentManager = getSupportFragmentManager();
+            fragmentManager.executePendingTransactions();
+            Fragment fragment = EventFragment.create(commentNotificationEvent);
             replaceFragment(fragment, Level.EVENT_PAGE);
         }
     }
@@ -93,6 +98,10 @@ public class MainActivity extends NavigationDrawerActivity {
 
     @Override
     protected int getCurrentSelectedNavigationItemId() {
+        if (commentNotificationEvent != null) {
+            return R.id.my_events;
+        }
+
         return R.id.events;
     }
 
