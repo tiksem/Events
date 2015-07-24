@@ -65,7 +65,7 @@ public class EventFragment extends AbstractPageLoadingFragment<VkUser> implement
     protected VkUser loadOnBackground() throws IOException {
         RequestManager requestManager = getRequestManager();
         event.isSubscribed = requestManager.isSubscribed(event.id, VKSdk.getAccessToken().accessToken);
-        topComments = requestManager.getTopComments(event.id, TOP_COMMENTS_COUNT);
+        topComments = requestManager.getTopComments(event.id, TOP_COMMENTS_COUNT + 1);
         return requestManager.getVkUserById(event.userId);
     }
 
@@ -237,7 +237,8 @@ public class EventFragment extends AbstractPageLoadingFragment<VkUser> implement
 
     protected void setupCommentsList(View content) {
         LinearLayout commentsView = (LinearLayout) content.findViewById(R.id.comments);
-        for (Comment comment : topComments) {
+        for (Comment comment : topComments.size() <= TOP_COMMENTS_COUNT ? topComments :
+                topComments.subList(0, TOP_COMMENTS_COUNT)) {
             View view = UiUtils.createTopCommentLayout(getActivity(), comment);
             view.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,
                     ViewGroup.LayoutParams.WRAP_CONTENT));
@@ -254,6 +255,8 @@ public class EventFragment extends AbstractPageLoadingFragment<VkUser> implement
         TextView viewAllComments = (TextView) commentsView.findViewById(R.id.view_all_comments_text);
         if (topComments.isEmpty()) {
             viewAllComments.setText(R.string.no_comments);
+        } else if(topComments.size() <= TOP_COMMENTS_COUNT) {
+            viewAllComments.setVisibility(View.GONE);
         }
     }
 
@@ -263,7 +266,7 @@ public class EventFragment extends AbstractPageLoadingFragment<VkUser> implement
 
     public void addTopComment(Comment comment) {
         topComments.add(0, comment);
-        if (topComments.size() > TOP_COMMENTS_COUNT) {
+        if (topComments.size() > TOP_COMMENTS_COUNT + 1) {
             CollectionUtils.removeLast(topComments);
         }
     }
