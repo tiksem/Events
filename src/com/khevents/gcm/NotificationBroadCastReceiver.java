@@ -9,6 +9,7 @@ import com.khevents.data.Event;
 import com.khevents.ui.MainActivity;
 import com.khevents.ui.fragments.EventFragment;
 import com.utilsframework.android.fragments.OneFragmentActivity;
+import com.utilsframework.android.sp.SharedPreferencesMap;
 
 /**
  * Created by CM on 7/22/2015.
@@ -29,5 +30,8 @@ public class NotificationBroadCastReceiver extends BroadcastReceiver {
         }
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         context.startActivity(intent);
+
+        new SharedPreferencesMap(context).remove(MyGcmListenerService.NOTIFICATIONS_COUNT +
+                intent.getIntExtra(MyGcmListenerService.ID, MyGcmListenerService.COMMENT_ID));
     }
 }
