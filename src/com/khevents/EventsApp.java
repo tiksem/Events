@@ -31,8 +31,6 @@ public class EventsApp extends Application {
         super.onCreate();
         instance = this;
 
-        LocaleUtils.setLocale(this, new Locale("ru"));
-
         ImageLoaderConfiguration.Builder builder = new ImageLoaderConfiguration.Builder(this);
         builder.memoryCacheSize(2 * 1024 * 1024);
         builder.threadPoolSize(2);
