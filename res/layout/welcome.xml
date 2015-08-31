@@ -21,13 +21,26 @@
     <FrameLayout android:layout_width="match_parent"
                  android:layout_weight="1"
                  android:layout_height="0dp">
-        <Button android:background="@drawable/vk_login_button"
-                android:id="@+id/login"
-                style="?android:attr/borderlessButtonStyle"
-                android:text="@string/vk_login_button"
-                android:layout_gravity="center_horizontal"
-                android:textColor="@color/vk_white"
-                android:layout_width="300dp"
-                android:layout_height="50dp"/>
+        <FrameLayout android:background="@drawable/vk_login_button"
+                      android:id="@+id/login"
+                      android:layout_gravity="center_horizontal|center_vertical"
+                      android:textColor="@color/vk_white"
+                      android:layout_width="300dp"
+                      android:layout_height="50dp" >
+            <ImageView android:layout_width="50dp"
+                       android:scaleType="fitXY"
+                       android:layout_gravity="left"
+                       android:src="@drawable/vk_logo"
+                       android:layout_height="50dp"/>
+            <TextView android:layout_width="wrap_content"
+                      android:paddingLeft="10dp"
+                      android:gravity="center"
+                      android:layout_gravity="center"
+                      android:textColor="@color/vk_white"
+                      android:textSize="15sp"
+                      android:textStyle="bold"
+                      android:text="@string/vk_login_button"
+                      android:layout_height="wrap_content"/>
+        </FrameLayout>
     </FrameLayout>
 </LinearLayout>
