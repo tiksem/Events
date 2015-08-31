@@ -2,6 +2,7 @@ package com.khevents.network;
 
 import com.jsonandroid.JsonAsyncNavigationList;
 import com.khevents.data.Comment;
+import com.utils.framework.KeyProvider;
 import com.utils.framework.network.RequestExecutor;
 
 import java.io.IOException;
@@ -26,5 +27,15 @@ class CommentsNavigationList extends JsonAsyncNavigationList<Comment> {
         List<Comment> comments = super.getElements(url, args, requestExecutor, aClass);
         Requests.updateCommentsUserData(requestExecutor, comments);
         return comments;
+    }
+
+    @Override
+    protected KeyProvider<Object, Comment> getKeyProvider() {
+        return new KeyProvider<Object, Comment>() {
+            @Override
+            public Object getKey(Comment comment) {
+                return comment.date;
+            }
+        };
     }
 }

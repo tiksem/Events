@@ -2,6 +2,7 @@ package com.khevents.network;
 
 import com.jsonandroid.JsonAsyncNavigationList;
 import com.khevents.data.Event;
+import com.utils.framework.KeyProvider;
 import com.utils.framework.network.RequestExecutor;
 
 import java.util.List;
@@ -47,5 +48,15 @@ class EventsNavigationList extends JsonAsyncNavigationList<Event> {
         } else {
             return super.getOffset();
         }
+    }
+
+    @Override
+    protected KeyProvider<Object, Event> getKeyProvider() {
+        return new KeyProvider<Object, Event>() {
+            @Override
+            public Object getKey(Event event) {
+                return event.id;
+            }
+        };
     }
 }
