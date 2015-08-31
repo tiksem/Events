@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import com.utilsframework.android.threading.OnFinish;
 import com.utilsframework.android.threading.Tasks;
 import com.utilsframework.android.view.Alerts;
+import com.utilsframework.android.view.Toasts;
 import com.vk.sdk.VKAccessToken;
 import com.vk.sdk.VKScope;
 import com.vk.sdk.VKSdk;
@@ -52,7 +53,7 @@ public class VkManager {
 
             @Override
             public void onError(VKError authorizationError) {
-                Alerts.showOkButtonAlert(context, context.getString(errorMessageId));
+                Toasts.error(context, errorMessageId);
             }
         }, accessToken);
 
