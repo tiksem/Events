@@ -11,4 +11,7 @@
     <color name="grey">#c1c1c1</color>
     <color name="contrastColor">#ffff4d44</color>
     <color name="contrastColorDark">#ffca3e35</color>
+    <color name="vkLoginButtonColor">#53779e</color>
+    <color name="vkLoginButtonBorder">#ff3b5470</color>
+    <color name="vkLoginButtonRipple">#ff6e9dcc</color>
 </resources>

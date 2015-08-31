@@ -1,10 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+             android:background="@color/colorPrimary"
+              android:orientation="vertical"
+              android:weightSum="2"
               android:layout_width="match_parent"
               android:layout_height="match_parent">
-    <ImageView android:id="@+id/login"
-               android:layout_gravity="center"
-               android:src="@drawable/vk"
-               android:layout_width="100dp"
-               android:layout_height="100dp"/>
-</FrameLayout>
+    <FrameLayout
+            android:layout_weight="1"
+            android:layout_gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            >
+        <ImageView android:id="@+id/logo"
+                   android:layout_gravity="center"
+                   android:src="@drawable/logo"
+                   android:layout_width="150dp"
+                   android:layout_height="150dp"/>
+    </FrameLayout>
+
+    <FrameLayout android:layout_width="match_parent"
+                 android:layout_weight="1"
+                 android:layout_height="0dp">
+        <Button android:background="@drawable/vk_login_button"
+                android:id="@+id/login"
+                style="?android:attr/borderlessButtonStyle"
+                android:text="@string/vk_login_button"
+                android:layout_gravity="center_horizontal"
+                android:textColor="@color/vk_white"
+                android:layout_width="300dp"
+                android:layout_height="50dp"/>
+    </FrameLayout>
+</LinearLayout>
