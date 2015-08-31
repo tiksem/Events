@@ -18,15 +18,28 @@
                    android:layout_height="150dp"/>
     </FrameLayout>
 
-    <FrameLayout android:layout_width="match_parent"
-                 android:layout_weight="1"
-                 android:layout_height="0dp">
+    <RelativeLayout android:layout_gravity="center"
+                    android:layout_width="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:layout_height="0dp">
+        <TextView android:text="@string/welcome"
+                  android:id="@+id/welcome_text"
+                  android:layout_centerHorizontal="true"
+                  android:textColor="@color/vk_white"
+                  android:textSize="20sp"
+                  android:textStyle="bold"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"/>
+
         <FrameLayout android:background="@drawable/vk_login_button"
-                      android:id="@+id/login"
-                      android:layout_gravity="center_horizontal|center_vertical"
-                      android:textColor="@color/vk_white"
-                      android:layout_width="300dp"
-                      android:layout_height="50dp" >
+                     android:layout_marginTop="30dp"
+                     android:id="@+id/login"
+                     android:layout_below="@+id/welcome_text"
+                     android:layout_centerHorizontal="true"
+                     android:textColor="@color/vk_white"
+                     android:layout_width="300dp"
+                     android:layout_height="50dp">
             <ImageView android:layout_width="50dp"
                        android:scaleType="fitXY"
                        android:layout_gravity="left"
@@ -42,5 +55,6 @@
                       android:text="@string/vk_login_button"
                       android:layout_height="wrap_content"/>
         </FrameLayout>
-    </FrameLayout>
+    </RelativeLayout>
+
 </LinearLayout>

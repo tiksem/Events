@@ -50,5 +50,6 @@
     <string name="cancel_event_notification" formatted="false">отменил событие %s</string>
     <string name="event_canceled_page_text">Событие отменено</string>
     <string name="subscribe_event_notification" formatted="false">подписался на событие %s</string>
-    <string name="vk_login_button">Login with vk</string>
+    <string name="vk_login_button">ВОЙТИ ЧЕРЕЗ ВКОНТАКТЕ</string>
+    <string name="welcome">Добро пожаловать в Azazai!</string>
 </resources>

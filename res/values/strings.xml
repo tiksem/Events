@@ -52,4 +52,5 @@
     <string name="event_canceled_page_text">The event is canceled</string>
     <string name="subscribe_event_notification" formatted="false">subscribed for event %s</string>
     <string name="vk_login_button">LOGIN WITH VK</string>
+    <string name="welcome">Welcome to Azazai!</string>
 </resources>
