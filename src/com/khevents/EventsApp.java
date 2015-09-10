@@ -21,6 +21,8 @@ import java.util.Locale;
  * Created by CM on 6/17/2015.
  */
 public class EventsApp extends Application {
+    private static final int MAX_DATABASE_CACHE_SIZE = 100;
+
     private static EventsApp instance;
 
     private RequestManager requestManager;
@@ -39,7 +41,7 @@ public class EventsApp extends Application {
         String ipFile = Environment.getExternalStorageDirectory().getAbsolutePath() + "/EventsApp/ip.txt";
         try {
             String ip = IOUtilities.readStringFromUrl(ipFile);
-            requestManager = new RequestManager(ip + "/api/");
+            requestManager = new RequestManager(this, ip + "/api/", MAX_DATABASE_CACHE_SIZE);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

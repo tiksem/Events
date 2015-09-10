@@ -9,10 +9,12 @@ import com.khevents.data.Event;
 import com.khevents.data.Tag;
 import com.utils.framework.collections.NavigationList;
 import com.utils.framework.io.Network;
+import com.utils.framework.network.RequestExecutorWithCaching;
 import com.utils.framework.suggestions.SuggestionsProvider;
 import com.utilsframework.android.ExecuteTimeLogger;
 import com.utilsframework.android.IOErrorListener;
 import com.utils.framework.network.GetRequestExecutor;
+import com.utilsframework.android.cache.StringSQLiteCache;
 import com.utilsframework.android.network.IOErrorListenersSet;
 import com.utils.framework.network.RequestExecutor;
 import com.utilsframework.android.threading.OnFinish;
@@ -31,7 +33,7 @@ import java.util.*;
 public class RequestManager implements IOErrorListenersSet {
     public static final String TAG = "RequestManager";
 
-    private RequestExecutor requestExecutor = new GetRequestExecutor() {
+    private RequestExecutor networkRequestExecutor = new GetRequestExecutor() {
         @Override
         public String executeRequest(String url, Map<String, Object> args) throws IOException {
             Log.i(TAG, "url = " + Network.getUrl(url, args));
@@ -41,10 +43,14 @@ public class RequestManager implements IOErrorListenersSet {
             return result;
         }
     };
+    private RequestExecutorWithCaching requestExecutor;
+
     private String rootUrl;
 
-    public RequestManager(String rootUrl) {
+    public RequestManager(Context context, String rootUrl, int maxCacheRecords) {
         this.rootUrl = rootUrl;
+        StringSQLiteCache cache = new StringSQLiteCache(context, TAG, maxCacheRecords);
+        requestExecutor = new RequestExecutorWithCaching(networkRequestExecutor, cache);
     }
 
     public NavigationList<Event> getEvents(String query) {
@@ -67,7 +73,7 @@ public class RequestManager implements IOErrorListenersSet {
         Threading.executeAsyncTask(new Threading.Task<IOException, Integer>() {
             @Override
             public Integer runOnBackground() throws IOException {
-                String json = requestExecutor.executeRequest(rootUrl + "createEvent", args.toMap());
+                String json = requestExecutor.executeRequest(rootUrl + "createEvent", args.toMap(), false);
                 return (int) Json.getIdOrThrow(json);
             }
 
@@ -127,7 +133,7 @@ public class RequestManager implements IOErrorListenersSet {
 
     public void cancelEvent(long id, String accessToken) throws IOException {
         String url = rootUrl + "cancelEvent?id=" + id + "&token=" + accessToken;
-        String response = requestExecutor.executeRequest(url, null);
+        String response = requestExecutor.executeRequest(url, null, false);
         Json.checkError(response);
     }
 
@@ -164,7 +170,7 @@ public class RequestManager implements IOErrorListenersSet {
         Threading.runOnBackground(new ThrowingRunnable<IOException>() {
             @Override
             public void run() throws IOException {
-                String json = requestExecutor.executeRequest(rootUrl + url, args);
+                String json = requestExecutor.executeRequest(rootUrl + url, args, false);
                 Json.checkError(json);
             }
         }, onFinish, IOException.class);

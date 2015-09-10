@@ -2,22 +2,18 @@ package com.khevents.ui.fragments;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
-import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentActivity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.*;
-import com.khevents.EventsApp;
 import com.khevents.Level;
 import com.khevents.R;
 import com.khevents.data.Comment;
 import com.khevents.data.Event;
 import com.khevents.network.RequestManager;
 import com.khevents.ui.UiUtils;
-import com.khevents.vk.VkInitManager;
 import com.nostra13.universalimageloader.core.ImageLoader;
-import com.utils.framework.CollectionUtils;
+import com.utils.framework.Lists;
 import com.utilsframework.android.fragments.Fragments;
 import com.utilsframework.android.google.GoogleMaps;
 import com.utilsframework.android.navdrawer.ActionBarTitleProvider;
@@ -25,7 +21,6 @@ import com.utilsframework.android.social.SocialUtils;
 import com.utilsframework.android.threading.OnFinish;
 import com.utilsframework.android.time.TimeUtils;
 import com.utilsframework.android.view.Alerts;
-import com.utilsframework.android.view.GuiUtilities;
 import com.utilsframework.android.view.OnYes;
 import com.utilsframework.android.view.Toasts;
 import com.vk.sdk.VKSdk;
@@ -267,7 +262,7 @@ public class EventFragment extends AbstractPageLoadingFragment<VkUser> implement
     public void addTopComment(Comment comment) {
         topComments.add(0, comment);
         if (topComments.size() > TOP_COMMENTS_COUNT + 1) {
-            CollectionUtils.removeLast(topComments);
+            Lists.removeLast(topComments);
         }
     }
 
