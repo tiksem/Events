@@ -67,15 +67,6 @@ public abstract class AbstractNavigationListFragment<T> extends NavigationListFr
         return R.id.no_connection;
     }
 
-    @Override
-    protected boolean shouldOverrideHandlingErrorBehavior(Throwable e) {
-        if (e instanceof RequestException) {
-            //throw new RuntimeException(e);
-        }
-
-        return false;
-    }
-
     public NavigationActivityInterface getNavigationActivityInterface() {
         return (NavigationActivityInterface) getActivity();
     }

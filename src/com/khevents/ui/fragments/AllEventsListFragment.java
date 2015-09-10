@@ -61,7 +61,7 @@ public class AllEventsListFragment extends EventsListFragment {
         });
 
         FloatingActionButton floatingActionButton = (FloatingActionButton) view.findViewById(R.id.fab);
-        floatingActionButton.attachToListView(listView);
+        floatingActionButton.attachToListView(getListView());
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
