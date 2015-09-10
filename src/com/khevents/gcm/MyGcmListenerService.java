@@ -80,7 +80,7 @@ public class MyGcmListenerService extends GcmListenerService {
             return;
         }
 
-        builder.setSmallIcon(R.drawable.add_icon);
+        builder.setSmallIcon(R.drawable.ic_notification);
         int count = getCount(id) + 1;
         if (count > 1) {
             builder.setNumber(count);
