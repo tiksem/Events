@@ -67,6 +67,11 @@ public abstract class AbstractNavigationListFragment<T> extends NavigationListFr
         return R.id.no_connection;
     }
 
+    @Override
+    protected int getRetryLoadingButtonId() {
+        return R.id.retry;
+    }
+
     public NavigationActivityInterface getNavigationActivityInterface() {
         return (NavigationActivityInterface) getActivity();
     }

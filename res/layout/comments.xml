@@ -8,7 +8,7 @@
             android:layout_height="0dp"
             android:layout_weight="1"
             >
-        <include layout="@layout/no_connection"></include>
+        <include layout="@layout/no_connection" />
 
         <ListView android:id="@+id/list"
                   android:dividerHeight="0dp"

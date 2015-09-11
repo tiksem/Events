@@ -8,6 +8,7 @@ import com.khevents.data.Comment;
 import com.khevents.data.Event;
 import com.khevents.data.Tag;
 import com.utils.framework.collections.NavigationList;
+import com.utils.framework.collections.cache.EmptyCache;
 import com.utils.framework.io.Network;
 import com.utils.framework.network.RequestExecutorWithCaching;
 import com.utils.framework.suggestions.SuggestionsProvider;
@@ -49,7 +50,8 @@ public class RequestManager implements IOErrorListenersSet {
 
     public RequestManager(Context context, String rootUrl, int maxCacheRecords) {
         this.rootUrl = rootUrl;
-        StringSQLiteCache cache = new StringSQLiteCache(context, TAG, maxCacheRecords);
+        //StringSQLiteCache cache = new StringSQLiteCache(context, TAG, maxCacheRecords);
+        EmptyCache<String, String> cache = new EmptyCache<>();
         requestExecutor = new RequestExecutorWithCaching(networkRequestExecutor, cache);
     }
 
