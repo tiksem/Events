@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">События</string>
+    <string name="app_name">Azazai</string>
     <string name="name">Имя</string>
     <string name="event_name_hint">Введите имя события</string>
     <string name="description">Описание</string>
