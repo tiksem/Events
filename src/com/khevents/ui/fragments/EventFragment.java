@@ -40,6 +40,7 @@ public class EventFragment extends AbstractPageLoadingFragment<VkUser> implement
     private Button subscribeButton;
     private List<Comment> topComments;
     private TextView peopleNumber;
+    private ProgressDialog progressDialog;
 
     public static EventFragment create(Event event) {
         return Fragments.createFragmentWith1Arg(new EventFragment(), EVENT, event);
@@ -182,23 +183,24 @@ public class EventFragment extends AbstractPageLoadingFragment<VkUser> implement
     }
 
     private void cancelEvent() {
-        ProgressDialog progressDialog = Alerts.showCircleProgressDialog(getActivity(), R.string.please_wait);
+        progressDialog = Alerts.showCircleProgressDialog(getActivity(), R.string.please_wait);
         getRequestManager().cancelEventAsync(event.id, VKSdk.getAccessToken().accessToken,
-                new OnFinish<IOException>() {
-                    @Override
-                    public void onFinish(IOException e) {
-                        FragmentActivity activity = getActivity();
-                        if (e == null) {
-                            Toasts.message(activity, R.string.event_canceled);
-                            EventsListFragment.update(activity);
-                            activity.onBackPressed();
-                        } else {
-                            Toasts.error(activity, R.string.no_internet_connection);
-                        }
+                new EventCancelCallback(this));
+    }
 
-                        progressDialog.dismiss();
-                    }
-                });
+    void onEventCanceled(IOException e) {
+        FragmentActivity activity = getActivity();
+        if (activity != null) {
+            if (e == null) {
+                Toasts.message(activity, R.string.event_canceled);
+                EventsListFragment.update(activity);
+                activity.onBackPressed();
+            } else {
+                Toasts.error(activity, R.string.no_internet_connection);
+            }
+
+            progressDialog.dismiss();
+        }
     }
 
     private void toggleSubscribe() {
