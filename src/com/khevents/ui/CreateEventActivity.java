@@ -251,28 +251,26 @@ public class CreateEventActivity extends VkActivity {
         });
     }
 
+    void onEventCreationFinished(IOException error) {
+        if (error == null) {
+            onEventCreated();
+        } else {
+            if (error instanceof RequestException) {
+                RequestException requestException = (RequestException) error;
+                if (Objects.equals(requestException.getExceptionInfo().getError(), INVALID_DATE)) {
+                    Alerts.showOkButtonAlert(name.getContext(), R.string.invalid_date);
+                } else {
+                    Alerts.showOkButtonAlert(name.getContext(), error.getMessage());
+                }
+            } else {
+                Alerts.showOkButtonAlert(name.getContext(), error.getMessage());
+            }
+        }
+        progressDialog.dismiss();
+    }
+
     private void executeCreateEventRequest(EventArgs args) {
         progressDialog = Alerts.showCircleProgressDialog(this, R.string.please_wait);
-
-        requestManager.createEvent(args, new OnEventCreationFinished() {
-            @Override
-            public void onComplete(int id, IOException error) {
-                if (error == null) {
-                    onEventCreated();
-                } else {
-                    if (error instanceof RequestException) {
-                        RequestException requestException = (RequestException) error;
-                        if (Objects.equals(requestException.getExceptionInfo().getError(), INVALID_DATE)) {
-                            Alerts.showOkButtonAlert(name.getContext(), R.string.invalid_date);
-                        } else {
-                            Alerts.showOkButtonAlert(name.getContext(), error.getMessage());
-                        }
-                    } else {
-                        Alerts.showOkButtonAlert(name.getContext(), error.getMessage());
-                    }
-                }
-                progressDialog.dismiss();
-            }
-        });
+        requestManager.createEvent(args, new EventCreationFinishedCallback(this));
     }
 }
