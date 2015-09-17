@@ -119,22 +119,21 @@ public class CommentsFragment extends AbstractNavigationListFragment<Comment> im
             final String commentText = getCommentText(text.toString());
             addCommentButton.setEnabled(false);
             getRequestManager().addComment(commentText, eventId,
-                    VKSdk.getAccessToken().accessToken, new OnFinish<IOException>() {
-                        @Override
-                        public void onFinish(IOException e) {
-                            if (e == null) {
-                                addCommentToList(commentText);
-                            } else {
-                                Toasts.error(getActivity(), R.string.no_internet_connection);
-                                getElements().remove(0);
-                                getAdapter().notifyDataSetChanged();
-                            }
-                            addCommentButton.setEnabled(true);
-                        }
-                    });
+                    VKSdk.getAccessToken().accessToken, new AddCommentCallback(this, commentText));
         } else {
             Toasts.message(getActivity(), R.string.enter_comment_message);
         }
+    }
+
+    void onCommentAdded(IOException e, String commentText) {
+        if (e == null) {
+            addCommentToList(commentText);
+        } else {
+            Toasts.error(getActivity(), R.string.no_internet_connection);
+            getElements().remove(0);
+            getAdapter().notifyDataSetChanged();
+        }
+        addCommentButton.setEnabled(true);
     }
 
     public String getCommentText(String text) {
