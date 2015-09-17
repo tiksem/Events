@@ -206,30 +206,28 @@ public class EventFragment extends AbstractPageLoadingFragment<VkUser> implement
     private void toggleSubscribe() {
         subscribeButton.setEnabled(false);
         subscribeButton.setText(R.string.please_wait);
-        getRequestManager().subscribe(event.id, VKSdk.getAccessToken().accessToken,
-                new OnFinish<IOException>() {
-                    @Override
-                    public void onFinish(IOException e) {
-                        subscribeButton.setEnabled(true);
-                        if (e != null) {
-                            subscribeButton.setText(getSubscribeButtonText());
-                        } else {
-                            event.isSubscribed = !event.isSubscribed;
-                            int text = getSubscribeButtonText();
-                            if (text == R.string.i_will_not_go) {
-                                Toasts.message(getActivity(), R.string.subscribe_message);
-                            }
+        getRequestManager().subscribe(event.id, VKSdk.getAccessToken().accessToken, new SubscribeToggleCallback(this));
+    }
 
-                            subscribeButton.setText(text);
-                            if (event.isSubscribed) {
-                                event.subscribersCount++;
-                            } else {
-                                event.subscribersCount--;
-                            }
-                            updatePeopleNumber();
-                        }
-                    }
-                });
+    void onSubscribeToggleFinished(IOException e) {
+        subscribeButton.setEnabled(true);
+        if (e != null) {
+            subscribeButton.setText(getSubscribeButtonText());
+        } else {
+            event.isSubscribed = !event.isSubscribed;
+            int text = getSubscribeButtonText();
+            if (text == R.string.i_will_not_go) {
+                Toasts.message(getActivity(), R.string.subscribe_message);
+            }
+
+            subscribeButton.setText(text);
+            if (event.isSubscribed) {
+                event.subscribersCount++;
+            } else {
+                event.subscribersCount--;
+            }
+            updatePeopleNumber();
+        }
     }
 
     protected void setupCommentsList(View content) {
