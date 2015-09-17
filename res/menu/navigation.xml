@@ -1,12 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:id="@+id/events"
-          android:icon="@drawable/ic_events"
-          android:title="@string/events" />
-    <item android:id="@+id/tags"
-          android:icon="@drawable/ic_tags"
-          android:title="@string/tags" />
-    <item android:id="@+id/my_events"
-          android:icon="@drawable/ic_my_events"
-          android:title="@string/my_events" />
+    <group android:checkableBehavior="single">
+        <item android:id="@+id/events"
+              android:checked="true"
+              android:icon="@drawable/ic_events"
+              android:title="@string/events" />
+        <item android:id="@+id/tags"
+              android:icon="@drawable/ic_tags"
+              android:title="@string/tags" />
+        <item android:id="@+id/my_events"
+              android:icon="@drawable/ic_my_events"
+              android:title="@string/my_events" />
+    </group>
 </menu>
