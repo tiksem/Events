@@ -41,26 +41,6 @@ public class MainActivity extends NavigationDrawerActivity {
         VKUIHelper.onCreate(this);
         isRunning = true;
 
-        if (EventsApp.getInstance().getCurrentUser() != null) {
-            onVkInitFinished();
-        } else {
-            new VkInitManager(this) {
-                @Override
-                protected void onVkUserReached(VkUser vkUser) {
-                    super.onVkUserReached(vkUser);
-                    onVkInitFinished();
-                }
-            }.execute(false);
-        }
-    }
-
-    @Override
-    protected void onPreCreate() {
-        super.onPreCreate();
-        commentNotificationEvent = getIntent().getParcelableExtra(NOTIFICATION_EVENT);
-    }
-
-    private void onVkInitFinished() {
         setupNavigationHeader();
 
         if (commentNotificationEvent != null) {
@@ -72,6 +52,12 @@ public class MainActivity extends NavigationDrawerActivity {
             Fragment fragment = EventFragment.create(commentNotificationEvent);
             replaceFragment(fragment, Level.EVENT_PAGE);
         }
+    }
+
+    @Override
+    protected void onPreCreate() {
+        super.onPreCreate();
+        commentNotificationEvent = getIntent().getParcelableExtra(NOTIFICATION_EVENT);
     }
 
     @Override

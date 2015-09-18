@@ -2,6 +2,7 @@ package com.khevents.ui;
 
 import android.app.PendingIntent;
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import com.khevents.EventsApp;
@@ -50,12 +51,18 @@ public class WelcomeActivity extends VkActivity {
         });
     }
 
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        getIntent().putExtras(intent);
+    }
+
     private void loginVK() {
         VkManager.authorize();
     }
 
     private void startMainActivity() {
-        AndroidUtilities.startActivity(WelcomeActivity.this, MainActivity.class);
+        AndroidUtilities.startActivityWithExtras(this, MainActivity.class, getIntent());
         finish();
     }
 }
