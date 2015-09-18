@@ -78,6 +78,11 @@ public class CommentsFragment extends AbstractNavigationListFragment<Comment> im
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         setupAddCommentControl(view);
+    }
+
+    @Override
+    protected void onListViewIsShown() {
+        super.onListViewIsShown();
 
         if (getArguments().getBoolean(REQUEST_ADD_COMMENT_FOCUS)) {
             getArguments().putBoolean(REQUEST_ADD_COMMENT_FOCUS, false);
