@@ -16,6 +16,7 @@ import com.utilsframework.android.ExecuteTimeLogger;
 import com.utilsframework.android.IOErrorListener;
 import com.utils.framework.network.GetRequestExecutor;
 import com.utilsframework.android.cache.StringSQLiteCache;
+import com.utilsframework.android.network.AsyncRequestExecutorManager;
 import com.utilsframework.android.network.IOErrorListenersSet;
 import com.utils.framework.network.RequestExecutor;
 import com.utilsframework.android.threading.OnFinish;
@@ -31,7 +32,7 @@ import java.util.*;
 /**
  * Created by CM on 6/21/2015.
  */
-public class RequestManager implements IOErrorListenersSet {
+public class RequestManager extends AsyncRequestExecutorManager {
     public static final String TAG = "RequestManager";
 
     private RequestExecutor networkRequestExecutor = new GetRequestExecutor() {
@@ -72,7 +73,7 @@ public class RequestManager implements IOErrorListenersSet {
     }
 
     public void createEvent(final EventArgs args, final OnEventCreationFinished onFinish) {
-        Threading.executeAsyncTask(new Threading.Task<IOException, Integer>() {
+        execute(new Threading.Task<IOException, Integer>() {
             @Override
             public Integer runOnBackground() throws IOException {
                 String json = requestExecutor.executeRequest(rootUrl + "createEvent", args.toMap(), false);
@@ -83,18 +84,9 @@ public class RequestManager implements IOErrorListenersSet {
             public void onComplete(Integer id, IOException error) {
                 onFinish.onComplete(id == null ? -1 : id, error);
             }
-        }, IOException.class);
+        });
     }
 
-    @Override
-    public void addIOErrorListener(IOErrorListener listener) {
-
-    }
-
-    @Override
-    public void removeIOErrorListener(IOErrorListener listener) {
-
-    }
 
     public NavigationList<Event> getEvents(long date, String query) {
         if (query == null) {
@@ -140,12 +132,12 @@ public class RequestManager implements IOErrorListenersSet {
     }
 
     public void cancelEventAsync(final long id, final String accessToken, OnFinish<IOException> onFinish) {
-        Threading.runOnBackground(new ThrowingRunnable<IOException>() {
+        execute(new ThrowingRunnable<IOException>() {
             @Override
             public void run() throws IOException {
                 cancelEvent(id, accessToken);
             }
-        }, onFinish, IOException.class);
+        }, onFinish);
     }
 
     public NavigationList<VkUser> getSubscribers(long eventId) {
@@ -170,13 +162,13 @@ public class RequestManager implements IOErrorListenersSet {
 
     private void executeRequestCheckForErrors(final String url, final Map<String, Object> args,
                                               OnFinish<IOException> onFinish) {
-        Threading.runOnBackground(new ThrowingRunnable<IOException>() {
+        execute(new ThrowingRunnable<IOException>() {
             @Override
             public void run() throws IOException {
                 String json = requestExecutor.executeRequest(rootUrl + url, args, false);
                 Json.checkError(json);
             }
-        }, onFinish, IOException.class);
+        }, onFinish);
     }
 
     public void addComment(final String text, final long eventId, final String accessToken,

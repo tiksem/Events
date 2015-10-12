@@ -14,21 +14,10 @@ import java.io.IOException;
 /**
  * Created by CM on 7/2/2015.
  */
-public abstract class AbstractPageLoadingFragment<Data> extends PageLoadingFragment<Data, IOException> {
-    private RequestManager requestManager;
-
-    protected RequestManager getRequestManager() {
-        return requestManager;
-    }
-
+public abstract class AbstractPageLoadingFragment<Data> extends PageLoadingFragment<RequestManager, Data> {
     @Override
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
-        requestManager = EventsApp.getInstance().getRequestManager();
-    }
-
-    public AbstractPageLoadingFragment() {
-        super(IOException.class);
+    protected RequestManager obtainRequestManager() {
+        return EventsApp.getInstance().getRequestManager();
     }
 
     protected NavigationActivityInterface getNavigationActivityInterface() {

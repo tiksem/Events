@@ -18,7 +18,6 @@ import com.utilsframework.android.fragments.Fragments;
 import com.utilsframework.android.google.GoogleMaps;
 import com.utilsframework.android.navdrawer.ActionBarTitleProvider;
 import com.utilsframework.android.social.SocialUtils;
-import com.utilsframework.android.threading.OnFinish;
 import com.utilsframework.android.time.TimeUtils;
 import com.utilsframework.android.view.Alerts;
 import com.utilsframework.android.view.OnYes;
@@ -58,8 +57,7 @@ public class EventFragment extends AbstractPageLoadingFragment<VkUser> implement
     }
 
     @Override
-    protected VkUser loadOnBackground() throws IOException {
-        RequestManager requestManager = getRequestManager();
+    protected VkUser loadOnBackground(RequestManager requestManager) throws IOException {
         event.isSubscribed = requestManager.isSubscribed(event.id, VKSdk.getAccessToken().accessToken);
         topComments = requestManager.getTopComments(event.id, TOP_COMMENTS_COUNT + 1);
         return requestManager.getVkUserById(event.userId);
