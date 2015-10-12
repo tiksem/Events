@@ -48,13 +48,6 @@ public class EventsApp extends Application {
 
         String[] fingerprints = VKUtil.getCertificateFingerprint(this, this.getPackageName());
         Strings.join(fingerprints, ':');
-
-        new UiLoopEvent(this).run(new Runnable() {
-            @Override
-            public void run() {
-
-            }
-        });
     }
 
     public static EventsApp getInstance() {
