@@ -71,7 +71,7 @@ public class RequestManager implements IOErrorListenersSet {
         return new EventsByTagNavigationList(rootUrl, tag, requestExecutor);
     }
 
-    public void createEvent(EventArgs args, OnEventCreationFinished onFinish) {
+    public void createEvent(final EventArgs args, final OnEventCreationFinished onFinish) {
         Threading.executeAsyncTask(new Threading.Task<IOException, Integer>() {
             @Override
             public Integer runOnBackground() throws IOException {
@@ -124,7 +124,7 @@ public class RequestManager implements IOErrorListenersSet {
         return node.get("isSubscribed").asBoolean();
     }
 
-    public void subscribe(long eventId, String token, OnFinish<IOException> onFinish) {
+    public void subscribe(final long eventId, final String token, OnFinish<IOException> onFinish) {
         executeRequestCheckForErrors("subscribe", new HashMap<String, Object>() {
             {
                 put("token", token);
@@ -139,7 +139,7 @@ public class RequestManager implements IOErrorListenersSet {
         Json.checkError(response);
     }
 
-    public void cancelEventAsync(long id, String accessToken, OnFinish<IOException> onFinish) {
+    public void cancelEventAsync(final long id, final String accessToken, OnFinish<IOException> onFinish) {
         Threading.runOnBackground(new ThrowingRunnable<IOException>() {
             @Override
             public void run() throws IOException {
@@ -149,7 +149,8 @@ public class RequestManager implements IOErrorListenersSet {
     }
 
     public NavigationList<VkUser> getSubscribers(long eventId) {
-        return new VkUsersNavigationList(rootUrl + "getSubscribers", Collections.singletonMap("id", eventId),
+        return new VkUsersNavigationList(rootUrl + "getSubscribers",
+                Collections.<String, Object>singletonMap("id", eventId),
                 "Subscribers", requestExecutor);
     }
 
@@ -167,7 +168,7 @@ public class RequestManager implements IOErrorListenersSet {
         return new CommentsNavigationList(rootUrl, eventId, topComments, requestExecutor);
     }
 
-    private void executeRequestCheckForErrors(String url, Map<String, Object> args,
+    private void executeRequestCheckForErrors(final String url, final Map<String, Object> args,
                                               OnFinish<IOException> onFinish) {
         Threading.runOnBackground(new ThrowingRunnable<IOException>() {
             @Override
@@ -178,7 +179,7 @@ public class RequestManager implements IOErrorListenersSet {
         }, onFinish, IOException.class);
     }
 
-    public void addComment(String text, long eventId, String accessToken,
+    public void addComment(final String text, final long eventId, final String accessToken,
                            OnFinish<IOException> onFinish) {
         String url = "addComment";
         Map<String, Object> args = new HashMap<String, Object>() {

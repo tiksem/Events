@@ -13,8 +13,8 @@ class UserEventsNavigationList extends EventsNavigationList {
         subscribed
     }
 
-    public UserEventsNavigationList(String rootUrl, Mode mode,
-                                    String token,
+    public UserEventsNavigationList(String rootUrl, final Mode mode,
+                                    final String token,
                                     RequestExecutor requestExecutor) {
         super(rootUrl + "getUserEvents", "Events",
                 new HashMap<String, Object>(){

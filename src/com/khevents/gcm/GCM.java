@@ -30,7 +30,7 @@ public class GCM {
                 GoogleCloudMessaging.INSTANCE_ID_SCOPE, null);
     }
 
-    public static void obtainNewToken(Context context, OnNewTokenObtainFinished obtainFinished) {
+    public static void obtainNewToken(final Context context, final OnNewTokenObtainFinished obtainFinished) {
         Threading.executeAsyncTask(new Threading.Task<IOException, String>() {
             @Override
             public String runOnBackground() throws IOException {
@@ -44,10 +44,10 @@ public class GCM {
         }, IOException.class);
     }
 
-    public static void obtainAndLoginNewToken(Context context, String oldDeviceToken) {
+    public static void obtainAndLoginNewToken(final Context context, final String oldDeviceToken) {
         GCM.obtainNewToken(context, new GCM.OnNewTokenObtainFinished() {
             @Override
-            public void onFinished(String token, IOException e) {
+            public void onFinished(final String token, IOException e) {
                 EventsApp.getInstance().getRequestManager().loginGCMToken(token, oldDeviceToken,
                         VKSdk.getAccessToken().accessToken,
                         new OnFinish<IOException>() {

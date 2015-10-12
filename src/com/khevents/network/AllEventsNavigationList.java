@@ -25,7 +25,7 @@ class AllEventsNavigationList extends EventsNavigationList {
                 requestExecutor);
     }
 
-    public AllEventsNavigationList(String rootUrl, String query, int date, RequestExecutor requestExecutor) {
+    public AllEventsNavigationList(String rootUrl, final String query, final int date, RequestExecutor requestExecutor) {
         super(rootUrl + "getEventsList", "events",
                 new HashMap<String, Object>(){
                     {

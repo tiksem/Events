@@ -23,7 +23,7 @@ public class VkManager {
     private static final String APP_ID = "4969665";
     private static final String[] SCOPES = new String[]{VKScope.OFFLINE, VKScope.WALL};
 
-    public static void getAccessToken(Context context, int errorMessageId, OnFinish<VKAccessToken> onFinish) {
+    public static void getAccessToken(final Context context, final int errorMessageId, final OnFinish<VKAccessToken> onFinish) {
         VkApiUtils.getAccessToken(context, APP_ID, SCOPES, new VkApiUtils.AuthorizationListener() {
             @Override
             public void onSuccess(VKAccessToken token) {
@@ -42,7 +42,7 @@ public class VkManager {
         public void onAccessToken();
     }
 
-    public static boolean initialize(Context context, int errorMessageId, OnAccessTokenGot onAccessTokenGot) {
+    public static boolean initialize(final Context context, final int errorMessageId, final OnAccessTokenGot onAccessTokenGot) {
         VKAccessToken accessToken = VkApiUtils.getAccessTokenFromSharedPreferences(context);
 
         VkApiUtils.initialize(context, APP_ID, SCOPES, new VkApiUtils.AuthorizationListener() {

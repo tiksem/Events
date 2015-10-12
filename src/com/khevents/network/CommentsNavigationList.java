@@ -17,7 +17,8 @@ class CommentsNavigationList extends JsonAsyncNavigationList<Comment> {
     public CommentsNavigationList(String rootUrl, long eventId,
                                   List<Comment> topComments,
                                   RequestExecutor requestExecutor) {
-        super(Comment.class, rootUrl + "getCommentsList", "Comments", Collections.singletonMap("id", eventId),
+        super(Comment.class, rootUrl + "getCommentsList", "Comments",
+                Collections.<String, Object>singletonMap("id", eventId),
                 requestExecutor, topComments);
     }
 

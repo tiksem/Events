@@ -152,7 +152,7 @@ public class MainActivity extends NavigationDrawerActivity {
         View header = View.inflate(this, R.layout.header, null);
         ImageView avatar = (ImageView) header.findViewById(R.id.avatar);
         TextView userName = (TextView) header.findViewById(R.id.userName);
-        VkUser currentUser = EventsApp.getInstance().getCurrentUser();
+        final VkUser currentUser = EventsApp.getInstance().getCurrentUser();
         ImageLoader.getInstance().displayImage(currentUser.avatar, avatar);
         userName.setText(currentUser.name + " " + currentUser.lastName);
         navigationView.addHeaderView(header);

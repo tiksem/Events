@@ -65,8 +65,8 @@ public class MyGcmListenerService extends GcmListenerService {
     }
 
     private void postNotification(GCMData data) throws IOException {
-        Notification.Builder builder = new Notification.Builder(this);
-        int id;
+        final Notification.Builder builder = new Notification.Builder(this);
+        final int id;
         if (data.comment != null) {
             setupCommentNotification(data.comment, builder);
             id = COMMENT_ID;

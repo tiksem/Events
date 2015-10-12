@@ -11,6 +11,6 @@ class EventsByTagNavigationList extends EventsNavigationList {
     public EventsByTagNavigationList(String rootUrl, String tag,
                                      RequestExecutor requestExecutor) {
         super(rootUrl + "getEventsByTag", "Events",
-                Collections.singletonMap("tag", tag), requestExecutor);
+                Collections.<String, Object>singletonMap("tag", tag), requestExecutor);
     }
 }
