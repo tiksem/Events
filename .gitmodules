@@ -6,7 +6,7 @@
 	url = https://github.com/tiksem/android-utils.git
 [submodule "dependencies/json-utils"]
 	path = dependencies/json-utils
-	url = https://privetgnil@code.google.com/p/jsvdulloc/
+	url = https://github.com/tiksem/jsvdulloc.git
 [submodule "dependencies/jsonandroid"]
 	path = dependencies/jsonandroid
 	url = https://github.com/tiksem/jsonandroidutils.git
