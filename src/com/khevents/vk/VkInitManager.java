@@ -2,10 +2,13 @@ package com.khevents.vk;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.os.AsyncTask;
 import com.khevents.EventsApp;
 import com.khevents.R;
 import com.khevents.gcm.GCM;
 import com.khevents.network.RequestManager;
+import com.utils.framework.threading.Threads;
 import com.utilsframework.android.threading.Threading;
 import com.utilsframework.android.view.Alerts;
 import com.utilsframework.android.view.Toasts;
@@ -23,6 +26,7 @@ public class VkInitManager {
     private boolean showProgressDialog = true;
     private ProgressDialog progressDialog;
     private boolean updateDeviceVkUser = false;
+    private AsyncTask loadingAsyncTask;
 
     public VkInitManager(Context context, RequestManager requestManager) {
         this.context = context;
@@ -44,8 +48,21 @@ public class VkInitManager {
     protected void onAccessTokenGot() {
         if (showProgressDialog) {
             progressDialog = Alerts.showCircleProgressDialog(context, R.string.please_wait);
+            progressDialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
+                @Override
+                public void onCancel(DialogInterface dialog) {
+                    if (loadingAsyncTask != null) {
+                        loadingAsyncTask.cancel(true);
+                        loadingAsyncTask = null;
+                    }
+
+                    progressDialog.dismiss();
+                }
+            });
+            progressDialog.setCancelable(true);
         }
-        requestManager.execute(new Threading.Task<IOException, VkUser>() {
+
+        loadingAsyncTask = requestManager.execute(new Threading.Task<IOException, VkUser>() {
             @Override
             public VkUser runOnBackground() throws IOException {
                 return getCurrentVkUser();
