@@ -3,6 +3,7 @@ package com.vkandroid;
 import com.jsonandroid.JsonAsyncNavigationList;
 import com.utils.framework.network.RequestExecutor;
 import com.jsonutils.Json;
+import com.utilsframework.android.network.RequestManager;
 
 import java.io.IOException;
 import java.util.List;
@@ -14,8 +15,8 @@ import java.util.Map;
 public class VkUsersNavigationList extends JsonAsyncNavigationList<VkUser> {
     public VkUsersNavigationList(String url, Map<String, Object> args,
                                  String jsonKey,
-                                 RequestExecutor requestExecutor) {
-        super(VkUser.class, url, jsonKey, args, requestExecutor);
+                                 RequestExecutor requestExecutor, RequestManager requestManager) {
+        super(VkUser.class, url, jsonKey, args, requestExecutor, requestManager);
     }
 
     public VkUsersNavigationList(String url, String jsonKey, Map<String, Object> args) {

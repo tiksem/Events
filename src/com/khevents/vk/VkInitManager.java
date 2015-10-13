@@ -5,6 +5,7 @@ import android.content.Context;
 import com.khevents.EventsApp;
 import com.khevents.R;
 import com.khevents.gcm.GCM;
+import com.khevents.network.RequestManager;
 import com.utilsframework.android.threading.Threading;
 import com.utilsframework.android.view.Alerts;
 import com.utilsframework.android.view.Toasts;
@@ -17,13 +18,15 @@ import java.io.IOException;
  * Created by CM on 7/22/2015.
  */
 public class VkInitManager {
+    private final RequestManager requestManager;
     private Context context;
     private boolean showProgressDialog = true;
     private ProgressDialog progressDialog;
     private boolean updateDeviceVkUser = false;
 
-    public VkInitManager(Context context) {
+    public VkInitManager(Context context, RequestManager requestManager) {
         this.context = context;
+        this.requestManager = requestManager;
     }
 
     public void execute(boolean showProgressDialog) {
@@ -67,17 +70,17 @@ public class VkInitManager {
         eventsApp.initVkUser(vkUser);
         String token = GCM.getTokenFromSharedPreferences(context);
         if (token == null) {
-            GCM.obtainAndLoginNewToken(context, null);
+            GCM.obtainAndLoginNewToken(context, requestManager, null);
             return;
         }
 
         if (updateDeviceVkUser) {
-            GCM.obtainAndLoginNewToken(context, token);
+            GCM.obtainAndLoginNewToken(context, requestManager, token);
         }
     }
 
     private VkUser getCurrentVkUser() throws IOException {
-        return EventsApp.getInstance().getRequestManager().getVkUserById(
+        return requestManager.getVkUserById(
                 Long.valueOf(VKSdk.getAccessToken().userId));
     }
 }

@@ -9,8 +9,8 @@ import java.util.Collections;
  */
 class EventsByTagNavigationList extends EventsNavigationList {
     public EventsByTagNavigationList(String rootUrl, String tag,
-                                     RequestExecutor requestExecutor) {
+                                     RequestExecutor requestExecutor, RequestManager requestManager) {
         super(rootUrl + "getEventsByTag", "Events",
-                Collections.<String, Object>singletonMap("tag", tag), requestExecutor);
+                Collections.<String, Object>singletonMap("tag", tag), requestExecutor, requestManager);
     }
 }

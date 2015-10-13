@@ -58,18 +58,18 @@ public class RequestManager extends AsyncRequestExecutorManager {
 
     public NavigationList<Event> getEvents(String query) {
         if (query == null) {
-            return new AllEventsNavigationList(rootUrl, requestExecutor);
+            return new AllEventsNavigationList(rootUrl, requestExecutor, this);
         } else {
-            return new AllEventsNavigationList(rootUrl, query, requestExecutor);
+            return new AllEventsNavigationList(rootUrl, query, requestExecutor, this);
         }
     }
 
     public NavigationList<Tag> getTags() {
-        return new TagsNavigationList(requestExecutor, rootUrl);
+        return new TagsNavigationList(requestExecutor, this, rootUrl);
     }
 
     public NavigationList<Event> getEventsByTag(String tag) {
-        return new EventsByTagNavigationList(rootUrl, tag, requestExecutor);
+        return new EventsByTagNavigationList(rootUrl, tag, requestExecutor, this);
     }
 
     public void createEvent(final EventArgs args, final OnEventCreationFinished onFinish) {
@@ -90,18 +90,20 @@ public class RequestManager extends AsyncRequestExecutorManager {
 
     public NavigationList<Event> getEvents(long date, String query) {
         if (query == null) {
-            return new AllEventsNavigationList(rootUrl, (int) (date / 1000), requestExecutor);
+            return new AllEventsNavigationList(rootUrl, (int) (date / 1000), requestExecutor, this);
         } else {
-            return new AllEventsNavigationList(rootUrl, query, (int) (date / 1000), requestExecutor);
+            return new AllEventsNavigationList(rootUrl, query, (int) (date / 1000), requestExecutor, this);
         }
     }
 
     public NavigationList<Event> getCreatedUserEvents(String token) {
-        return new UserEventsNavigationList(rootUrl, UserEventsNavigationList.Mode.created, token, requestExecutor);
+        return new UserEventsNavigationList(rootUrl, UserEventsNavigationList.Mode.created, token,
+                requestExecutor, this);
     }
 
     public NavigationList<Event> getSubscribedUserEvents(String token) {
-        return new UserEventsNavigationList(rootUrl, UserEventsNavigationList.Mode.subscribed, token, requestExecutor);
+        return new UserEventsNavigationList(rootUrl, UserEventsNavigationList.Mode.subscribed, token,
+                requestExecutor, this);
     }
 
     public VkUser getVkUserById(long userId) throws IOException {
@@ -143,7 +145,7 @@ public class RequestManager extends AsyncRequestExecutorManager {
     public NavigationList<VkUser> getSubscribers(long eventId) {
         return new VkUsersNavigationList(rootUrl + "getSubscribers",
                 Collections.<String, Object>singletonMap("id", eventId),
-                "Subscribers", requestExecutor);
+                "Subscribers", requestExecutor, this);
     }
 
     public List<Comment> getTopComments(long eventId, int count) throws IOException {
@@ -157,7 +159,7 @@ public class RequestManager extends AsyncRequestExecutorManager {
     }
 
     public NavigationList<Comment> getComments(List<Comment> topComments, long eventId) {
-        return new CommentsNavigationList(rootUrl, eventId, topComments, requestExecutor);
+        return new CommentsNavigationList(rootUrl, eventId, topComments, requestExecutor, this);
     }
 
     private void executeRequestCheckForErrors(final String url, final Map<String, Object> args,

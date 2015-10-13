@@ -16,14 +16,15 @@ import java.util.Map;
 class CommentsNavigationList extends JsonAsyncNavigationList<Comment> {
     public CommentsNavigationList(String rootUrl, long eventId,
                                   List<Comment> topComments,
-                                  RequestExecutor requestExecutor) {
+                                  RequestExecutor requestExecutor, RequestManager requestManager) {
         super(Comment.class, rootUrl + "getCommentsList", "Comments",
                 Collections.<String, Object>singletonMap("id", eventId),
-                requestExecutor, topComments);
+                requestExecutor, requestManager, topComments);
     }
 
     @Override
-    protected List<Comment> getElements(String url, Map<String, Object> args, RequestExecutor requestExecutor,
+    protected List<Comment> getElements(String url, Map<String, Object> args,
+                                        RequestExecutor requestExecutor,
                                         Class<Comment> aClass) throws IOException {
         List<Comment> comments = super.getElements(url, args, requestExecutor, aClass);
         Requests.updateCommentsUserData(requestExecutor, comments);

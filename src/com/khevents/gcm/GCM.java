@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import com.google.android.gms.gcm.GoogleCloudMessaging;
 import com.google.android.gms.iid.InstanceID;
 import com.khevents.EventsApp;
+import com.khevents.network.RequestManager;
 import com.utils.framework.network.RequestExecutor;
 import com.utilsframework.android.threading.OnFinish;
 import com.utilsframework.android.threading.Threading;
@@ -44,11 +45,12 @@ public class GCM {
         }, IOException.class);
     }
 
-    public static void obtainAndLoginNewToken(final Context context, final String oldDeviceToken) {
+    public static void obtainAndLoginNewToken(final Context context, final RequestManager requestManager,
+                                              final String oldDeviceToken) {
         GCM.obtainNewToken(context, new GCM.OnNewTokenObtainFinished() {
             @Override
             public void onFinished(final String token, IOException e) {
-                EventsApp.getInstance().getRequestManager().loginGCMToken(token, oldDeviceToken,
+                requestManager.loginGCMToken(token, oldDeviceToken,
                         VKSdk.getAccessToken().accessToken,
                         new OnFinish<IOException>() {
                             @Override

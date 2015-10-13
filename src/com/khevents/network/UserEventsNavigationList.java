@@ -15,7 +15,7 @@ class UserEventsNavigationList extends EventsNavigationList {
 
     public UserEventsNavigationList(String rootUrl, final Mode mode,
                                     final String token,
-                                    RequestExecutor requestExecutor) {
+                                    RequestExecutor requestExecutor, RequestManager requestManager) {
         super(rootUrl + "getUserEvents", "Events",
                 new HashMap<String, Object>(){
                     {
@@ -23,6 +23,6 @@ class UserEventsNavigationList extends EventsNavigationList {
                         put("token", token);
                     }
                 },
-                requestExecutor);
+                requestExecutor, requestManager);
     }
 }

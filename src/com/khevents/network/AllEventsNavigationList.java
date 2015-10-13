@@ -9,23 +9,26 @@ import java.util.HashMap;
  * Created by CM on 7/2/2015.
  */
 class AllEventsNavigationList extends EventsNavigationList {
-    public AllEventsNavigationList(String rootUrl, RequestExecutor requestExecutor) {
-        super(rootUrl + "getEventsList", "events", null, requestExecutor);
+    public AllEventsNavigationList(String rootUrl, RequestExecutor requestExecutor, RequestManager requestManager) {
+        super(rootUrl + "getEventsList", "events", null, requestExecutor, requestManager);
     }
 
-    public AllEventsNavigationList(String rootUrl, int date, RequestExecutor requestExecutor) {
+    public AllEventsNavigationList(String rootUrl, int date, RequestExecutor requestExecutor,
+                                   RequestManager requestManager) {
         super(rootUrl + "getEventsList", "events",
                 Collections.<String, Object>singletonMap("dateFilter", date),
-                requestExecutor);
+                requestExecutor, requestManager);
     }
 
-    public AllEventsNavigationList(String rootUrl, String query, RequestExecutor requestExecutor) {
+    public AllEventsNavigationList(String rootUrl, String query, RequestExecutor requestExecutor,
+                                   RequestManager requestManager) {
         super(rootUrl + "getEventsList", "events",
                 Collections.<String, Object>singletonMap("query", query),
-                requestExecutor);
+                requestExecutor, requestManager);
     }
 
-    public AllEventsNavigationList(String rootUrl, final String query, final int date, RequestExecutor requestExecutor) {
+    public AllEventsNavigationList(String rootUrl, final String query, final int date, RequestExecutor requestExecutor,
+                                   RequestManager requestManager) {
         super(rootUrl + "getEventsList", "events",
                 new HashMap<String, Object>(){
                     {
@@ -33,6 +36,6 @@ class AllEventsNavigationList extends EventsNavigationList {
                         put("dateFilter", date);
                     }
                 },
-                requestExecutor);
+                requestExecutor, requestManager);
     }
 }

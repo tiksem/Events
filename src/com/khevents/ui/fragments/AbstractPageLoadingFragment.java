@@ -17,7 +17,7 @@ import java.io.IOException;
 public abstract class AbstractPageLoadingFragment<Data> extends PageLoadingFragment<RequestManager, Data> {
     @Override
     protected RequestManager obtainRequestManager() {
-        return EventsApp.getInstance().getRequestManager();
+        return EventsApp.getInstance().createRequestManager();
     }
 
     protected NavigationActivityInterface getNavigationActivityInterface() {

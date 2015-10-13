@@ -68,7 +68,7 @@ public class CreateEventActivity extends VkActivity {
         address = (TextView) findViewById(R.id.address);
         date = (DateTimePickerButton) findViewById(R.id.date_and_time);
 
-        requestManager = EventsApp.getInstance().getRequestManager();
+        requestManager = EventsApp.getInstance().createRequestManager();
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitleTextColor(Color.rgb(255, 255, 255));
@@ -272,5 +272,11 @@ public class CreateEventActivity extends VkActivity {
     private void executeCreateEventRequest(EventArgs args) {
         progressDialog = Alerts.showCircleProgressDialog(this, R.string.please_wait);
         requestManager.createEvent(args, new EventCreationFinishedCallback(this));
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        requestManager.cancelAll();
     }
 }

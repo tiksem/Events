@@ -35,10 +35,9 @@ public class MyGcmListenerService extends GcmListenerService {
     public static final String ID = "ID";
 
     private SharedPreferencesMap sharedPreferences;
+    private RequestManager requestManager;
 
     private void setupCommentNotification(Comment comment, Notification.Builder builder) throws IOException {
-        RequestManager requestManager = EventsApp.getInstance().getRequestManager();
-
         setupVkUserNotification(comment.userId, builder, requestManager);
         builder.setContentText(comment.text);
 
@@ -101,8 +100,6 @@ public class MyGcmListenerService extends GcmListenerService {
 
     private void setupSubscribeEventNotification(SubscribeInfo subscribe, Notification.Builder builder)
             throws IOException {
-        RequestManager requestManager = EventsApp.getInstance().getRequestManager();
-
         Event event = requestManager.getEventById(subscribe.eventId);
         setupVkUserNotification(subscribe.userId, builder, requestManager);
         builder.setContentText(getString(R.string.subscribe_event_notification, event.name));
@@ -110,8 +107,6 @@ public class MyGcmListenerService extends GcmListenerService {
     }
 
     private void setupCancelEventNotification(long cancelEventId, Notification.Builder builder) throws IOException {
-        RequestManager requestManager = EventsApp.getInstance().getRequestManager();
-
         Event event = requestManager.getEventById(cancelEventId);
         event.isCanceled = true;
         setupVkUserNotification(event.userId, builder, requestManager);
@@ -123,6 +118,13 @@ public class MyGcmListenerService extends GcmListenerService {
     public void onCreate() {
         super.onCreate();
         sharedPreferences = new SharedPreferencesMap(this);
+        requestManager = EventsApp.getInstance().createRequestManager();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        requestManager.cancelAll();
     }
 
     @Override

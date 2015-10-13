@@ -25,8 +25,9 @@ public class EventsApp extends Application {
 
     private static EventsApp instance;
 
-    private RequestManager requestManager;
     private VkUser currentUser;
+
+    private String apiUrl;
 
     @Override
     public void onCreate() {
@@ -41,7 +42,7 @@ public class EventsApp extends Application {
         String ipFile = Environment.getExternalStorageDirectory().getAbsolutePath() + "/EventsApp/ip.txt";
         try {
             String ip = IOUtilities.readStringFromUrl(ipFile);
-            requestManager = new RequestManager(this, ip + "/api/", MAX_DATABASE_CACHE_SIZE);
+            apiUrl = ip + "/api/";
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -54,8 +55,8 @@ public class EventsApp extends Application {
         return instance;
     }
 
-    public RequestManager getRequestManager() {
-        return requestManager;
+    public RequestManager createRequestManager() {
+        return new RequestManager(this, apiUrl, MAX_DATABASE_CACHE_SIZE);
     }
 
     public void logout() {

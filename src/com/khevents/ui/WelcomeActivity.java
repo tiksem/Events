@@ -8,6 +8,7 @@ import android.view.View;
 import com.khevents.EventsApp;
 import com.khevents.R;
 import com.khevents.gcm.GCM;
+import com.khevents.network.RequestManager;
 import com.khevents.vk.VkInitManager;
 import com.khevents.vk.VkManager;
 import com.utilsframework.android.AndroidUtilities;
@@ -24,20 +25,27 @@ import java.io.IOException;
  * Created by CM on 7/1/2015.
  */
 public class WelcomeActivity extends VkActivity {
-    private VkInitManager vkInitManager = new VkInitManager(this) {
-        @Override
-        protected void onVkUserReached(VkUser vkUser) {
-            super.onVkUserReached(vkUser);
-            startMainActivity();
-        }
-    };
+    private VkInitManager vkInitManager;
+    private RequestManager requestManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.welcome);
 
-        if (EventsApp.getInstance().getCurrentUser() == null) {
+        EventsApp eventsApp = EventsApp.getInstance();
+
+        requestManager = eventsApp.createRequestManager();
+
+        vkInitManager = new VkInitManager(this, requestManager) {
+            @Override
+            protected void onVkUserReached(VkUser vkUser) {
+                super.onVkUserReached(vkUser);
+                startMainActivity();
+            }
+        };
+
+        if (eventsApp.getCurrentUser() == null) {
             vkInitManager.execute(true);
         } else {
             startMainActivity();
@@ -49,6 +57,12 @@ public class WelcomeActivity extends VkActivity {
                 loginVK();
             }
         });
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        requestManager.cancelAll();
     }
 
     @Override

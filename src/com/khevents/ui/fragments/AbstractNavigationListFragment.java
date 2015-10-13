@@ -49,7 +49,7 @@ public abstract class AbstractNavigationListFragment<T> extends NavigationListFr
 
     @Override
     protected RequestManager obtainRequestManager() {
-        return EventsApp.getInstance().getRequestManager();
+        return EventsApp.getInstance().createRequestManager();
     }
 
     @Override
