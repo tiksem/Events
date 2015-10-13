@@ -53,7 +53,7 @@ public class VkManager {
 
             @Override
             public void onError(VKError authorizationError) {
-                Toasts.error(context, errorMessageId);
+
             }
         }, accessToken);
 

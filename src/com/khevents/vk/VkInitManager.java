@@ -45,7 +45,7 @@ public class VkInitManager {
         if (showProgressDialog) {
             progressDialog = Alerts.showCircleProgressDialog(context, R.string.please_wait);
         }
-        Threading.executeAsyncTask(new Threading.Task<IOException, VkUser>() {
+        requestManager.execute(new Threading.Task<IOException, VkUser>() {
             @Override
             public VkUser runOnBackground() throws IOException {
                 return getCurrentVkUser();
@@ -58,11 +58,15 @@ public class VkInitManager {
                 } else {
                     Toasts.error(context, R.string.no_internet_connection);
                 }
+            }
+
+            @Override
+            public void onAfterCompleteOrCancelled() {
                 if (showProgressDialog) {
                     progressDialog.dismiss();
                 }
             }
-        }, IOException.class);
+        });
     }
 
     protected void onVkUserReached(VkUser vkUser) {
