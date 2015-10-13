@@ -20,8 +20,11 @@ import com.khevents.network.RequestManager;
 import com.utils.framework.CollectionUtils;
 import com.utils.framework.Objects;
 import com.utils.framework.strings.Strings;
+import com.utils.framework.suggestions.SuggestionsProvider;
+import com.utilsframework.android.adapters.GoogleMapsSuggestionsAdapter;
 import com.utilsframework.android.adapters.StringSuggestionsAdapter;
 import com.utilsframework.android.resources.StringUtilities;
+import com.utilsframework.android.suggestions.GoogleMapsSuggestionsProvider;
 import com.utilsframework.android.view.*;
 import com.utilsframework.android.view.flowlayout.FlowLayout;
 import com.vk.sdk.VKSdk;
@@ -46,7 +49,7 @@ public class CreateEventActivity extends VkActivity {
     private TextView name;
     private TextView description;
     private DateTimePickerButton date;
-    private TextView address;
+    private EditTextWithSuggestions address;
     private ProgressDialog progressDialog;
     private FlowLayout tagsLayout;
     private EditTextWithSuggestions addTagEditText;
@@ -65,17 +68,30 @@ public class CreateEventActivity extends VkActivity {
 
         name = (TextView) findViewById(R.id.name);
         description = (TextView) findViewById(R.id.description);
-        address = (TextView) findViewById(R.id.address);
         date = (DateTimePickerButton) findViewById(R.id.date_and_time);
 
         requestManager = EventsApp.getInstance().createRequestManager();
 
+        setupToolBar();
+        setupTags();
+        setupAddressEditText();
+    }
+
+    private void setupToolBar() {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitleTextColor(Color.rgb(255, 255, 255));
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+    }
 
-        setupTags();
+    private void setupAddressEditText() {
+        address = (EditTextWithSuggestions) findViewById(R.id.address);
+
+        GoogleMapsSuggestionsAdapter adapter = new GoogleMapsSuggestionsAdapter(this);
+        GoogleMapsSuggestionsProvider provider = new GoogleMapsSuggestionsProvider(this);
+        adapter.setSuggestionsProvider(provider);
+
+        address.setAdapter(adapter);
     }
 
     private View createTag(String name) {

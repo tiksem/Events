@@ -47,7 +47,7 @@
                           style="@style/header2"
                           android:layout_width="wrap_content"
                           android:layout_height="wrap_content"/>
-                <EditText android:id="@+id/address"
+                <com.utilsframework.android.view.EditTextWithSuggestions android:id="@+id/address"
                           android:inputType="textMultiLine"
                           android:minLines="2"
                           android:maxLines="3"
