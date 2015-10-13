@@ -61,6 +61,10 @@ public class CommentsFragment extends AbstractNavigationListFragment<Comment> im
     protected NavigationList<Comment> getNavigationList(RequestManager requestManager, String filter) {
         Bundle arguments = getArguments();
         ArrayList<Comment> topComments = arguments.getParcelableArrayList(TOP_COMMENTS);
+        if (topComments.size() <= EventFragment.TOP_COMMENTS_COUNT) {
+            return NavigationList.decorate(topComments);
+        }
+
         return requestManager.getComments(topComments, eventId);
     }
 
