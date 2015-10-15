@@ -4,8 +4,8 @@ import com.jsonandroid.JsonAsyncNavigationList;
 import com.khevents.data.Event;
 import com.utils.framework.KeyProvider;
 import com.utils.framework.network.RequestExecutor;
-import com.utilsframework.android.network.*;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
@@ -14,7 +14,7 @@ import java.util.Map;
  */
 class EventsNavigationList extends JsonAsyncNavigationList<Event> {
     private boolean actualEventsLoaded = false;
-    private int actualEventsLoadedCount = -1;
+    private int actualPagesLoadedCount = -1;
 
     public EventsNavigationList(String url, String jsonKey,
                                 Map<String, Object> args,
@@ -42,11 +42,11 @@ class EventsNavigationList extends JsonAsyncNavigationList<Event> {
     @Override
     protected int getOffset() {
         if (actualEventsLoaded) {
-            if (actualEventsLoadedCount < 0) {
-                actualEventsLoadedCount = getLoadedElementsCount();
+            if (actualPagesLoadedCount < 0) {
+                actualPagesLoadedCount = getLoadedPagesCount();
             }
 
-            return super.getOffset() - actualEventsLoadedCount;
+            return super.getOffset() - actualPagesLoadedCount * getLimit();
         } else {
             return super.getOffset();
         }
