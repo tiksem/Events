@@ -17,6 +17,7 @@ import com.khevents.ui.fragments.*;
 import com.khevents.vk.VkInitManager;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.utilsframework.android.AndroidUtilities;
+import com.utilsframework.android.navdrawer.FragmentFactory;
 import com.utilsframework.android.navdrawer.NavigationDrawerActivity;
 import com.utilsframework.android.social.SocialUtils;
 import com.vk.sdk.VKUIHelper;
@@ -25,9 +26,6 @@ import com.vkandroid.VkUser;
 
 public class MainActivity extends NavigationDrawerActivity {
     public static final String NOTIFICATION_EVENT = "NOTIFICATION_EVENT";
-
-    public static final int SUBSCRIBED_EVENTS_TAB = 0;
-    private static final int CREATED_EVENTS_TAB = 1;
 
     private static boolean isRunning = false;
     private Event commentNotificationEvent;
@@ -45,7 +43,7 @@ public class MainActivity extends NavigationDrawerActivity {
 
         if (commentNotificationEvent != null) {
             if (!commentNotificationEvent.isCanceled) {
-                selectTab(CREATED_EVENTS_TAB);
+                selectTab(EventsAppFragmentFactory.CREATED_EVENTS_TAB);
             }
             FragmentManager fragmentManager = getSupportFragmentManager();
             fragmentManager.executePendingTransactions();
@@ -91,47 +89,6 @@ public class MainActivity extends NavigationDrawerActivity {
         }
 
         return R.id.events;
-    }
-
-    @Override
-    public Fragment createFragmentBySelectedItem(int selectedItemId, int tabIndex, int navigationLevel) {
-        if (navigationLevel == 0) {
-            if (selectedItemId == R.id.events) {
-                return new AllEventsListFragment();
-            } else if(selectedItemId == R.id.tags) {
-                return new TagsListFragment();
-            } else if(selectedItemId == R.id.my_events) {
-                if (tabIndex == SUBSCRIBED_EVENTS_TAB) {
-                    return new SubscribedUserEventsListFragment();
-                } else if(tabIndex == CREATED_EVENTS_TAB) {
-                    return new CreatedUserEventsListFragment();
-                }
-            }
-        }
-
-        throw new RuntimeException("Invalid fragment request");
-    }
-
-    @Override
-    public void initTab(int currentSelectedItem, int tabIndex, int navigationLevel, TabLayout.Tab tab) {
-        if (currentSelectedItem == R.id.my_events) {
-            if (tabIndex == 0) {
-                tab.setText(R.string.subscribed);
-            } else {
-                tab.setText(R.string.created);
-            }
-        }
-    }
-
-    @Override
-    public int getTabsCount(int selectedItemId, int navigationLevel) {
-        if (navigationLevel == 0) {
-            if (selectedItemId == R.id.my_events) {
-                return 2;
-            }
-        }
-
-        return 1;
     }
 
     @Override
@@ -187,5 +144,10 @@ public class MainActivity extends NavigationDrawerActivity {
 
     public static boolean isRunning() {
         return isRunning;
+    }
+
+    @Override
+    protected FragmentFactory createFragmentFactory() {
+        return new EventsAppFragmentFactory();
     }
 }
