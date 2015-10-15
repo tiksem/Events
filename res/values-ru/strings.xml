@@ -54,4 +54,6 @@
     <string name="welcome">Добро пожаловать в Azazai!</string>
     <string name="retry">Повторить</string>
     <string name="edit">Редактировать</string>
+    <string name="event_creation_title">Новое Событие</string>
+    <string name="event_edit_title">Редактирование События %s</string>
 </resources>

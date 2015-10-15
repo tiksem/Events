@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -100,7 +101,15 @@ public class CreateEventActivity extends VkActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitleTextColor(Color.rgb(255, 255, 255));
         setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setDisplayHomeAsUpEnabled(true);
+
+        if (editEvent == null) {
+            actionBar.setTitle(R.string.event_creation_title);
+        } else {
+            String title = StringUtilities.getFormatString(this, R.string.event_edit_title, editEvent.name);
+            actionBar.setTitle(title);
+        }
     }
 
     private void setupAddressEditText() {

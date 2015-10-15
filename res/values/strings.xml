@@ -55,4 +55,6 @@
     <string name="welcome">Welcome to Azazai!</string>
     <string name="retry">Retry</string>
     <string name="edit">Edit</string>
+    <string name="event_creation_title">Create New Event</string>
+    <string name="event_edit_title">Edit Event %s</string>
 </resources>
