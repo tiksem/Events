@@ -1,8 +1,10 @@
 package com.khevents.ui;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -13,6 +15,7 @@ import android.widget.TextView;
 import com.jsonutils.RequestException;
 import com.khevents.EventsApp;
 import com.khevents.R;
+import com.khevents.data.Event;
 import com.khevents.network.EventArgs;
 import com.khevents.network.IgnoreTagsProvider;
 import com.khevents.network.OnEventCreationFinished;
@@ -20,11 +23,11 @@ import com.khevents.network.RequestManager;
 import com.utils.framework.CollectionUtils;
 import com.utils.framework.Objects;
 import com.utils.framework.strings.Strings;
-import com.utils.framework.suggestions.SuggestionsProvider;
 import com.utilsframework.android.adapters.GoogleMapsSuggestionsAdapter;
 import com.utilsframework.android.adapters.StringSuggestionsAdapter;
 import com.utilsframework.android.resources.StringUtilities;
 import com.utilsframework.android.suggestions.GoogleMapsSuggestionsProvider;
+import com.utilsframework.android.threading.OnFinish;
 import com.utilsframework.android.view.*;
 import com.utilsframework.android.view.flowlayout.FlowLayout;
 import com.vk.sdk.VKSdk;
@@ -32,6 +35,7 @@ import com.vk.sdk.api.*;
 import com.vkandroid.VkActivity;
 
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -43,7 +47,10 @@ public class CreateEventActivity extends VkActivity {
     public static final int MIN_EVENT_NAME_LENGTH = 5;
     public static final int MIN_DESCRIPTION_LENGTH = 5;
     public static final int MIN_ADDRESS_LENGTH = 5;
+
     public static final String INVALID_DATE = "InvalidDate";
+    public static final String EDIT_EVENT = "EDIT_EVENT";
+
     private RequestManager requestManager;
     private NumberPickerButton peopleNumber;
     private TextView name;
@@ -54,6 +61,7 @@ public class CreateEventActivity extends VkActivity {
     private FlowLayout tagsLayout;
     private EditTextWithSuggestions addTagEditText;
     private List<View> tagsLayoutChildren;
+    private Event editEvent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,9 +80,20 @@ public class CreateEventActivity extends VkActivity {
 
         requestManager = EventsApp.getInstance().createRequestManager();
 
+        setupEditEvent();
         setupToolBar();
         setupTags();
         setupAddressEditText();
+    }
+
+    private void setupEditEvent() {
+        editEvent = getIntent().getParcelableExtra(EDIT_EVENT);
+        if (editEvent != null) {
+            peopleNumber.setValue(editEvent.peopleNumber);
+            name.setText(editEvent.name);
+            description.setText(editEvent.description);
+            date.setDate(editEvent.date * 1000l);
+        }
     }
 
     private void setupToolBar() {
@@ -86,6 +105,9 @@ public class CreateEventActivity extends VkActivity {
 
     private void setupAddressEditText() {
         address = (EditTextWithSuggestions) findViewById(R.id.address);
+        if (editEvent != null) {
+            address.setText(editEvent.address);
+        }
 
         GoogleMapsSuggestionsAdapter adapter = new GoogleMapsSuggestionsAdapter(this);
         GoogleMapsSuggestionsProvider provider = new GoogleMapsSuggestionsProvider(this);
@@ -164,7 +186,17 @@ public class CreateEventActivity extends VkActivity {
     }
 
     private boolean shouldShowBackConfirm() {
-        return Strings.containsAnyNotEmpty(name.getText(), address.getText(), description.getText());
+        if (editEvent == null) {
+            return Strings.containsAnyNotEmpty(name.getText(), address.getText(), description.getText());
+        } else {
+            return editChangesMade();
+        }
+    }
+
+    private boolean editChangesMade() {
+        List<CharSequence> current = Arrays.asList(name.getText(), address.getText(), description.getText());
+        List<String> last = Arrays.asList(editEvent.name, editEvent.address, editEvent.description);
+        return !Strings.stringListsEquals(current, last);
     }
 
     @Override
@@ -184,8 +216,8 @@ public class CreateEventActivity extends VkActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int itemId = item.getItemId();
-        if (itemId == R.id.create) {
-            create();
+        if (itemId == R.id.apply) {
+            createOrEdit();
             return true;
         } else if(itemId == android.R.id.home) {
             onBackPressed();
@@ -220,27 +252,43 @@ public class CreateEventActivity extends VkActivity {
         }
     }
 
-    private void create() {
-        EventArgs args = new EventArgs();
+    private void createOrEdit() {
+        if (editEvent != null && !editChangesMade()) {
+            finish();
+        }
+
+        EventArgs args;
         try {
-            args.name = name.getText().toString();
-            validateField(args.name, R.string.name, MIN_EVENT_NAME_LENGTH);
-
-            args.description = description.getText().toString();
-            validateField(args.description, R.string.description, MIN_DESCRIPTION_LENGTH);
-
-            args.address = address.getText().toString();
-            validateField(args.address, R.string.address, MIN_ADDRESS_LENGTH);
+            args = getEventArgs();
         } catch (ValidateException e) {
             return;
         }
 
+        executeCreateEditEventRequest(args);
+    }
+
+    private EventArgs getEventArgs() throws ValidateException {
+        EventArgs args = new EventArgs();
+        args.name = name.getText().toString();
+        validateField(args.name, R.string.name, MIN_EVENT_NAME_LENGTH);
+
+        args.description = description.getText().toString();
+        validateField(args.description, R.string.description, MIN_DESCRIPTION_LENGTH);
+
+        args.address = address.getText().toString();
+        validateField(args.address, R.string.address, MIN_ADDRESS_LENGTH);
+
         args.date = (int) (date.getDate() / 1000);
         args.peopleNumber = peopleNumber.getValue();
         args.tags = getTags();
-        args.accessToken = VKSdk.getAccessToken().accessToken;
 
-        executeCreateEventRequest(args);
+        if (editEvent == null) {
+            args.accessToken = VKSdk.getAccessToken().accessToken;
+        } else {
+            args.id = editEvent.id;
+        }
+
+        return args;
     }
 
     private void onEventCreated() {
@@ -248,6 +296,11 @@ public class CreateEventActivity extends VkActivity {
         setResult(RESULT_OK);
         finish();
         //postToVK();
+    }
+
+    private void onEventEdited() {
+        setResult(RESULT_OK);
+        finish();
     }
 
     private void postToVK() {
@@ -267,9 +320,13 @@ public class CreateEventActivity extends VkActivity {
         });
     }
 
-    void onEventCreationFinished(IOException error) {
+    void onEventCreateEditFinished(IOException error) {
         if (error == null) {
-            onEventCreated();
+            if (editEvent == null) {
+                onEventCreated();
+            } else {
+                onEventEdited();
+            }
         } else {
             if (error instanceof RequestException) {
                 RequestException requestException = (RequestException) error;
@@ -285,14 +342,35 @@ public class CreateEventActivity extends VkActivity {
         progressDialog.dismiss();
     }
 
-    private void executeCreateEventRequest(EventArgs args) {
+    private void executeCreateEditEventRequest(EventArgs args) {
         progressDialog = Alerts.showCircleProgressDialog(this, R.string.please_wait);
-        requestManager.createEvent(args, new EventCreationFinishedCallback(this));
+
+        if (editEvent == null) {
+            requestManager.createEvent(args, new OnEventCreationFinished() {
+                @Override
+                public void onComplete(int id, IOException error) {
+                    onEventCreateEditFinished(error);
+                }
+            });
+        } else {
+            requestManager.editEvent(args, new OnFinish<IOException>() {
+                @Override
+                public void onFinish(IOException e) {
+                    onEventCreateEditFinished(e);
+                }
+            });
+        }
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
         requestManager.cancelAll();
+    }
+
+    public static void edit(Fragment fragment, int requestCode, Event event) {
+        Intent intent = new Intent(fragment.getActivity(), CreateEventActivity.class);
+        intent.putExtra(EDIT_EVENT, event);
+        fragment.startActivityForResult(intent, requestCode);
     }
 }

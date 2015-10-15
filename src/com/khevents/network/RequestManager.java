@@ -87,6 +87,14 @@ public class RequestManager extends AsyncRequestExecutorManager {
         });
     }
 
+    public void editEvent(EventArgs args, OnFinish<IOException> onFinish) {
+        execute(new ThrowingRunnable<IOException>() {
+            @Override
+            public void run() throws IOException {
+
+            }
+        }, onFinish);
+    }
 
     public NavigationList<Event> getEvents(long date, String query) {
         if (query == null) {

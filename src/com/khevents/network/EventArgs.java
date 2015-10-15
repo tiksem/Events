@@ -10,6 +10,7 @@ import java.util.Map;
  * Created by CM on 6/22/2015.
  */
 public class EventArgs {
+    public Long id;
     public String name;
     public String description;
     public int date;
@@ -27,6 +28,10 @@ public class EventArgs {
         result.put("peopleNumber", peopleNumber);
         result.put("tags", Strings.join(tags, ','));
         result.put("token", accessToken);
+        if (id != null) {
+            result.put("id", id);
+        }
+
         return result;
     }
 }

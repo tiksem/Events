@@ -2,15 +2,18 @@ package com.khevents.ui.fragments;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.Intent;
+import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentActivity;
-import android.view.View;
-import android.view.ViewGroup;
+import android.view.*;
 import android.widget.*;
 import com.khevents.Level;
 import com.khevents.R;
 import com.khevents.data.Comment;
 import com.khevents.data.Event;
 import com.khevents.network.RequestManager;
+import com.khevents.ui.CreateEventActivity;
 import com.khevents.ui.UiUtils;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.utils.framework.Lists;
@@ -35,11 +38,13 @@ public class EventFragment extends AbstractPageLoadingFragment<VkUser> implement
     public static final String EVENT = "event";
     public static final ImageLoader IMAGE_LOADER = ImageLoader.getInstance();
     public static final int TOP_COMMENTS_COUNT = 3;
+    private static final int EDIT_EVENT_CODE = 123;
     private Event event;
     private Button subscribeButton;
     private List<Comment> topComments;
     private TextView peopleNumber;
     private ProgressDialog progressDialog;
+    private MenuItem editEventMenuItem;
 
     public static EventFragment create(Event event) {
         return Fragments.createFragmentWith1Arg(new EventFragment(), EVENT, event);
@@ -119,6 +124,43 @@ public class EventFragment extends AbstractPageLoadingFragment<VkUser> implement
                 GoogleMaps.startSearchAddressActivity(getActivity(), event.address);
             }
         });
+
+        editEventMenuItem.setVisible(event.userId == getVkUserId());
+
+        editEventMenuItem.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                editEvent();
+                return true;
+            }
+        });
+    }
+
+    private void editEvent() {
+        CreateEventActivity.edit(this, EDIT_EVENT_CODE, event);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == EDIT_EVENT_CODE && resultCode == Activity.RESULT_OK) {
+            reloadPage();
+        }
+    }
+
+    @Nullable
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        setHasOptionsMenu(true);
+        return super.onCreateView(inflater, container, savedInstanceState);
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.event, menu);
+        editEventMenuItem = menu.findItem(R.id.edit);
+        super.onCreateOptionsMenu(menu, inflater);
     }
 
     private void updatePeopleNumber() {
@@ -147,7 +189,7 @@ public class EventFragment extends AbstractPageLoadingFragment<VkUser> implement
             return;
         }
 
-        if (event.userId != Long.valueOf(VKSdk.getAccessToken().userId)) {
+        if (event.userId != getVkUserId()) {
             subscribeButton.setText(getSubscribeButtonText());
             subscribeButton.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -166,6 +208,10 @@ public class EventFragment extends AbstractPageLoadingFragment<VkUser> implement
                 }
             });
         }
+    }
+
+    private long getVkUserId() {
+        return Long.valueOf(VKSdk.getAccessToken().userId);
     }
 
     private void requestCancelEvent() {
@@ -230,6 +276,8 @@ public class EventFragment extends AbstractPageLoadingFragment<VkUser> implement
 
     protected void setupCommentsList(View content) {
         LinearLayout commentsView = (LinearLayout) content.findViewById(R.id.comments);
+        commentsView.removeViews(1, commentsView.getChildCount() - 1);
+
         for (Comment comment : topComments.size() <= TOP_COMMENTS_COUNT ? topComments :
                 topComments.subList(0, TOP_COMMENTS_COUNT)) {
             View view = UiUtils.createTopCommentLayout(getActivity(), comment);
