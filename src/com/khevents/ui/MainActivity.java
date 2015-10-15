@@ -3,7 +3,6 @@ package com.khevents.ui;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
-import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.view.View;
@@ -13,18 +12,16 @@ import com.khevents.EventsApp;
 import com.khevents.Level;
 import com.khevents.R;
 import com.khevents.data.Event;
-import com.khevents.ui.fragments.*;
-import com.khevents.vk.VkInitManager;
+import com.khevents.ui.fragments.EventFragment;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.utilsframework.android.AndroidUtilities;
 import com.utilsframework.android.navdrawer.FragmentFactory;
-import com.utilsframework.android.navdrawer.NavigationDrawerActivity;
+import com.utilsframework.android.navdrawer.NavigationDrawerMenuActivity;
 import com.utilsframework.android.social.SocialUtils;
 import com.vk.sdk.VKUIHelper;
-import com.vkandroid.VkApiUtils;
 import com.vkandroid.VkUser;
 
-public class MainActivity extends NavigationDrawerActivity {
+public class MainActivity extends NavigationDrawerMenuActivity {
     public static final String NOTIFICATION_EVENT = "NOTIFICATION_EVENT";
 
     private static boolean isRunning = false;
@@ -59,7 +56,7 @@ public class MainActivity extends NavigationDrawerActivity {
     }
 
     @Override
-    protected int getNavigationMenuId() {
+    protected int getMenuId() {
         return R.menu.navigation;
     }
 
