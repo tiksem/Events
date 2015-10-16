@@ -24,10 +24,8 @@ import com.khevents.network.RequestManager;
 import com.utils.framework.CollectionUtils;
 import com.utils.framework.Objects;
 import com.utils.framework.strings.Strings;
-import com.utilsframework.android.adapters.GoogleMapsSuggestionsAdapter;
 import com.utilsframework.android.adapters.StringSuggestionsAdapter;
 import com.utilsframework.android.resources.StringUtilities;
-import com.utilsframework.android.suggestions.GoogleMapsSuggestionsProvider;
 import com.utilsframework.android.threading.OnFinish;
 import com.utilsframework.android.view.*;
 import com.utilsframework.android.view.flowlayout.FlowLayout;
@@ -117,12 +115,6 @@ public class CreateEventActivity extends VkActivity {
         if (editEvent != null) {
             address.setText(editEvent.address);
         }
-
-        GoogleMapsSuggestionsAdapter adapter = new GoogleMapsSuggestionsAdapter(this);
-        GoogleMapsSuggestionsProvider provider = new GoogleMapsSuggestionsProvider(this);
-        adapter.setSuggestionsProvider(provider);
-
-        address.setAdapter(adapter);
     }
 
     private View createTag(String name) {
