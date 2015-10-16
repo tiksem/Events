@@ -13,6 +13,3 @@
 [submodule "dependencies/vkandroid-utils"]
 	path = dependencies/vkandroid-utils
 	url = https://github.com/tiksem/vkebloebi.git
-[submodule "dependencies/google-maps-android-utils"]
-	path = dependencies/google-maps-android-utils
-	url = https://github.com/tiksem/google-maps-android-utils.git
