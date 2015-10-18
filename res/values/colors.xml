@@ -14,4 +14,5 @@
     <color name="vkLoginButtonColor">#53779e</color>
     <color name="vkLoginButtonBorder">#ff3b5470</color>
     <color name="vkLoginButtonRipple">#ff6e9dcc</color>
+    <color name="vkLoginButtonPressed">#ff426182</color>
 </resources>
