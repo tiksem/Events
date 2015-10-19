@@ -8,6 +8,7 @@ import com.khevents.ui.fragments.CreatedUserEventsListFragment;
 import com.khevents.ui.fragments.SubscribedUserEventsListFragment;
 import com.khevents.ui.fragments.TagsListFragment;
 import com.utilsframework.android.navdrawer.FragmentFactory;
+import com.utilsframework.android.navdrawer.TabsAdapter;
 
 /**
  * Created by stykhonenko on 15.10.15.
@@ -36,7 +37,7 @@ public class EventsAppFragmentFactory implements FragmentFactory {
     }
 
     @Override
-    public void initTab(int currentSelectedItem, int tabIndex, int navigationLevel, TabLayout.Tab tab) {
+    public void initTab(int currentSelectedItem, int tabIndex, int navigationLevel, TabsAdapter.Tab tab) {
         if (currentSelectedItem == R.id.my_events) {
             if (tabIndex == 0) {
                 tab.setText(R.string.subscribed);
