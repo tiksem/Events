@@ -32,7 +32,7 @@ public class EventSubscribersListFragment extends AbstractNavigationListFragment
     }
 
     @Override
-    protected void onListItemClicked(VkUser vkUser) {
+    protected void onListItemClicked(VkUser vkUser, int position) {
         SocialUtils.openVkUserProfile(getActivity(), vkUser.id);
     }
 

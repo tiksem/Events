@@ -18,7 +18,7 @@ public abstract class EventsListFragment extends AbstractNavigationListFragment<
     }
 
     @Override
-    protected void onListItemClicked(Event event) {
+    protected void onListItemClicked(Event event, int position) {
         Fragment fragment = EventFragment.create(event);
         replaceFragment(fragment, Level.EVENT_PAGE);
     }

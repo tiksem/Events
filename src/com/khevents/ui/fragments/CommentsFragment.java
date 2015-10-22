@@ -69,7 +69,7 @@ public class CommentsFragment extends AbstractNavigationListFragment<Comment> im
     }
 
     @Override
-    protected void onListItemClicked(Comment item) {
+    protected void onListItemClicked(Comment item, int position) {
         SocialUtils.openVkUserProfile(getActivity(), item.userId);
     }
 

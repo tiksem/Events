@@ -24,7 +24,7 @@ public class TagsListFragment extends AbstractNavigationListFragment<Tag> {
     }
 
     @Override
-    protected void onListItemClicked(Tag tag) {
+    protected void onListItemClicked(Tag tag, int position) {
         Fragment fragment = EventsByTagFragment.create(tag.name);
         replaceFragment(fragment, Level.TAG_EVENTS);
     }

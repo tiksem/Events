@@ -33,8 +33,6 @@ public class AllEventsListFragment extends EventsListFragment {
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-
         dateFilterCheckbox = (CheckBox) view.findViewById(R.id.date_filter_checkbox);
         datePickerButton = (DatePickerButton) view.findViewById(R.id.filter_date);
         dateFilterCheckbox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -59,6 +57,8 @@ public class AllEventsListFragment extends EventsListFragment {
                 }
             }
         });
+
+        super.onViewCreated(view, savedInstanceState);
 
         final FloatingActionButton floatingActionButton = (FloatingActionButton) view.findViewById(R.id.fab);
         floatingActionButton.attachToListView(getListView());
