@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -12,6 +13,7 @@ import com.khevents.EventsApp;
 import com.khevents.Level;
 import com.khevents.R;
 import com.khevents.data.Event;
+import com.khevents.debug.DebugUtils;
 import com.khevents.ui.fragments.EventFragment;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.utilsframework.android.AndroidUtilities;
@@ -146,5 +148,17 @@ public class MainActivity extends NavigationDrawerMenuActivity {
     @Override
     protected FragmentFactory createFragmentFactory() {
         return new EventsAppFragmentFactory();
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (EventsApp.DEBUG) {
+            if (keyCode == KeyEvent.KEYCODE_VOLUME_DOWN) {
+                DebugUtils.showInternetConnectionDialog(this);
+                return true;
+            }
+        }
+
+        return super.onKeyDown(keyCode, event);
     }
 }

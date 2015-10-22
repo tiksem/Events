@@ -10,6 +10,8 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.utilsframework.android.UiLoopEvent;
 import com.utilsframework.android.resources.LocaleUtils;
+import com.utilsframework.android.view.Alerts;
+import com.utilsframework.android.view.OnYes;
 import com.vk.sdk.util.VKUtil;
 import com.vkandroid.VkApiUtils;
 import com.vkandroid.VkUser;
@@ -21,6 +23,7 @@ import java.util.Locale;
  * Created by CM on 6/17/2015.
  */
 public class EventsApp extends Application {
+    public static final boolean DEBUG = true;
     private static final int MAX_DATABASE_CACHE_SIZE = 100;
 
     private static EventsApp instance;
@@ -49,6 +52,16 @@ public class EventsApp extends Application {
 
         String[] fingerprints = VKUtil.getCertificateFingerprint(this, this.getPackageName());
         Strings.join(fingerprints, ':');
+
+        if (DEBUG) {
+            // This is for debug purposes Place breakpoint in run and evaluate expression in Intellij Idea
+            new UiLoopEvent().run(new Runnable() {
+                @Override
+                public void run() {
+
+                }
+            });
+        }
     }
 
     public static EventsApp getInstance() {

@@ -35,14 +35,21 @@ import java.util.*;
 public class RequestManager extends AsyncRequestExecutorManager {
     public static final String TAG = "RequestManager";
 
-    private RequestExecutor networkRequestExecutor = new GetRequestExecutor() {
+    // for debug purposes, don't use it directly
+    public static boolean internetConnectionEnabled = true;
+
+    private static final RequestExecutor networkRequestExecutor = new GetRequestExecutor() {
         @Override
         public String executeRequest(String url, Map<String, Object> args) throws IOException {
-            Log.i(TAG, "url = " + Network.getUrl(url, args));
-            ExecuteTimeLogger.timeStart("request");
-            String result = super.executeRequest(url, args);
-            ExecuteTimeLogger.timeEnd("request", TAG);
-            return result;
+            if (internetConnectionEnabled) {
+                Log.i(TAG, "url = " + Network.getUrl(url, args));
+                ExecuteTimeLogger.timeStart("request");
+                String result = super.executeRequest(url, args);
+                ExecuteTimeLogger.timeEnd("request", TAG);
+                return result;
+            } else {
+                throw new IOException("YO!");
+            }
         }
     };
     private RequestExecutorWithCaching requestExecutor;
