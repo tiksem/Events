@@ -57,4 +57,6 @@
     <string name="edit">Edit</string>
     <string name="event_creation_title">Create New Event</string>
     <string name="event_edit_title">Edit Event %s</string>
+    <string name="disable_internet_connection">Disable internet connection</string>
+    <string name="enable_internet_connection">Enable internet connection</string>
 </resources>
