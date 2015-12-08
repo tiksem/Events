@@ -20,11 +20,9 @@ import com.utilsframework.android.view.KeyboardIsShownListener;
  * Created by CM on 6/20/2015.
  */
 public class AllEventsListFragment extends EventsListFragment {
-    public static final int CREATE_EVENT = 1;
     private CheckBox dateFilterCheckbox;
     private DatePickerButton datePickerButton;
     private boolean datePickerButtonCheckedListenerCalled = false;
-    private KeyboardIsShownListener keyboardIsShownListener;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -59,29 +57,6 @@ public class AllEventsListFragment extends EventsListFragment {
         });
 
         super.onViewCreated(view, savedInstanceState);
-
-        final FloatingActionButton floatingActionButton = (FloatingActionButton) view.findViewById(R.id.fab);
-        floatingActionButton.attachToListView(getListView());
-        floatingActionButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                AndroidUtilities.startActivityForResult(AllEventsListFragment.this,
-                        CreateEventActivity.class, CREATE_EVENT);
-            }
-        });
-
-        keyboardIsShownListener = new KeyboardIsShownListener(getActivity()) {
-            @Override
-            protected void onKeyboardStateChanged(boolean isShown) {
-                floatingActionButton.setVisibility(isShown ? View.INVISIBLE : View.VISIBLE);
-            }
-        };
-    }
-
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        keyboardIsShownListener.destroy();
     }
 
     @Override
@@ -100,16 +75,12 @@ public class AllEventsListFragment extends EventsListFragment {
     }
 
     @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        if (requestCode == CREATE_EVENT && resultCode == Activity.RESULT_OK) {
-            updateNavigationListWithLastFilter();
-        }
+    protected boolean hasSearchMenu() {
+        return true;
     }
 
     @Override
-    protected boolean hasSearchMenu() {
+    protected boolean useCreateEventButton() {
         return true;
     }
 }
