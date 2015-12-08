@@ -95,4 +95,9 @@ public abstract class AbstractNavigationListFragment<T> extends NavigationListFr
             localBroadcastManager.unregisterReceiver(updateReceiver);
         }
     }
+
+    @Override
+    protected boolean useSwipeRefresh() {
+        return false;
+    }
 }

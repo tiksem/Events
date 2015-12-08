@@ -1,5 +1,7 @@
 package com.khevents.ui.fragments;
 
+import android.os.Bundle;
+import android.view.View;
 import com.khevents.R;
 import com.khevents.data.Event;
 import com.khevents.network.RequestManager;
@@ -28,5 +30,21 @@ public class CreatedUserEventsListFragment extends UserEventsListFragment {
     @Override
     protected boolean useUpdateBroadcastReceiver() {
         return true;
+    }
+
+    @Override
+    protected int getEmptyListResourceId() {
+        return R.id.no_created_events;
+    }
+
+    @Override
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        view.findViewById(R.id.create_event).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                createEvent();
+            }
+        });
     }
 }

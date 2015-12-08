@@ -34,8 +34,7 @@ public abstract class EventsListFragment extends AbstractNavigationListFragment<
             floatingActionButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    AndroidUtilities.startActivityForResult(EventsListFragment.this,
-                            CreateEventActivity.class, CREATE_EVENT);
+                    createEvent();
                 }
             });
 
@@ -46,6 +45,11 @@ public abstract class EventsListFragment extends AbstractNavigationListFragment<
                 }
             };
         }
+    }
+
+    protected final void createEvent() {
+        AndroidUtilities.startActivityForResult(EventsListFragment.this,
+                CreateEventActivity.class, CREATE_EVENT);
     }
 
     @Override
