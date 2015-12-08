@@ -23,6 +23,7 @@ import com.khevents.network.OnEventCreationFinished;
 import com.khevents.network.RequestManager;
 import com.utils.framework.CollectionUtils;
 import com.utils.framework.Objects;
+import com.utils.framework.Transformer;
 import com.utils.framework.strings.Strings;
 import com.utilsframework.android.adapters.StringSuggestionsAdapter;
 import com.utilsframework.android.resources.StringUtilities;
@@ -229,7 +230,7 @@ public class CreateEventActivity extends VkActivity {
     }
 
     private List<String> getTags() {
-        return CollectionUtils.transform(tagsLayoutChildren, new CollectionUtils.Transformer<View, String>() {
+        return CollectionUtils.transform(tagsLayoutChildren, new Transformer<View, String>() {
             @Override
             public String get(View view) {
                 return ((TextView) view.findViewById(R.id.tag)).getText().toString();

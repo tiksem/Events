@@ -2,6 +2,7 @@ package com.khevents.network;
 
 import com.khevents.data.Comment;
 import com.utils.framework.CollectionUtils;
+import com.utils.framework.Transformer;
 import com.utils.framework.network.RequestExecutor;
 import com.vkandroid.VkApiUtils;
 import com.vkandroid.VkUser;
@@ -17,7 +18,7 @@ class Requests {
     static List<VkUser> getUsersFromComments(RequestExecutor requestExecutor, List<Comment> comments)
             throws IOException {
         return VkApiUtils.getUsers(CollectionUtils.transformNonCopy(comments,
-                new CollectionUtils.Transformer<Comment, Long>() {
+                new Transformer<Comment, Long>() {
                     @Override
                     public Long get(Comment comment) {
                         return comment.userId;
