@@ -1,20 +1,16 @@
 package com.khevents.ui.fragments;
 
-import android.app.Activity;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
-import com.khevents.ui.CreateEventActivity;
+import android.widget.TextView;
 import com.khevents.R;
 import com.khevents.data.Event;
 import com.khevents.network.RequestManager;
 import com.utils.framework.collections.NavigationList;
-import com.utilsframework.android.AndroidUtilities;
-import com.utilsframework.android.fab.FloatingActionButton;
+import com.utilsframework.android.time.TimeUtils;
 import com.utilsframework.android.view.DatePickerButton;
-import com.utilsframework.android.view.KeyboardIsShownListener;
 
 /**
  * Created by CM on 6/20/2015.
@@ -23,6 +19,10 @@ public class AllEventsListFragment extends EventsListFragment {
     private CheckBox dateFilterCheckbox;
     private DatePickerButton datePickerButton;
     private boolean datePickerButtonCheckedListenerCalled = false;
+    private View emptyEventActionButton;
+    private long dateFilter;
+    private TextView emptyEventsHint;
+    private TextView emptyEventsDate;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -31,6 +31,22 @@ public class AllEventsListFragment extends EventsListFragment {
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
+        setupDateFilterViews(view);
+        super.onViewCreated(view, savedInstanceState);
+
+        emptyEventActionButton = view.findViewById(R.id.event_action_button);
+        emptyEventActionButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                createEvent();
+            }
+        });
+
+        emptyEventsHint = (TextView) view.findViewById(R.id.hint);
+        emptyEventsDate = (TextView) view.findViewById(R.id.date);
+    }
+
+    protected void setupDateFilterViews(View view) {
         dateFilterCheckbox = (CheckBox) view.findViewById(R.id.date_filter_checkbox);
         datePickerButton = (DatePickerButton) view.findViewById(R.id.filter_date);
         dateFilterCheckbox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -55,17 +71,16 @@ public class AllEventsListFragment extends EventsListFragment {
                 }
             }
         });
-
-        super.onViewCreated(view, savedInstanceState);
     }
 
     @Override
     protected NavigationList<Event> getNavigationList(RequestManager requestManager, String filter) {
         if (!dateFilterCheckbox.isChecked()) {
+            dateFilter = -1;
             return requestManager.getEvents(filter);
         } else {
-            long date = datePickerButton.getDate();
-            return requestManager.getEvents(date, filter);
+            dateFilter = datePickerButton.getDate();
+            return requestManager.getEvents(dateFilter, filter);
         }
     }
 
@@ -82,5 +97,25 @@ public class AllEventsListFragment extends EventsListFragment {
     @Override
     protected boolean useCreateEventButton() {
         return true;
+    }
+
+    @Override
+    protected int getEmptyListResourceId() {
+        return R.id.no_events;
+    }
+
+    @Override
+    protected void onEmptyViewIsShown() {
+        boolean isActionButtonVisible = getLastFilter() == null && dateFilter < 0;
+        emptyEventActionButton.setVisibility(isActionButtonVisible ? View.VISIBLE : View.GONE);
+        if (dateFilter > 0) {
+            emptyEventsDate.setVisibility(View.VISIBLE);
+            String date = TimeUtils.getAlternativeDisplayDate(getActivity(), dateFilter);
+            emptyEventsDate.setText(date);
+            emptyEventsHint.setText(R.string.no_events_on);
+        } else {
+            emptyEventsHint.setText(R.string.no_events_found);
+            emptyEventsDate.setVisibility(View.GONE);
+        }
     }
 }

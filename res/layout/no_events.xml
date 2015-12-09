@@ -4,6 +4,7 @@
              android:layout_width="match_parent"
              android:layout_height="match_parent">
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                  android:paddingBottom="70dp"
                   android:orientation="vertical"
                   android:gravity="center"
                   android:layout_width="wrap_content"
@@ -19,10 +20,14 @@
                 style="@style/contrastButton"
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp"
-                android:layout_marginBottom="70dp"
-                android:text="@string/create_new_event"
+                android:text="@string/create_first_event"
                 android:layout_width="wrap_content"
                 android:layout_height="30dp"/>
+        <TextView android:id="@+id/date"
+                  android:textSize="16sp"
+                  android:visibility="gone"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"/>
     </LinearLayout>
 
     <ImageView android:src="@drawable/people_background"

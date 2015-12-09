@@ -63,4 +63,6 @@
     <string name="no_subscribed_events">No subscribed events</string>
     <string name="create_new_event">Create new event</string>
     <string name="find_events">Find events</string>
+    <string name="create_first_event">Create first event</string>
+    <string name="no_events_on">No events on</string>
 </resources>

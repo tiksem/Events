@@ -27,6 +27,7 @@
                  android:layout_weight="1"
                  android:layout_height="0dp">
         <include layout="@layout/no_connection"> </include>
+        <include layout="@layout/no_events"> </include>
 
         <ListView android:id="@+id/list"
                   android:layout_width="match_parent"
