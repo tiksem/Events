@@ -21,6 +21,7 @@ import com.utilsframework.android.fragments.Fragments;
 import com.utilsframework.android.google.GoogleMaps;
 import com.utilsframework.android.navdrawer.ActionBarTitleProvider;
 import com.utilsframework.android.social.SocialUtils;
+import com.utilsframework.android.threading.OnFinish;
 import com.utilsframework.android.time.TimeUtils;
 import com.utilsframework.android.view.Alerts;
 import com.utilsframework.android.view.OnYes;
@@ -229,10 +230,15 @@ public class EventFragment extends AbstractPageLoadingFragment<VkUser> implement
     private void cancelEvent() {
         progressDialog = Alerts.showCircleProgressDialog(getActivity(), R.string.please_wait);
         getRequestManager().cancelEventAsync(event.id, VKSdk.getAccessToken().accessToken,
-                new EventCancelCallback(this));
+                new OnFinish<IOException>() {
+                    @Override
+                    public void onFinish(IOException e) {
+                        onEventCanceled(e);
+                    }
+                });
     }
 
-    void onEventCanceled(IOException e) {
+    private void onEventCanceled(IOException e) {
         FragmentActivity activity = getActivity();
         if (activity != null) {
             if (e == null) {
