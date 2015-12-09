@@ -32,12 +32,22 @@ public class EventsByTagFragment extends EventsListFragment implements ActionBar
     }
 
     @Override
-    protected int getRootLayout() {
-        return R.layout.list_fragment;
+    public String getActionBarTitle() {
+        return tag + " " + getString(R.string.events);
     }
 
     @Override
-    public String getActionBarTitle() {
-        return tag + " " + getString(R.string.events);
+    protected int getHintText() {
+        return R.string.no_events_found;
+    }
+
+    @Override
+    protected int getEmptyEventsActionText() {
+        return 0;
+    }
+
+    @Override
+    protected boolean useCreateEventButton() {
+        return false;
     }
 }

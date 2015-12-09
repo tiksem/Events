@@ -19,10 +19,11 @@ public class AllEventsListFragment extends EventsListFragment {
     private CheckBox dateFilterCheckbox;
     private DatePickerButton datePickerButton;
     private boolean datePickerButtonCheckedListenerCalled = false;
-    private View emptyEventActionButton;
     private long dateFilter;
-    private TextView emptyEventsHint;
     private TextView emptyEventsDate;
+
+    public AllEventsListFragment() {
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -33,16 +34,6 @@ public class AllEventsListFragment extends EventsListFragment {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         setupDateFilterViews(view);
         super.onViewCreated(view, savedInstanceState);
-
-        emptyEventActionButton = view.findViewById(R.id.event_action_button);
-        emptyEventActionButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                createEvent();
-            }
-        });
-
-        emptyEventsHint = (TextView) view.findViewById(R.id.hint);
         emptyEventsDate = (TextView) view.findViewById(R.id.date);
     }
 
@@ -71,6 +62,8 @@ public class AllEventsListFragment extends EventsListFragment {
                 }
             }
         });
+
+        emptyEventsDate = (TextView) view.findViewById(R.id.date);
     }
 
     @Override
@@ -86,7 +79,7 @@ public class AllEventsListFragment extends EventsListFragment {
 
     @Override
     protected int getRootLayout() {
-        return R.layout.events_list_fragment;
+        return R.layout.all_events_list_fragment;
     }
 
     @Override
@@ -105,17 +98,26 @@ public class AllEventsListFragment extends EventsListFragment {
     }
 
     @Override
-    protected void onEmptyViewIsShown() {
-        boolean isActionButtonVisible = getLastFilter() == null && dateFilter < 0;
-        emptyEventActionButton.setVisibility(isActionButtonVisible ? View.VISIBLE : View.GONE);
+    protected void onUpdateEmptyViews() {
+        super.onUpdateEmptyViews();
+
         if (dateFilter > 0) {
             emptyEventsDate.setVisibility(View.VISIBLE);
             String date = TimeUtils.getAlternativeDisplayDate(getActivity(), dateFilter);
             emptyEventsDate.setText(date);
-            emptyEventsHint.setText(R.string.no_events_on);
         } else {
-            emptyEventsHint.setText(R.string.no_events_found);
             emptyEventsDate.setVisibility(View.GONE);
         }
+    }
+
+    @Override
+    protected int getHintText() {
+        return dateFilter > 0 ? R.string.no_events_on : R.string.no_events_found;
+    }
+
+    @Override
+    protected int getEmptyEventsActionText() {
+        boolean isActionButtonVisible = getLastFilter() == null && dateFilter < 0;
+        return isActionButtonVisible ? R.string.create_first_event : 0;
     }
 }

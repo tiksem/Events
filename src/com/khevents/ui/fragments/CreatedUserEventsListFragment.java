@@ -21,17 +21,17 @@ public class CreatedUserEventsListFragment extends UserEventsListFragment {
     }
 
     @Override
-    protected void onEventActionButtonClicked() {
-        createEvent();
-    }
-
-    @Override
-    protected int getEventActionText() {
+    protected int getEmptyEventsActionText() {
         return R.string.create_new_event;
     }
 
     @Override
     protected int getHintText() {
         return R.string.no_events_found;
+    }
+
+    @Override
+    protected int getRootLayout() {
+        return R.layout.events_list_fragment_with_fab;
     }
 }

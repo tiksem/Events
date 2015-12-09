@@ -17,7 +17,7 @@ public class SubscribedUserEventsListFragment extends UserEventsListFragment {
     }
 
     @Override
-    protected void onEventActionButtonClicked() {
+    protected void onEmptyEventsActionButtonClicked() {
         findEvents();
     }
 
@@ -26,7 +26,7 @@ public class SubscribedUserEventsListFragment extends UserEventsListFragment {
     }
 
     @Override
-    protected int getEventActionText() {
+    protected int getEmptyEventsActionText() {
         return R.string.find_events;
     }
 

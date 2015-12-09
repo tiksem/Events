@@ -1,6 +1,8 @@
 package com.khevents.ui.fragments;
 
+import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.view.View;
 import com.khevents.Level;
 import com.khevents.R;
 import com.khevents.adapters.TagsAdapter;
@@ -12,7 +14,7 @@ import com.utilsframework.android.adapters.ViewArrayAdapter;
 /**
  * Created by CM on 7/1/2015.
  */
-public class TagsListFragment extends AbstractNavigationListFragment<Tag> {
+public class TagsListFragment extends NavigationListFragmentWithEmptyResults<Tag> {
     @Override
     protected ViewArrayAdapter<Tag, ?> createAdapter(RequestManager requestManager) {
         return new TagsAdapter(getActivity());
@@ -30,7 +32,27 @@ public class TagsListFragment extends AbstractNavigationListFragment<Tag> {
     }
 
     @Override
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+    }
+
+    @Override
     protected int getRootLayout() {
-        return R.layout.list_fragment;
+        return R.layout.list_fragment_with_empty_results;
+    }
+
+    @Override
+    protected int getEmptyListResourceId() {
+        return R.id.no_events;
+    }
+
+    @Override
+    protected int getHintText() {
+        return R.string.no_tags_found;
+    }
+
+    @Override
+    protected int getEmptyEventsActionText() {
+        return R.string.create_first_event;
     }
 }

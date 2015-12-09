@@ -80,8 +80,8 @@ public class CommentsFragment extends AbstractNavigationListFragment<Comment> im
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
         setupAddCommentControl(view);
+        super.onViewCreated(view, savedInstanceState);
     }
 
     @Override
