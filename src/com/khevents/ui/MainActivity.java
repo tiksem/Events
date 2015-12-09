@@ -95,6 +95,10 @@ public class MainActivity extends NavigationDrawerMenuActivity {
         if (selectedItemId == R.id.tags) {
             return getString(R.string.tags);
         } else if(selectedItemId == R.id.my_events) {
+            if (navigationLevel == Level.FIND_EVENTS) {
+                return getString(R.string.events);
+            }
+
             return getString(R.string.my_events);
         } else if(selectedItemId == R.id.events) {
             return getString(R.string.events);

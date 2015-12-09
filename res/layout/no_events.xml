@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-             android:id="@+id/no_created_events"
+             android:id="@+id/no_events"
              android:layout_width="match_parent"
              android:layout_height="match_parent">
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -9,12 +9,13 @@
                   android:layout_width="wrap_content"
                   android:layout_height="wrap_content"
                   android:layout_gravity="center">
-        <TextView android:text="@string/no_events_found"
+        <TextView android:id="@+id/hint"
+                  android:text="@string/no_events_found"
                   android:layout_width="wrap_content"
                   style="@style/specialListHintText"
                   android:paddingBottom="12dp"
                   android:layout_height="wrap_content"/>
-        <Button android:id="@+id/create_event"
+        <Button android:id="@+id/event_action_button"
                 style="@style/contrastButton"
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp"

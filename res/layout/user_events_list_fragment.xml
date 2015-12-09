@@ -5,7 +5,7 @@
               android:layout_width="match_parent"
               android:layout_height="match_parent">
     <include layout="@layout/no_connection"> </include>
-    <include layout="@layout/no_created_events"> </include>
+    <include layout="@layout/no_events"> </include>
 
     <ListView android:id="@+id/list"
               android:layout_width="match_parent"

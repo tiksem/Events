@@ -60,5 +60,7 @@
     <string name="disable_internet_connection">Disable internet connection</string>
     <string name="enable_internet_connection">Enable internet connection</string>
     <string name="no_events_found">No events found</string>
+    <string name="no_subscribed_events">No subscribed events</string>
     <string name="create_new_event">Create new event</string>
+    <string name="find_events">Find events</string>
 </resources>
