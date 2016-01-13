@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+          package="com.azazai"
+          android:versionCode="1"
+          android:versionName="1.0">
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
+
+    <permission android:name="com.azazai.gcm.permission.C2D_MESSAGE"
+                android:protectionLevel="signature" />
+    <uses-permission android:name="com.azazai.gcm.permission.C2D_MESSAGE" />
+
+    <uses-sdk android:minSdkVersion="14" android:targetSdkVersion="23"/>
+    <application android:name=".EventsApp"
+                 android:label="@string/app_name" android:icon="@drawable/ic_launcher">
+        <activity android:name=".ui.MainActivity"
+                  android:theme="@style/AppBaseTheme"
+                  android:configChanges="orientation|screenSize"
+                  android:label="@string/app_name">
+        </activity>
+
+        <activity android:name="com.utilsframework.android.fragments.OneFragmentActivity"
+                  android:theme="@style/AppBaseTheme"
+                  android:configChanges="orientation|screenSize"
+                  android:label="@string/app_name">
+        </activity>
+
+        <activity android:name=".ui.WelcomeActivity"
+                  android:screenOrientation="portrait"
+                  android:launchMode="singleTop"
+                  android:configChanges="orientation|screenSize"
+                  android:theme="@style/AppBaseTheme"
+                  android:label="@string/app_name">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+        </activity>
+
+        <activity android:name=".ui.CreateEventActivity"
+                  android:theme="@style/AppBaseTheme"
+                  android:screenOrientation="portrait"
+                  android:label="@string/app_name">
+        </activity>
+
+        <activity android:name="com.vk.sdk.VKOpenAuthActivity" />
+
+        <receiver
+                android:name="com.google.android.gms.gcm.GcmReceiver"
+                android:exported="true"
+                android:permission="com.google.android.c2dm.permission.SEND" >
+            <intent-filter>
+                <action android:name="com.google.android.c2dm.intent.RECEIVE" />
+                <category android:name="com.example.gcm" />
+            </intent-filter>
+        </receiver>
+        <service
+                android:name=".gcm.MyGcmListenerService"
+                android:exported="false" >
+            <intent-filter>
+                <action android:name="com.google.android.c2dm.intent.RECEIVE" />
+            </intent-filter>
+        </service>
+        <service
+                android:name=".gcm.MyInstanceIDListenerService"
+                android:exported="false">
+            <intent-filter>
+                <action android:name="com.google.android.gms.iid.InstanceID"/>
+            </intent-filter>
+        </service>
+
+        <receiver android:exported="false" android:name=".gcm.GCMBroadCastReceiver" >
+            <intent-filter>
+                <action android:name="com.azazai.Notification" />
+            </intent-filter>
+        </receiver>
+        
+    </application>
+</manifest>
