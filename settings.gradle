@@ -1,0 +1,7 @@
+include ':app', ':library', ':vksdk_library', ':general-utils', ':json-utils', ':jsonandroid', ':vkandroid-utils'
+project(':library').projectDir = new File('dependencies/android-utils/library')
+project(':vksdk_library').projectDir = new File('dependencies/vksdk_library')
+project(':general-utils').projectDir = new File('dependencies/general-utils')
+project(':json-utils').projectDir = new File('dependencies/json-utils')
+project(':jsonandroid').projectDir = new File('dependencies/jsonandroid')
+project(':vkandroid-utils').projectDir = new File('dependencies/vkandroid-utils')
