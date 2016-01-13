@@ -34,14 +34,6 @@ public class WelcomeActivity extends VkActivity {
 
         final EventsApp eventsApp = EventsApp.getInstance();
 
-        vkInitManager = new VkInitManager(this, requestManager) {
-            @Override
-            protected void onVkUserReached(VkUser vkUser) {
-                super.onVkUserReached(vkUser);
-                startMainActivity();
-            }
-        };
-
         requestReadStoragePermissionExecuteWhenGranted(new Runnable() {
             @Override
             public void run() {
@@ -61,24 +53,34 @@ public class WelcomeActivity extends VkActivity {
         });
     }
 
-    private boolean requestReadStoragePermissionExecuteWhenGranted(final Runnable runnable) {
+    private void initRequestAndVkManager() {
+        EventsApp eventsApp = EventsApp.getInstance();
+        eventsApp.initIp();
+        requestManager = eventsApp.createRequestManager();
+
+        vkInitManager = new VkInitManager(WelcomeActivity.this, requestManager) {
+            @Override
+            protected void onVkUserReached(VkUser vkUser) {
+                super.onVkUserReached(vkUser);
+                startMainActivity();
+            }
+        };
+    }
+
+    private void requestReadStoragePermissionExecuteWhenGranted(final Runnable runnable) {
         Runnable whenGrunted = new Runnable() {
             @Override
             public void run() {
-                EventsApp eventsApp = EventsApp.getInstance();
-                eventsApp.initIp();
-                requestManager = eventsApp.createRequestManager();
+                initRequestAndVkManager();
                 runnable.run();
             }
         };
 
         if (!PermissionUtils.shouldRequestReadStoragePermission(this)) {
             whenGrunted.run();
-            return true;
         } else {
             PermissionUtils.requestReadStoragePermission(this, R.string.read_storage_permission);
             onContentStorageGruntedQueue.add(whenGrunted);
-            return false;
         }
     }
 
