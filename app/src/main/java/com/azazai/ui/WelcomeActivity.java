@@ -1,25 +1,23 @@
 package com.azazai.ui;
 
-import android.app.PendingIntent;
-import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.view.View;
 import com.azazai.EventsApp;
 import com.azazai.R;
-import com.azazai.gcm.GCM;
 import com.azazai.network.RequestManager;
 import com.azazai.vk.VkInitManager;
 import com.azazai.vk.VkManager;
 import com.utilsframework.android.AndroidUtilities;
-import com.utilsframework.android.threading.Threading;
-import com.utilsframework.android.view.Alerts;
-import com.utilsframework.android.view.Toasts;
-import com.vk.sdk.VKSdk;
+import com.utilsframework.android.system.PermissionUtils;
+import com.utilsframework.android.threading.Tasks;
 import com.vkandroid.VkActivity;
 import com.vkandroid.VkUser;
 
-import java.io.IOException;
+import java.util.ArrayDeque;
+import java.util.Queue;
 
 /**
  * Created by CM on 7/1/2015.
@@ -27,15 +25,14 @@ import java.io.IOException;
 public class WelcomeActivity extends VkActivity {
     private VkInitManager vkInitManager;
     private RequestManager requestManager;
+    private Queue<Runnable> onContentStorageGruntedQueue = new ArrayDeque<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.welcome);
 
-        EventsApp eventsApp = EventsApp.getInstance();
-
-        requestManager = eventsApp.createRequestManager();
+        final EventsApp eventsApp = EventsApp.getInstance();
 
         vkInitManager = new VkInitManager(this, requestManager) {
             @Override
@@ -45,11 +42,16 @@ public class WelcomeActivity extends VkActivity {
             }
         };
 
-        if (eventsApp.getCurrentUser() == null) {
-            vkInitManager.execute(true);
-        } else {
-            startMainActivity();
-        }
+        requestReadStoragePermissionExecuteWhenGranted(new Runnable() {
+            @Override
+            public void run() {
+                if (eventsApp.getCurrentUser() == null) {
+                    vkInitManager.execute(true);
+                } else {
+                    startMainActivity();
+                }
+            }
+        });
 
         findViewById(R.id.login).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -59,10 +61,43 @@ public class WelcomeActivity extends VkActivity {
         });
     }
 
+    private boolean requestReadStoragePermissionExecuteWhenGranted(final Runnable runnable) {
+        Runnable whenGrunted = new Runnable() {
+            @Override
+            public void run() {
+                EventsApp eventsApp = EventsApp.getInstance();
+                eventsApp.initIp();
+                requestManager = eventsApp.createRequestManager();
+                runnable.run();
+            }
+        };
+
+        if (!PermissionUtils.shouldRequestReadStoragePermission(this)) {
+            whenGrunted.run();
+            return true;
+        } else {
+            PermissionUtils.requestReadStoragePermission(this, R.string.read_storage_permission);
+            onContentStorageGruntedQueue.add(whenGrunted);
+            return false;
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
+                                           @NonNull int[] grantResults) {
+        if (requestCode == PermissionUtils.READ_STORAGE_PERMISSION_REQUEST_CODE) {
+            if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                Tasks.executeAndClearQueue(onContentStorageGruntedQueue);
+            }
+        }
+    }
+
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        requestManager.cancelAll();
+        if (requestManager != null) {
+            requestManager.cancelAll();
+        }
     }
 
     @Override
@@ -72,7 +107,12 @@ public class WelcomeActivity extends VkActivity {
     }
 
     private void loginVK() {
-        VkManager.authorize();
+        requestReadStoragePermissionExecuteWhenGranted(new Runnable() {
+            @Override
+            public void run() {
+                VkManager.authorize();
+            }
+        });
     }
 
     private void startMainActivity() {

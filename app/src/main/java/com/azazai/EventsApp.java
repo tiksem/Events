@@ -38,14 +38,6 @@ public class EventsApp extends Application {
         builder.threadPoolSize(2);
         ImageLoader.getInstance().init(builder.build());
 
-        String ipFile = Environment.getExternalStorageDirectory().getAbsolutePath() + "/EventsApp/ip.txt";
-        try {
-            String ip = IOUtilities.readStringFromUrl(ipFile);
-            apiUrl = ip + "/api/";
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-
         String[] fingerprints = VKUtil.getCertificateFingerprint(this, this.getPackageName());
         Strings.join(fingerprints, ':');
 
@@ -57,6 +49,21 @@ public class EventsApp extends Application {
 
                 }
             });
+        }
+    }
+
+    public void initIp() {
+        if (apiUrl != null) {
+            return;
+        }
+
+        String ipFile = Environment.getExternalStorageDirectory().getAbsolutePath() +
+                "/EventsApp/ip.txt";
+        try {
+            String ip = IOUtilities.readStringFromUrl(ipFile);
+            apiUrl = ip + "/api/";
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
     }
 

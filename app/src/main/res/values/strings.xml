@@ -67,4 +67,5 @@
     <string name="create_first_event">Create first event</string>
     <string name="no_events_on">No events on</string>
     <string name="no_tags_found">No tags found</string>
+    <string name="read_storage_permission">Grunt read storage permission to access settings</string>
 </resources>
