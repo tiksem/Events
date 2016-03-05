@@ -111,26 +111,26 @@ public class RequestManager extends AsyncRequestExecutorManager {
         }
     }
 
-    public NavigationList<Event> getCreatedUserEvents(String token) {
-        return new UserEventsNavigationList(rootUrl, UserEventsNavigationList.Mode.created, token,
-                requestExecutor, this);
+    public NavigationList<Event> getCreatedUserEvents(int userId) {
+        return new UserEventsNavigationList(rootUrl, UserEventsNavigationList.Mode.created,
+                userId, requestExecutor, this);
     }
 
-    public NavigationList<Event> getSubscribedUserEvents(String token) {
-        return new UserEventsNavigationList(rootUrl, UserEventsNavigationList.Mode.subscribed, token,
-                requestExecutor, this);
+    public NavigationList<Event> getSubscribedUserEvents(int userId) {
+        return new UserEventsNavigationList(rootUrl, UserEventsNavigationList.Mode.subscribed,
+                userId, requestExecutor, this);
     }
 
     public VkUser getVkUserById(long userId) throws IOException {
         return VkApiUtils.getUser(userId, requestExecutor);
     }
 
-    public boolean isSubscribed(long eventId, String token) throws IOException {
-        String url = rootUrl + "isSubscribed?id=" + eventId + "&token=" + token;
+    public boolean isSubscribed(long eventId, int userId) throws IOException {
+        String url = rootUrl + "isSubscribed?id=" + eventId + "&userId=" + userId;
         String response = requestExecutor.executeRequest(url, null);
         JsonNode node = Json.toJsonNode(response);
         Json.checkError(node);
-        return node.get("isSubscribed").asBoolean();
+        return node.get("isSubscribed").asText().equals("subscribed");
     }
 
     public void subscribe(final long eventId, final String token, OnFinish<IOException> onFinish) {

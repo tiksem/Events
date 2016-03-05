@@ -64,7 +64,8 @@ public class EventFragment extends AbstractPageLoadingFragment<VkUser> implement
 
     @Override
     protected VkUser loadOnBackground(RequestManager requestManager) throws IOException {
-        event.isSubscribed = requestManager.isSubscribed(event.id, VKSdk.getAccessToken().accessToken);
+        int userId = Integer.parseInt(VKSdk.getAccessToken().userId);
+        event.isSubscribed = requestManager.isSubscribed(event.id, userId);
         topComments = requestManager.getTopComments(event.id, TOP_COMMENTS_COUNT + 1);
         return requestManager.getVkUserById(event.userId);
     }

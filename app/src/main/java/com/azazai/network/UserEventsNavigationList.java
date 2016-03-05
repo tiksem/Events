@@ -14,13 +14,13 @@ class UserEventsNavigationList extends EventsNavigationList {
     }
 
     public UserEventsNavigationList(String rootUrl, final Mode mode,
-                                    final String token,
+                                    final int userId,
                                     RequestExecutor requestExecutor, RequestManager requestManager) {
         super(rootUrl + "getUserEvents", "Events",
                 new HashMap<String, Object>(){
                     {
                         put("mod", mode);
-                        put("token", token);
+                        put("userId", userId);
                     }
                 },
                 requestExecutor, requestManager);

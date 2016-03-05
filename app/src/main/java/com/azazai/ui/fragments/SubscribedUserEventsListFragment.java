@@ -13,7 +13,8 @@ import com.vk.sdk.VKSdk;
 public class SubscribedUserEventsListFragment extends UserEventsListFragment {
     @Override
     protected NavigationList<Event> getNavigationList(RequestManager requestManager, String filter) {
-        return requestManager.getSubscribedUserEvents(VKSdk.getAccessToken().accessToken);
+        return requestManager.getSubscribedUserEvents(Integer.valueOf(
+                VKSdk.getAccessToken().userId));
     }
 
     @Override
