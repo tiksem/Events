@@ -4,15 +4,18 @@ import android.content.Context;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
-import com.nostra13.universalimageloader.core.ImageLoader;
+import com.squareup.picasso.Picasso;
 import com.utilsframework.android.adapters.navigation.NavigationListAdapter;
 
 /**
  * Created by CM on 6/17/2015.
  */
 public class VkUsersListAdapter extends NavigationListAdapter<VkUser, VkUserViewHolder> {
+    private final Picasso picasso;
+
     public VkUsersListAdapter(Context context) {
         super(context);
+        picasso = Picasso.with(context);
     }
 
     @Override
@@ -31,6 +34,6 @@ public class VkUsersListAdapter extends NavigationListAdapter<VkUser, VkUserView
     @Override
     protected void reuseView(VkUser vkUser, VkUserViewHolder holder, int position, View view) {
         holder.name.setText(vkUser.name + " " + vkUser.lastName);
-        ImageLoader.getInstance().displayImage(vkUser.avatar, holder.avatar);
+        picasso.load(vkUser.avatar).into(holder.avatar);
     }
 }

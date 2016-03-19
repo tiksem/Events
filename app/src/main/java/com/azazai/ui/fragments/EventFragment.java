@@ -15,7 +15,7 @@ import com.azazai.data.Event;
 import com.azazai.network.RequestManager;
 import com.azazai.ui.CreateEventActivity;
 import com.azazai.ui.UiUtils;
-import com.nostra13.universalimageloader.core.ImageLoader;
+import com.squareup.picasso.Picasso;
 import com.utils.framework.Lists;
 import com.utilsframework.android.fragments.Fragments;
 import com.utilsframework.android.google.GoogleMaps;
@@ -37,7 +37,6 @@ import java.util.List;
  */
 public class EventFragment extends AbstractPageLoadingFragment<VkUser> implements ActionBarTitleProvider {
     public static final String EVENT = "event";
-    public static final ImageLoader IMAGE_LOADER = ImageLoader.getInstance();
     public static final int TOP_COMMENTS_COUNT = 3;
     private static final int EDIT_EVENT_CODE = 123;
     private Event event;
@@ -89,7 +88,7 @@ public class EventFragment extends AbstractPageLoadingFragment<VkUser> implement
         dateView.setText(getString(R.string.event_date_title) + " " + date);
 
         ImageView avatar = (ImageView) content.findViewById(R.id.avatar);
-        IMAGE_LOADER.displayImage(user.avatar, avatar);
+        Picasso.with(getActivity()).load(user.avatar).into(avatar);
 
         initSubscribeButton(content);
 

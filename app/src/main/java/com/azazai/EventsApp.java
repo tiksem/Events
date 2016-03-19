@@ -4,8 +4,6 @@ import android.app.Application;
 import android.os.Environment;
 
 import com.azazai.network.RequestManager;
-import com.nostra13.universalimageloader.core.ImageLoader;
-import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.utils.framework.io.IOUtilities;
 import com.utils.framework.strings.Strings;
 import com.utilsframework.android.UiLoopEvent;
@@ -32,11 +30,6 @@ public class EventsApp extends Application {
     public void onCreate() {
         super.onCreate();
         instance = this;
-
-        ImageLoaderConfiguration.Builder builder = new ImageLoaderConfiguration.Builder(this);
-        builder.memoryCacheSize(2 * 1024 * 1024);
-        builder.threadPoolSize(2);
-        ImageLoader.getInstance().init(builder.build());
 
         String[] fingerprints = VKUtil.getCertificateFingerprint(this, this.getPackageName());
         Strings.join(fingerprints, ':');

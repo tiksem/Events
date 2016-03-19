@@ -15,7 +15,7 @@ import com.azazai.R;
 import com.azazai.data.Event;
 import com.azazai.debug.DebugUtils;
 import com.azazai.ui.fragments.EventFragment;
-import com.nostra13.universalimageloader.core.ImageLoader;
+import com.squareup.picasso.Picasso;
 import com.utilsframework.android.AndroidUtilities;
 import com.utilsframework.android.navdrawer.FragmentFactory;
 import com.utilsframework.android.navdrawer.NavigationDrawerMenuActivity;
@@ -113,7 +113,7 @@ public class MainActivity extends NavigationDrawerMenuActivity {
         ImageView avatar = (ImageView) header.findViewById(R.id.avatar);
         TextView userName = (TextView) header.findViewById(R.id.userName);
         final VkUser currentUser = EventsApp.getInstance().getCurrentUser();
-        ImageLoader.getInstance().displayImage(currentUser.avatar, avatar);
+        Picasso.with(this).load(currentUser.avatar).into(avatar);
         userName.setText(currentUser.name + " " + currentUser.lastName);
         navigationView.addHeaderView(header);
 

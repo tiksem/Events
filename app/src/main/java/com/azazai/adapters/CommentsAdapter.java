@@ -7,7 +7,7 @@ import android.widget.TextView;
 
 import com.azazai.R;
 import com.azazai.data.Comment;
-import com.nostra13.universalimageloader.core.ImageLoader;
+import com.squareup.picasso.Picasso;
 import com.utilsframework.android.adapters.navigation.NavigationListAdapter;
 import com.utilsframework.android.time.TimeUtils;
 
@@ -15,10 +15,11 @@ import com.utilsframework.android.time.TimeUtils;
  * Created by CM on 7/7/2015.
  */
 public class CommentsAdapter extends NavigationListAdapter<Comment, CommentHolder> {
-    private static final ImageLoader IMAGE_LOADER = ImageLoader.getInstance();
+    private final Picasso picasso;
 
     public CommentsAdapter(Context context) {
         super(context);
+        picasso = Picasso.with(context);
     }
 
     @Override
@@ -42,6 +43,6 @@ public class CommentsAdapter extends NavigationListAdapter<Comment, CommentHolde
         holder.message.setText(comment.text);
         String date = TimeUtils.getAlternativeDisplayDateTime(view.getContext(), comment.date * 1000l);
         holder.date.setText(date);
-        IMAGE_LOADER.displayImage(comment.avatar, holder.avatar);
+        picasso.load(comment.avatar).into(holder.avatar);
     }
 }
