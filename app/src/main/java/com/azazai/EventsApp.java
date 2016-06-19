@@ -43,6 +43,8 @@ public class EventsApp extends Application {
                 }
             });
         }
+
+        apiUrl = "http://azazai.com/api/";
     }
 
     public void initIp() {

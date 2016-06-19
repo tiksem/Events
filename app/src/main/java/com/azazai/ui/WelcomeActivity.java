@@ -55,7 +55,8 @@ public class WelcomeActivity extends VkActivity {
 
     private void initRequestAndVkManager() {
         EventsApp eventsApp = EventsApp.getInstance();
-        eventsApp.initIp();
+        //eventsApp.initIp();
+
         requestManager = eventsApp.createRequestManager();
 
         vkInitManager = new VkInitManager(WelcomeActivity.this, requestManager) {
