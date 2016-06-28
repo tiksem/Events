@@ -248,4 +248,10 @@ public class RequestManager extends AsyncRequestExecutorManager {
             }
         }, onFinish);
     }
+
+    public int getRequestsCount(long eventId) throws IOException {
+        String url = rootUrl + "getRequestsCount?id=" + eventId;
+        String response = requestExecutor.executeRequest(url, null);
+        return Json.toJsonNode(response).get("result").asInt();
+    }
 }

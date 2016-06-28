@@ -47,6 +47,7 @@ public class EventFragment extends AbstractPageLoadingFragment<VkUser> implement
     private TextView peopleNumber;
     private ProgressDialog progressDialog;
     private MenuItem editEventMenuItem;
+    private int requestsCount;
 
     public static EventFragment create(Event event) {
         return Fragments.createFragmentWith1Arg(new EventFragment(), EVENT, event);
@@ -68,6 +69,9 @@ public class EventFragment extends AbstractPageLoadingFragment<VkUser> implement
         long userId = VkApiUtils.getUserId();
         event.isSubscribed = requestManager.isSubscribed(event.id, userId);
         topComments = requestManager.getTopComments(event.id, TOP_COMMENTS_COUNT + 1);
+        if (shouldShowRequestsLayout()) {
+            requestsCount = requestManager.getRequestsCount(event.id);
+        }
         return requestManager.getVkUserById(event.userId);
     }
 
@@ -138,7 +142,7 @@ public class EventFragment extends AbstractPageLoadingFragment<VkUser> implement
             }
         });
 
-        if (event.isPrivate && event.userId == VkApiUtils.getUserId()) {
+        if (shouldShowRequestsLayout()) {
             final View requestsLayout = content.findViewById(R.id.requests_layout);
             requestsLayout.setVisibility(View.VISIBLE);
             requestsLayout.setOnClickListener(new View.OnClickListener() {
@@ -147,7 +151,13 @@ public class EventFragment extends AbstractPageLoadingFragment<VkUser> implement
                     replaceFragment(EventRequestsFragment.create(event), Level.EVENT_REQUESTS);
                 }
             });
+            TextView requestsNumberView = (TextView) content.findViewById(R.id.requests_number);
+            requestsNumberView.setText(String.valueOf(requestsCount));
         }
+    }
+
+    private boolean shouldShowRequestsLayout() {
+        return event.isPrivate && event.userId == VkApiUtils.getUserId();
     }
 
     private void editEvent() {
