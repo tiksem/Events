@@ -139,4 +139,8 @@ public class VkApiUtils {
         VKAccessToken.removeTokenAtKey(context, VK_ACCESS_TOKEN);
         VKSdk.logout();
     }
+
+    public static long getUserId() {
+        return Long.valueOf(VKSdk.getAccessToken().userId);
+    }
 }
