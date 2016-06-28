@@ -28,7 +28,7 @@ public abstract class EventsListFragment extends NavigationListFragmentWithEmpty
             floatingActionButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    createEvent();
+                    createEvent(false);
                 }
             });
 

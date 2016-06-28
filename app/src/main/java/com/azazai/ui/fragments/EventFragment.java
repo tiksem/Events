@@ -26,7 +26,9 @@ import com.utilsframework.android.time.TimeUtils;
 import com.utilsframework.android.view.Alerts;
 import com.utilsframework.android.view.OnYes;
 import com.utilsframework.android.view.Toasts;
+import com.utilsframework.android.view.YesNoAlertSettings;
 import com.vk.sdk.VKSdk;
+import com.vkandroid.VkApiUtils;
 import com.vkandroid.VkUser;
 
 import java.io.IOException;
@@ -63,7 +65,7 @@ public class EventFragment extends AbstractPageLoadingFragment<VkUser> implement
 
     @Override
     protected VkUser loadOnBackground(RequestManager requestManager) throws IOException {
-        int userId = Integer.parseInt(VKSdk.getAccessToken().userId);
+        long userId = VkApiUtils.getUserId();
         event.isSubscribed = requestManager.isSubscribed(event.id, userId);
         topComments = requestManager.getTopComments(event.id, TOP_COMMENTS_COUNT + 1);
         return requestManager.getVkUserById(event.userId);
@@ -135,6 +137,17 @@ public class EventFragment extends AbstractPageLoadingFragment<VkUser> implement
                 return true;
             }
         });
+
+        if (event.isPrivate && event.userId == VkApiUtils.getUserId()) {
+            final View requestsLayout = content.findViewById(R.id.requests_layout);
+            requestsLayout.setVisibility(View.VISIBLE);
+            requestsLayout.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    replaceFragment(EventRequestsFragment.create(event), Level.EVENT_REQUESTS);
+                }
+            });
+        }
     }
 
     private void editEvent() {
@@ -216,15 +229,16 @@ public class EventFragment extends AbstractPageLoadingFragment<VkUser> implement
     }
 
     private void requestCancelEvent() {
-        Alerts.YesNoAlertSettings settings = new Alerts.YesNoAlertSettings();
-        settings.message = getString(R.string.cancel_event_confirm_message);
-        settings.onYes = new OnYes() {
+        Alerts.showYesNoAlert(new YesNoAlertSettings(getContext()) {
+            {
+                setMessage(R.string.cancel_event_confirm_message);
+            }
+
             @Override
             public void onYes() {
                 cancelEvent();
             }
-        };
-        Alerts.showYesNoAlert(getActivity(), settings);
+        });
     }
 
     private void cancelEvent() {
@@ -242,11 +256,11 @@ public class EventFragment extends AbstractPageLoadingFragment<VkUser> implement
         FragmentActivity activity = getActivity();
         if (activity != null) {
             if (e == null) {
-                Toasts.message(activity, R.string.event_canceled);
+                Toasts.toast(activity, R.string.event_canceled);
                 EventsListFragment.update(activity);
                 activity.onBackPressed();
             } else {
-                Toasts.error(activity, R.string.no_internet_connection);
+                Toasts.toast(activity, R.string.no_internet_connection);
             }
 
             progressDialog.dismiss();
@@ -267,7 +281,7 @@ public class EventFragment extends AbstractPageLoadingFragment<VkUser> implement
             event.isSubscribed = !event.isSubscribed;
             int text = getSubscribeButtonText();
             if (text == R.string.i_will_not_go) {
-                Toasts.message(getActivity(), R.string.subscribe_message);
+                Toasts.toast(getActivity(), R.string.subscribe_message);
             }
 
             subscribeButton.setText(text);

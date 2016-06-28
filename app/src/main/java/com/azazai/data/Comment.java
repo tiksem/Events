@@ -7,7 +7,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 /**
  * Created by CM on 7/7/2015.
  */
-public class Comment implements Parcelable {
+public class Comment implements Parcelable, VkUserHolderEntity {
     public long userId;
     public String text;
     public long eventId = -1;
@@ -53,4 +53,15 @@ public class Comment implements Parcelable {
             return new Comment[size];
         }
     };
+
+    @Override
+    public long getUserId() {
+        return userId;
+    }
+
+    @Override
+    public void setUsernameAndAvatar(String userName, String avatar) {
+        this.userName = userName;
+        this.avatar = avatar;
+    }
 }

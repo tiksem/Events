@@ -8,6 +8,8 @@ import java.io.IOException;
 /**
  * Created by CM on 9/18/2015.
  */
+
+//TODO Remove this ugly shit
 public class SubscribeToggleCallback extends WeakFragmentReferenceHolder<EventFragment>
         implements OnFinish<IOException> {
     public SubscribeToggleCallback(EventFragment fragment) {

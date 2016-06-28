@@ -47,7 +47,7 @@ public class TagsListFragment extends NavigationListFragmentWithEmptyResults<Tag
     }
 
     @Override
-    protected int getHintText() {
+    protected int getEmptyResultsHintText() {
         return R.string.no_tags_found;
     }
 

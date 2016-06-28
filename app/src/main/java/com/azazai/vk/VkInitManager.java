@@ -13,6 +13,7 @@ import com.utilsframework.android.threading.Threading;
 import com.utilsframework.android.view.Alerts;
 import com.utilsframework.android.view.Toasts;
 import com.vk.sdk.VKSdk;
+import com.vkandroid.VkApiUtils;
 import com.vkandroid.VkUser;
 
 import java.io.IOException;
@@ -73,7 +74,7 @@ public class VkInitManager {
                 if (vkUser != null) {
                     onVkUserReached(vkUser);
                 } else {
-                    Toasts.error(context, R.string.no_internet_connection);
+                    Toasts.toast(context, R.string.no_internet_connection);
                 }
             }
 
@@ -101,7 +102,6 @@ public class VkInitManager {
     }
 
     private VkUser getCurrentVkUser() throws IOException {
-        return requestManager.getVkUserById(
-                Long.valueOf(VKSdk.getAccessToken().userId));
+        return requestManager.getVkUserById(VkApiUtils.getUserId());
     }
 }

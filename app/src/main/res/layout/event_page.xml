@@ -27,6 +27,27 @@
                       android:layout_height="wrap_content"/>
         </LinearLayout>
 
+        <LinearLayout
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="15dp"
+            android:layout_below="@id/people_layout"
+            android:id="@+id/requests_layout"
+            android:visibility="gone"
+            android:orientation="vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            >
+            <ImageView
+                android:src="@drawable/ic_people_grey"
+                android:layout_width="32dp"
+                android:layout_height="32dp"/>
+            <TextView android:id="@+id/requests_number"
+                android:textStyle="bold"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+        </LinearLayout>
+
         <TextView android:id="@+id/name"
                   style="@style/header"
                   android:layout_toRightOf="@+id/people_layout"

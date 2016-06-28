@@ -37,7 +37,7 @@ public class EventsByTagFragment extends EventsListFragment implements ActionBar
     }
 
     @Override
-    protected int getHintText() {
+    protected int getEmptyResultsHintText() {
         return R.string.no_events_found;
     }
 

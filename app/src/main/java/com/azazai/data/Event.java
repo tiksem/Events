@@ -16,18 +16,19 @@ public class Event implements Parcelable {
     public int peopleNumber;
     public int subscribersCount;
     public int date;
+    public boolean isPrivate;
     @JsonIgnore
     public boolean isSubscribed;
 
     @JsonIgnore
     public boolean isCanceled;
 
+    public Event() {
+    }
+
     @Override
     public int describeContents() {
         return 0;
-    }
-
-    public Event() {
     }
 
     @Override
@@ -40,8 +41,9 @@ public class Event implements Parcelable {
         dest.writeInt(this.peopleNumber);
         dest.writeInt(this.subscribersCount);
         dest.writeInt(this.date);
-        dest.writeByte(isSubscribed ? (byte) 1 : (byte) 0);
-        dest.writeByte(isCanceled ? (byte) 1 : (byte) 0);
+        dest.writeByte(this.isPrivate ? (byte) 1 : (byte) 0);
+        dest.writeByte(this.isSubscribed ? (byte) 1 : (byte) 0);
+        dest.writeByte(this.isCanceled ? (byte) 1 : (byte) 0);
     }
 
     protected Event(Parcel in) {
@@ -53,15 +55,18 @@ public class Event implements Parcelable {
         this.peopleNumber = in.readInt();
         this.subscribersCount = in.readInt();
         this.date = in.readInt();
+        this.isPrivate = in.readByte() != 0;
         this.isSubscribed = in.readByte() != 0;
         this.isCanceled = in.readByte() != 0;
     }
 
     public static final Creator<Event> CREATOR = new Creator<Event>() {
+        @Override
         public Event createFromParcel(Parcel source) {
             return new Event(source);
         }
 
+        @Override
         public Event[] newArray(int size) {
             return new Event[size];
         }

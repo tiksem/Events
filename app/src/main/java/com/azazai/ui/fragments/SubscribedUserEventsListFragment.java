@@ -6,6 +6,7 @@ import com.azazai.data.Event;
 import com.azazai.network.RequestManager;
 import com.utils.framework.collections.NavigationList;
 import com.vk.sdk.VKSdk;
+import com.vkandroid.VkApiUtils;
 
 /**
  * Created by CM on 7/1/2015.
@@ -13,12 +14,11 @@ import com.vk.sdk.VKSdk;
 public class SubscribedUserEventsListFragment extends UserEventsListFragment {
     @Override
     protected NavigationList<Event> getNavigationList(RequestManager requestManager, String filter) {
-        return requestManager.getSubscribedUserEvents(Integer.valueOf(
-                VKSdk.getAccessToken().userId));
+        return requestManager.getSubscribedUserEvents(VkApiUtils.getUserId());
     }
 
     @Override
-    protected void onEmptyEventsActionButtonClicked() {
+    protected void onEmptyListActionButtonClicked() {
         findEvents();
     }
 
@@ -32,7 +32,7 @@ public class SubscribedUserEventsListFragment extends UserEventsListFragment {
     }
 
     @Override
-    protected int getHintText() {
+    protected int getEmptyResultsHintText() {
         return R.string.no_subscribed_events;
     }
 }

@@ -50,6 +50,7 @@ public class CreateEventActivity extends VkActivity {
 
     public static final String INVALID_DATE = "InvalidDate";
     public static final String EDIT_EVENT = "EDIT_EVENT";
+    public static final String IS_PRIVATE = "isPrivate";
 
     private RequestManager requestManager;
     private NumberPickerButton peopleNumber;
@@ -134,12 +135,12 @@ public class CreateEventActivity extends VkActivity {
     private void addTag() {
         String name = addTagEditText.getText().toString();
         if (name.isEmpty()) {
-            Toasts.error(this, R.string.enter_tag_name);
+            Toasts.toast(this, R.string.enter_tag_name);
             return;
         }
 
         if (getTags().contains(name)) {
-            Toasts.error(this, R.string.tag_already_added, name);
+            Toasts.toast(this, R.string.tag_already_added, name);
             return;
         }
 
@@ -204,12 +205,16 @@ public class CreateEventActivity extends VkActivity {
     @Override
     public void onBackPressed() {
         if (shouldShowBackConfirm()) {
-            Alerts.showYesNoAlert(this, new OnYes() {
+            Alerts.showYesNoAlert(new YesNoAlertSettings(this) {
+                {
+                    setMessage(R.string.create_event_back_confirm);
+                }
+
                 @Override
                 public void onYes() {
                     CreateEventActivity.super.onBackPressed();
                 }
-            }, R.string.create_event_back_confirm);
+            });
         } else {
             super.onBackPressed();
         }
@@ -294,7 +299,7 @@ public class CreateEventActivity extends VkActivity {
     }
 
     private void onEventCreated() {
-        Toasts.message(name.getContext(), R.string.event_created);
+        Toasts.toast(name.getContext(), R.string.event_created);
         setResult(RESULT_OK);
         finish();
         //postToVK();
@@ -373,6 +378,12 @@ public class CreateEventActivity extends VkActivity {
     public static void edit(Fragment fragment, int requestCode, Event event) {
         Intent intent = new Intent(fragment.getActivity(), CreateEventActivity.class);
         intent.putExtra(EDIT_EVENT, event);
+        fragment.startActivityForResult(intent, requestCode);
+    }
+
+    public static void createEvent(Fragment fragment, int requestCode, boolean isPrivate) {
+        Intent intent = new Intent(fragment.getActivity(), CreateEventActivity.class);
+        intent.putExtra(IS_PRIVATE, isPrivate);
         fragment.startActivityForResult(intent, requestCode);
     }
 }

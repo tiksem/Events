@@ -15,7 +15,6 @@ import com.utils.framework.collections.NavigationList;
 import com.utilsframework.android.adapters.ViewArrayAdapter;
 import com.utilsframework.android.navdrawer.ActionBarTitleProvider;
 import com.utilsframework.android.social.SocialUtils;
-import com.utilsframework.android.threading.OnFinish;
 import com.utilsframework.android.view.EditTextUtils;
 import com.utilsframework.android.view.Toasts;
 import com.vk.sdk.VKSdk;
@@ -130,7 +129,7 @@ public class CommentsFragment extends AbstractNavigationListFragment<Comment> im
             getRequestManager().addComment(commentText, eventId,
                     VKSdk.getAccessToken().accessToken, new AddCommentCallback(this, commentText));
         } else {
-            Toasts.message(getActivity(), R.string.enter_comment_message);
+            Toasts.toast(getActivity(), R.string.enter_comment_message);
         }
     }
 
@@ -138,7 +137,7 @@ public class CommentsFragment extends AbstractNavigationListFragment<Comment> im
         if (e == null) {
             addCommentToList(commentText);
         } else {
-            Toasts.error(getActivity(), R.string.no_internet_connection);
+            Toasts.toast(getActivity(), R.string.no_internet_connection);
             getElements().remove(0);
             getAdapter().notifyDataSetChanged();
         }

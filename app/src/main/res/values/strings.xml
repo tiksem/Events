@@ -68,4 +68,14 @@
     <string name="no_events_on">No events on</string>
     <string name="no_tags_found">No tags found</string>
     <string name="read_storage_permission">Grunt read storage permission to access settings</string>
+    <string name="requests">Requests</string>
+    <string name="accept">Accept</string>
+    <string name="decline">Decline</string>
+    <string name="request_message" formatted="false">
+        <![CDATA[<b>%s</b> wants to participate in <b>%s</b>]]></string>
+    <string name="no_requests">No requests</string>
+    <string name="create_private_event">Create private event</string>
+    <string name="request_decline_confirm">Decline the request?</string>
+    <string name="declining_request_failed">Declining request failed</string>
+    <string name="accept_request_failed">Accepting request failed</string>
 </resources>

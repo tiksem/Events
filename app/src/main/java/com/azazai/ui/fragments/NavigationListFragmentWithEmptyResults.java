@@ -8,7 +8,6 @@ import android.widget.Button;
 import android.widget.TextView;
 import com.azazai.R;
 import com.azazai.ui.CreateEventActivity;
-import com.utilsframework.android.AndroidUtilities;
 
 /**
  * Created by stykhonenko on 09.12.15.
@@ -23,7 +22,7 @@ public abstract class NavigationListFragmentWithEmptyResults<T> extends Abstract
         emptyEventsActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                onEmptyEventsActionButtonClicked();
+                onEmptyListActionButtonClicked();
             }
         });
 
@@ -33,8 +32,8 @@ public abstract class NavigationListFragmentWithEmptyResults<T> extends Abstract
         onUpdateEmptyViews();
     }
 
-    protected final void createEvent() {
-        AndroidUtilities.startActivityForResult(this, CreateEventActivity.class, CREATE_EVENT);
+    protected final void createEvent(boolean isPrivate) {
+        CreateEventActivity.createEvent(this, CREATE_EVENT, isPrivate);
     }
 
     @Override
@@ -46,9 +45,9 @@ public abstract class NavigationListFragmentWithEmptyResults<T> extends Abstract
         }
     }
 
-    protected abstract int getHintText();
-    protected void onEmptyEventsActionButtonClicked() {
-        createEvent();
+    protected abstract int getEmptyResultsHintText();
+    protected void onEmptyListActionButtonClicked() {
+        createEvent(false);
     }
     protected abstract int getEmptyEventsActionText();
 
@@ -70,7 +69,7 @@ public abstract class NavigationListFragmentWithEmptyResults<T> extends Abstract
         } else {
             emptyEventsActionButton.setVisibility(View.GONE);
         }
-        emptyEventsHint.setText(getHintText());
+        emptyEventsHint.setText(getEmptyResultsHintText());
     }
 
     @Override

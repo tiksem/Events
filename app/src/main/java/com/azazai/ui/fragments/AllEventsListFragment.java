@@ -111,7 +111,7 @@ public class AllEventsListFragment extends EventsListFragment {
     }
 
     @Override
-    protected int getHintText() {
+    protected int getEmptyResultsHintText() {
         return dateFilter > 0 ? R.string.no_events_on : R.string.no_events_found;
     }
 

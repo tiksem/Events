@@ -2,6 +2,8 @@ package com.azazai.network;
 
 import android.content.Context;
 import android.util.Log;
+
+import com.azazai.data.Request;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.jsonutils.Json;
 import com.azazai.data.Comment;
@@ -13,11 +15,8 @@ import com.utils.framework.io.Network;
 import com.utils.framework.network.RequestExecutorWithCaching;
 import com.utils.framework.suggestions.SuggestionsProvider;
 import com.utilsframework.android.ExecuteTimeLogger;
-import com.utilsframework.android.IOErrorListener;
 import com.utils.framework.network.GetRequestExecutor;
-import com.utilsframework.android.cache.StringSQLiteCache;
 import com.utilsframework.android.network.AsyncRequestExecutorManager;
-import com.utilsframework.android.network.IOErrorListenersSet;
 import com.utils.framework.network.RequestExecutor;
 import com.utilsframework.android.threading.OnFinish;
 import com.utilsframework.android.threading.Threading;
@@ -111,12 +110,12 @@ public class RequestManager extends AsyncRequestExecutorManager {
         }
     }
 
-    public NavigationList<Event> getCreatedUserEvents(int userId) {
+    public NavigationList<Event> getCreatedUserEvents(long userId) {
         return new UserEventsNavigationList(rootUrl, UserEventsNavigationList.Mode.created,
                 userId, requestExecutor, this);
     }
 
-    public NavigationList<Event> getSubscribedUserEvents(int userId) {
+    public NavigationList<Event> getSubscribedUserEvents(long userId) {
         return new UserEventsNavigationList(rootUrl, UserEventsNavigationList.Mode.subscribed,
                 userId, requestExecutor, this);
     }
@@ -125,7 +124,7 @@ public class RequestManager extends AsyncRequestExecutorManager {
         return VkApiUtils.getUser(userId, requestExecutor);
     }
 
-    public boolean isSubscribed(long eventId, int userId) throws IOException {
+    public boolean isSubscribed(long eventId, long userId) throws IOException {
         String url = rootUrl + "isSubscribed?id=" + eventId + "&userId=" + userId;
         String response = requestExecutor.executeRequest(url, null);
         JsonNode node = Json.toJsonNode(response);
@@ -168,7 +167,7 @@ public class RequestManager extends AsyncRequestExecutorManager {
         String json = requestExecutor.executeRequest(url, null);
         List<Comment> comments = Json.readList(json, "Comments", Comment.class);
 
-        Requests.updateCommentsUserData(requestExecutor, comments);
+        Requests.updateUserData(requestExecutor, comments);
 
         return comments;
     }
@@ -225,5 +224,28 @@ public class RequestManager extends AsyncRequestExecutorManager {
         String url = rootUrl + "getEventById?id=" + eventId;
         String json = requestExecutor.executeRequest(url, null);
         return Json.read(json, Event.class);
+    }
+
+    public NavigationList<Request> getRequestsByUserId(long userId) {
+        return new UserRequestsNavigationList(rootUrl, userId, requestExecutor, this);
+    }
+
+    public NavigationList<Request> getRequestsByEvent(Event event) {
+        return new EventRequestsNavigationList(rootUrl, event, requestExecutor, this);
+    }
+
+    public void acceptOrDenyRequest(boolean accept,
+                                    final long eventId,
+                                    final long userId,
+                                    final String token,
+                                    OnFinish<IOException> onFinish) {
+        executeRequestCheckForErrors(accept ? "acceptRequest" : "denyRequest",
+                new HashMap<String, Object>() {
+            {
+                put("token", token);
+                put("id", eventId);
+                put("userId", userId);
+            }
+        }, onFinish);
     }
 }

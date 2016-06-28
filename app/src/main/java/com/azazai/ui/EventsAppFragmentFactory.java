@@ -7,6 +7,7 @@ import com.azazai.ui.fragments.AllEventsListFragment;
 import com.azazai.ui.fragments.CreatedUserEventsListFragment;
 import com.azazai.ui.fragments.SubscribedUserEventsListFragment;
 import com.azazai.ui.fragments.TagsListFragment;
+import com.azazai.ui.fragments.UserRequestsFragment;
 import com.utilsframework.android.navdrawer.FragmentFactory;
 import com.utilsframework.android.navdrawer.TabsAdapter;
 
@@ -30,6 +31,8 @@ public class EventsAppFragmentFactory implements FragmentFactory {
                 } else if(tabIndex == CREATED_EVENTS_TAB) {
                     return new CreatedUserEventsListFragment();
                 }
+            } else if(selectedItemId == R.id.requests) {
+                return new UserRequestsFragment();
             }
         }
 
