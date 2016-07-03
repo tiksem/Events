@@ -78,4 +78,5 @@
     <string name="request_decline_confirm">Decline the request?</string>
     <string name="declining_request_failed">Declining request failed</string>
     <string name="accept_request_failed">Accepting request failed</string>
+    <string name="private_event">Private event</string>
 </resources>

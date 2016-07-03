@@ -92,6 +92,13 @@
                           android:layout_width="wrap_content"
                           android:layout_height="wrap_content"/>
 
+                <CheckBox android:text="@string/private_event"
+                    android:textColor="@color/header"
+                    android:checked="false"
+                    android:id="@+id/private_event"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
                 <LinearLayout
                         android:orientation="horizontal"
                         android:layout_width="match_parent"

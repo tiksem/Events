@@ -10,6 +10,9 @@ import java.util.Map;
  * Created by CM on 6/22/2015.
  */
 public class EventArgs {
+    public static final String PUBLIC = "public";
+    public static final String PRIVATE = "private";
+
     public Long id;
     public String name;
     public String description;
@@ -18,7 +21,7 @@ public class EventArgs {
     public int peopleNumber;
     public List<String> tags;
     public String accessToken;
-    public String eventType = "public";
+    public String eventType = PUBLIC;
 
     public Map<String, Object> toMap() {
         HashMap<String, Object> result = new HashMap<>();

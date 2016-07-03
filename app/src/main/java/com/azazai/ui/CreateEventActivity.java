@@ -12,6 +12,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.CheckBox;
 import android.widget.TextView;
 import com.jsonutils.RequestException;
 import com.azazai.EventsApp;
@@ -63,6 +64,7 @@ public class CreateEventActivity extends VkActivity {
     private EditTextWithSuggestions addTagEditText;
     private List<View> tagsLayoutChildren;
     private Event editEvent;
+    private CheckBox isEventPrivateCheckBox;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,6 +87,8 @@ public class CreateEventActivity extends VkActivity {
         setupToolBar();
         setupTags();
         setupAddressEditText();
+
+        isEventPrivateCheckBox = (CheckBox) findViewById(R.id.private_event);
     }
 
     private void setupEditEvent() {
@@ -294,6 +298,8 @@ public class CreateEventActivity extends VkActivity {
         } else {
             args.id = editEvent.id;
         }
+
+        args.eventType = isEventPrivateCheckBox.isChecked() ? EventArgs.PRIVATE : EventArgs.PUBLIC;
 
         return args;
     }
