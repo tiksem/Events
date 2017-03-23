@@ -5,27 +5,28 @@ import android.support.v4.app.Fragment;
 import com.azazai.EventsApp;
 import com.azazai.R;
 import com.azazai.network.RequestManager;
+import com.utilsframework.android.fragments.LegacyPageLoadingFragment;
 import com.utilsframework.android.fragments.PageLoadingFragment;
-import com.utilsframework.android.navdrawer.NavigationActivityInterface;
-import com.utilsframework.android.navdrawer.NavigationDrawerActivity;
+import com.utilsframework.android.navdrawer.FragmentsNavigationInterface;
+import com.utilsframework.android.navdrawer.NavigationActivity;
 
 import java.io.IOException;
 
 /**
  * Created by CM on 7/2/2015.
  */
-public abstract class AbstractPageLoadingFragment<Data> extends PageLoadingFragment<RequestManager, Data> {
+public abstract class AbstractPageLoadingFragment<Data> extends LegacyPageLoadingFragment<Data> {
     @Override
     protected RequestManager obtainRequestManager() {
         return EventsApp.getInstance().createRequestManager();
     }
 
-    protected NavigationActivityInterface getNavigationActivityInterface() {
-        return (NavigationActivityInterface) getActivity();
+    protected FragmentsNavigationInterface getNavigationActivityInterface() {
+        return (FragmentsNavigationInterface) getActivity();
     }
 
-    protected NavigationDrawerActivity getNavigationDrawerActivity() {
-        return (NavigationDrawerActivity) getActivity();
+    protected NavigationActivity getNavigationActivity() {
+        return (NavigationActivity) getActivity();
     }
 
     public void replaceFragment(Fragment newFragment, int navigationLevel) {

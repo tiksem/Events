@@ -8,31 +8,31 @@ import java.util.HashMap;
 /**
  * Created by CM on 7/2/2015.
  */
-class AllEventsNavigationList extends EventsNavigationList {
+class AllEventsLazyLoadingList extends EventsLazyLoadingList {
 
     public static final String KEY = "Events";
     public static final String METHOD_NAME = "getEventsList";
 
-    public AllEventsNavigationList(String rootUrl, RequestExecutor requestExecutor, RequestManager requestManager) {
+    public AllEventsLazyLoadingList(String rootUrl, RequestExecutor requestExecutor, RequestManager requestManager) {
         super(rootUrl + METHOD_NAME, KEY, null, requestExecutor, requestManager);
     }
 
-    public AllEventsNavigationList(String rootUrl, int date, RequestExecutor requestExecutor,
-                                   RequestManager requestManager) {
+    public AllEventsLazyLoadingList(String rootUrl, int date, RequestExecutor requestExecutor,
+                                    RequestManager requestManager) {
         super(rootUrl + METHOD_NAME, KEY,
                 Collections.<String, Object>singletonMap("dateFilter", date),
                 requestExecutor, requestManager);
     }
 
-    public AllEventsNavigationList(String rootUrl, String query, RequestExecutor requestExecutor,
-                                   RequestManager requestManager) {
+    public AllEventsLazyLoadingList(String rootUrl, String query, RequestExecutor requestExecutor,
+                                    RequestManager requestManager) {
         super(rootUrl + METHOD_NAME, KEY,
                 Collections.<String, Object>singletonMap("query", query),
                 requestExecutor, requestManager);
     }
 
-    public AllEventsNavigationList(String rootUrl, final String query, final int date, RequestExecutor requestExecutor,
-                                   RequestManager requestManager) {
+    public AllEventsLazyLoadingList(String rootUrl, final String query, final int date, RequestExecutor requestExecutor,
+                                    RequestManager requestManager) {
         super(rootUrl + METHOD_NAME, KEY,
                 new HashMap<String, Object>(){
                     {

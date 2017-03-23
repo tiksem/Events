@@ -1,6 +1,6 @@
 package com.azazai.network;
 
-import com.jsonandroid.JsonAsyncNavigationList;
+import com.jsonandroid.JsonAsyncLazyLoadingList;
 import com.azazai.data.Tag;
 import com.utils.framework.KeyProvider;
 import com.utils.framework.network.RequestExecutor;
@@ -8,9 +8,9 @@ import com.utils.framework.network.RequestExecutor;
 /**
  * Created by CM on 7/1/2015.
  */
-class TagsNavigationList extends JsonAsyncNavigationList<Tag> {
-    public TagsNavigationList(RequestExecutor requestExecutor, RequestManager requestManager,
-                              String rootUrl) {
+class TagsLazyLoadingList extends JsonAsyncLazyLoadingList<Tag> {
+    public TagsLazyLoadingList(RequestExecutor requestExecutor, RequestManager requestManager,
+                               String rootUrl) {
         super(Tag.class, rootUrl + "getTags", "Tags", null, requestExecutor, requestManager);
     }
 

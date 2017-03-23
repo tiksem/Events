@@ -12,7 +12,7 @@ import com.azazai.ui.CreateEventActivity;
 /**
  * Created by stykhonenko on 09.12.15.
  */
-public abstract class NavigationListFragmentWithEmptyResults<T> extends AbstractNavigationListFragment<T> {
+public abstract class LazyLoadingListFragmentWithEmptyResults<T> extends AbstractLazyLoadingListFragment<T> {
     private Button emptyEventsActionButton;
     private TextView emptyEventsHint;
 
@@ -41,7 +41,7 @@ public abstract class NavigationListFragmentWithEmptyResults<T> extends Abstract
         super.onActivityResult(requestCode, resultCode, data);
 
         if (requestCode == CREATE_EVENT && resultCode == Activity.RESULT_OK) {
-            updateNavigationListWithLastFilter();
+            update();
         }
     }
 

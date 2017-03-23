@@ -1,8 +1,9 @@
 package com.vkandroid;
 
-import com.jsonandroid.JsonAsyncNavigationList;
+import com.jsonandroid.JsonAsyncLazyLoadingList;
 import com.utils.framework.network.RequestExecutor;
 import com.jsonutils.Json;
+import com.utilsframework.android.network.LegacyRequestManager;
 import com.utilsframework.android.network.RequestManager;
 
 import java.io.IOException;
@@ -12,14 +13,15 @@ import java.util.Map;
 /**
  * Created by CM on 6/16/2015.
  */
-public class VkUsersNavigationList extends JsonAsyncNavigationList<VkUser> {
-    public VkUsersNavigationList(String url, Map<String, Object> args,
-                                 String jsonKey,
-                                 RequestExecutor requestExecutor, RequestManager requestManager) {
+public class VkUsersLazyLoadingList extends JsonAsyncLazyLoadingList<VkUser> {
+    public VkUsersLazyLoadingList(String url, Map<String, Object> args,
+                                  String jsonKey,
+                                  RequestExecutor requestExecutor,
+                                  LegacyRequestManager requestManager) {
         super(VkUser.class, url, jsonKey, args, requestExecutor, requestManager);
     }
 
-    public VkUsersNavigationList(String url, String jsonKey, Map<String, Object> args) {
+    public VkUsersLazyLoadingList(String url, String jsonKey, Map<String, Object> args) {
         super(VkUser.class, url, jsonKey, args);
     }
 

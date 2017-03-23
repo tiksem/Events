@@ -9,10 +9,10 @@ import android.widget.TextView;
 import com.azazai.R;
 import com.azazai.data.Request;
 import com.squareup.picasso.Picasso;
-import com.utilsframework.android.adapters.navigation.NavigationListAdapter;
+import com.utilsframework.android.adapters.navigation.LazyLoadingListAdapter;
 import com.utilsframework.android.resources.StringUtilities;
 
-public class RequestsAdapter extends NavigationListAdapter<Request, RequestHolder> {
+public class RequestsAdapter extends LazyLoadingListAdapter<Request, RequestHolder> {
     private final Picasso picasso;
     private Listener listener;
 
@@ -33,7 +33,7 @@ public class RequestsAdapter extends NavigationListAdapter<Request, RequestHolde
     }
 
     @Override
-    protected RequestHolder createViewHolder(View view) {
+    protected RequestHolder createViewHolder(View view, int position) {
         RequestHolder holder = new RequestHolder();
         holder.message = (TextView) view.findViewById(R.id.message);
         holder.avatar = (ImageView) view.findViewById(R.id.avatar);

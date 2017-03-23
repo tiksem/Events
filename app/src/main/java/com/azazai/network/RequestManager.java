@@ -9,21 +9,21 @@ import com.jsonutils.Json;
 import com.azazai.data.Comment;
 import com.azazai.data.Event;
 import com.azazai.data.Tag;
-import com.utils.framework.collections.NavigationList;
+import com.utils.framework.collections.LazyLoadingList;
 import com.utils.framework.collections.cache.EmptyCache;
 import com.utils.framework.io.Network;
 import com.utils.framework.network.RequestExecutorWithCaching;
 import com.utils.framework.suggestions.SuggestionsProvider;
 import com.utilsframework.android.ExecuteTimeLogger;
 import com.utils.framework.network.GetRequestExecutor;
-import com.utilsframework.android.network.AsyncRequestExecutorManager;
+import com.utilsframework.android.network.LegacyRequestManager;
 import com.utils.framework.network.RequestExecutor;
 import com.utilsframework.android.threading.OnFinish;
 import com.utilsframework.android.threading.Threading;
 import com.utilsframework.android.threading.ThrowingRunnable;
 import com.vkandroid.VkApiUtils;
 import com.vkandroid.VkUser;
-import com.vkandroid.VkUsersNavigationList;
+import com.vkandroid.VkUsersLazyLoadingList;
 
 import java.io.IOException;
 import java.util.*;
@@ -31,7 +31,7 @@ import java.util.*;
 /**
  * Created by CM on 6/21/2015.
  */
-public class RequestManager extends AsyncRequestExecutorManager {
+public class RequestManager extends LegacyRequestManager {
     public static final String TAG = "RequestManager";
 
     // for debug purposes, don't use it directly
@@ -62,20 +62,20 @@ public class RequestManager extends AsyncRequestExecutorManager {
         requestExecutor = new RequestExecutorWithCaching(networkRequestExecutor, cache);
     }
 
-    public NavigationList<Event> getEvents(String query) {
+    public LazyLoadingList<Event> getEvents(String query) {
         if (query == null) {
-            return new AllEventsNavigationList(rootUrl, requestExecutor, this);
+            return new AllEventsLazyLoadingList(rootUrl, requestExecutor, this);
         } else {
-            return new AllEventsNavigationList(rootUrl, query, requestExecutor, this);
+            return new AllEventsLazyLoadingList(rootUrl, query, requestExecutor, this);
         }
     }
 
-    public NavigationList<Tag> getTags() {
-        return new TagsNavigationList(requestExecutor, this, rootUrl);
+    public LazyLoadingList<Tag> getTags() {
+        return new TagsLazyLoadingList(requestExecutor, this, rootUrl);
     }
 
-    public NavigationList<Event> getEventsByTag(String tag) {
-        return new EventsByTagNavigationList(rootUrl, tag, requestExecutor, this);
+    public LazyLoadingList<Event> getEventsByTag(String tag) {
+        return new EventsByTagLazyLoadingList(rootUrl, tag, requestExecutor, this);
     }
 
     public void createEvent(final EventArgs args, final OnEventCreationFinished onFinish) {
@@ -102,21 +102,21 @@ public class RequestManager extends AsyncRequestExecutorManager {
         }, onFinish);
     }
 
-    public NavigationList<Event> getEvents(long date, String query) {
+    public LazyLoadingList<Event> getEvents(long date, String query) {
         if (query == null) {
-            return new AllEventsNavigationList(rootUrl, (int) (date / 1000), requestExecutor, this);
+            return new AllEventsLazyLoadingList(rootUrl, (int) (date / 1000), requestExecutor, this);
         } else {
-            return new AllEventsNavigationList(rootUrl, query, (int) (date / 1000), requestExecutor, this);
+            return new AllEventsLazyLoadingList(rootUrl, query, (int) (date / 1000), requestExecutor, this);
         }
     }
 
-    public NavigationList<Event> getCreatedUserEvents(long userId) {
-        return new UserEventsNavigationList(rootUrl, UserEventsNavigationList.Mode.created,
+    public LazyLoadingList<Event> getCreatedUserEvents(long userId) {
+        return new UserEventsLazyLoadingList(rootUrl, UserEventsLazyLoadingList.Mode.created,
                 userId, requestExecutor, this);
     }
 
-    public NavigationList<Event> getSubscribedUserEvents(long userId) {
-        return new UserEventsNavigationList(rootUrl, UserEventsNavigationList.Mode.subscribed,
+    public LazyLoadingList<Event> getSubscribedUserEvents(long userId) {
+        return new UserEventsLazyLoadingList(rootUrl, UserEventsLazyLoadingList.Mode.subscribed,
                 userId, requestExecutor, this);
     }
 
@@ -156,8 +156,8 @@ public class RequestManager extends AsyncRequestExecutorManager {
         }, onFinish);
     }
 
-    public NavigationList<VkUser> getSubscribers(long eventId) {
-        return new VkUsersNavigationList(rootUrl + "getSubscribers",
+    public LazyLoadingList<VkUser> getSubscribers(long eventId) {
+        return new VkUsersLazyLoadingList(rootUrl + "getSubscribers",
                 Collections.<String, Object>singletonMap("id", eventId),
                 "Subscribers", requestExecutor, this);
     }
@@ -172,8 +172,8 @@ public class RequestManager extends AsyncRequestExecutorManager {
         return comments;
     }
 
-    public NavigationList<Comment> getComments(List<Comment> topComments, long eventId) {
-        return new CommentsNavigationList(rootUrl, eventId, topComments, requestExecutor, this);
+    public LazyLoadingList<Comment> getComments(List<Comment> topComments, long eventId) {
+        return new CommentsLazyLoadingList(rootUrl, eventId, topComments, requestExecutor, this);
     }
 
     private void executeRequestCheckForErrors(final String url, final Map<String, Object> args,
@@ -226,12 +226,12 @@ public class RequestManager extends AsyncRequestExecutorManager {
         return Json.read(json, Event.class);
     }
 
-    public NavigationList<Request> getRequestsByUserId(long userId) {
-        return new UserRequestsNavigationList(rootUrl, userId, requestExecutor, this);
+    public LazyLoadingList<Request> getRequestsByUserId(long userId) {
+        return new UserRequestsLazyLoadingList(rootUrl, userId, requestExecutor, this);
     }
 
-    public NavigationList<Request> getRequestsByEvent(Event event) {
-        return new EventRequestsNavigationList(rootUrl, event, requestExecutor, this);
+    public LazyLoadingList<Request> getRequestsByEvent(Event event) {
+        return new EventRequestsLazyLoadingList(rootUrl, event, requestExecutor, this);
     }
 
     public void acceptOrDenyRequest(boolean accept,

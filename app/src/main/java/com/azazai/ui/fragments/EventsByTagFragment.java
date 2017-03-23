@@ -4,7 +4,7 @@ import android.app.Activity;
 import com.azazai.R;
 import com.azazai.data.Event;
 import com.azazai.network.RequestManager;
-import com.utils.framework.collections.NavigationList;
+import com.utils.framework.collections.LazyLoadingList;
 import com.utilsframework.android.fragments.Fragments;
 import com.utilsframework.android.navdrawer.ActionBarTitleProvider;
 
@@ -27,8 +27,8 @@ public class EventsByTagFragment extends EventsListFragment implements ActionBar
     }
 
     @Override
-    protected NavigationList<Event> getNavigationList(RequestManager requestManager, String filter) {
-        return requestManager.getEventsByTag(tag);
+    protected LazyLoadingList<Event> getLazyLoadingList(String filter) {
+        return getRequestManager().getEventsByTag(tag);
     }
 
     @Override

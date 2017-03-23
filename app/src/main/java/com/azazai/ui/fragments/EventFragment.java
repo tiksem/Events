@@ -65,8 +65,9 @@ public class EventFragment extends AbstractPageLoadingFragment<VkUser> implement
     }
 
     @Override
-    protected VkUser loadOnBackground(RequestManager requestManager) throws IOException {
+    protected VkUser loadOnBackground() throws IOException {
         long userId = VkApiUtils.getUserId();
+        RequestManager requestManager = getRequestManager();
         event.isSubscribed = requestManager.isSubscribed(event.id, userId);
         topComments = requestManager.getTopComments(event.id, TOP_COMMENTS_COUNT + 1);
         if (shouldShowRequestsLayout()) {
@@ -345,5 +346,10 @@ public class EventFragment extends AbstractPageLoadingFragment<VkUser> implement
     @Override
     public String getActionBarTitle() {
         return getString(R.string.event);
+    }
+
+    @Override
+    public RequestManager getRequestManager() {
+        return (RequestManager) super.getRequestManager();
     }
 }

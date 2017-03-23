@@ -3,7 +3,7 @@ package com.azazai.ui.fragments;
 import com.azazai.R;
 import com.azazai.data.Event;
 import com.azazai.network.RequestManager;
-import com.utils.framework.collections.NavigationList;
+import com.utils.framework.collections.LazyLoadingList;
 import com.vk.sdk.VKSdk;
 import com.vkandroid.VkApiUtils;
 
@@ -12,8 +12,8 @@ import com.vkandroid.VkApiUtils;
  */
 public class CreatedUserEventsListFragment extends UserEventsListFragment {
     @Override
-    protected NavigationList<Event> getNavigationList(RequestManager requestManager, String filter) {
-        return requestManager.getCreatedUserEvents(VkApiUtils.getUserId());
+    protected LazyLoadingList<Event> getLazyLoadingList(String filter) {
+        return getRequestManager().getCreatedUserEvents(VkApiUtils.getUserId());
     }
 
     @Override

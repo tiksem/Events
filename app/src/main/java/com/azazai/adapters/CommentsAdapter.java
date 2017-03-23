@@ -8,13 +8,13 @@ import android.widget.TextView;
 import com.azazai.R;
 import com.azazai.data.Comment;
 import com.squareup.picasso.Picasso;
-import com.utilsframework.android.adapters.navigation.NavigationListAdapter;
+import com.utilsframework.android.adapters.navigation.LazyLoadingListAdapter;
 import com.utilsframework.android.time.TimeUtils;
 
 /**
  * Created by CM on 7/7/2015.
  */
-public class CommentsAdapter extends NavigationListAdapter<Comment, CommentHolder> {
+public class CommentsAdapter extends LazyLoadingListAdapter<Comment, CommentHolder> {
     private final Picasso picasso;
 
     public CommentsAdapter(Context context) {
@@ -28,7 +28,7 @@ public class CommentsAdapter extends NavigationListAdapter<Comment, CommentHolde
     }
 
     @Override
-    protected CommentHolder createViewHolder(View view) {
+    protected CommentHolder createViewHolder(View view, int position) {
         CommentHolder holder = new CommentHolder();
         holder.message = (TextView) view.findViewById(R.id.message);
         holder.avatar = (ImageView) view.findViewById(R.id.avatar);

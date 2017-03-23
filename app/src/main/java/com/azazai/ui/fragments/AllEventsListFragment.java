@@ -8,7 +8,7 @@ import android.widget.TextView;
 import com.azazai.R;
 import com.azazai.data.Event;
 import com.azazai.network.RequestManager;
-import com.utils.framework.collections.NavigationList;
+import com.utils.framework.collections.LazyLoadingList;
 import com.utilsframework.android.time.TimeUtils;
 import com.utilsframework.android.view.DatePickerButton;
 
@@ -47,7 +47,7 @@ public class AllEventsListFragment extends EventsListFragment {
                     datePickerButton.performClick();
                     datePickerButtonCheckedListenerCalled = true;
                 } else if (datePickerButton.getVisibility() == View.VISIBLE) {
-                    updateNavigationListWithLastFilter();
+                    update();
                 }
 
                 datePickerButton.setVisibility(View.VISIBLE);
@@ -58,7 +58,7 @@ public class AllEventsListFragment extends EventsListFragment {
             @Override
             public void onDateChanged() {
                 if (dateFilterCheckbox.isChecked()) {
-                    updateNavigationListWithLastFilter();
+                    update();
                 }
             }
         });
@@ -67,13 +67,13 @@ public class AllEventsListFragment extends EventsListFragment {
     }
 
     @Override
-    protected NavigationList<Event> getNavigationList(RequestManager requestManager, String filter) {
+    protected LazyLoadingList<Event> getLazyLoadingList(String filter) {
         if (!dateFilterCheckbox.isChecked()) {
             dateFilter = -1;
-            return requestManager.getEvents(filter);
+            return getRequestManager().getEvents(filter);
         } else {
             dateFilter = datePickerButton.getDate();
-            return requestManager.getEvents(dateFilter, filter);
+            return getRequestManager().getEvents(dateFilter, filter);
         }
     }
 

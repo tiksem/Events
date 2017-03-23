@@ -5,12 +5,12 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import com.squareup.picasso.Picasso;
-import com.utilsframework.android.adapters.navigation.NavigationListAdapter;
+import com.utilsframework.android.adapters.navigation.LazyLoadingListAdapter;
 
 /**
  * Created by CM on 6/17/2015.
  */
-public class VkUsersListAdapter extends NavigationListAdapter<VkUser, VkUserViewHolder> {
+public class VkUsersListAdapter extends LazyLoadingListAdapter<VkUser, VkUserViewHolder> {
     private final Picasso picasso;
 
     public VkUsersListAdapter(Context context) {
@@ -24,7 +24,7 @@ public class VkUsersListAdapter extends NavigationListAdapter<VkUser, VkUserView
     }
 
     @Override
-    protected VkUserViewHolder createViewHolder(View view) {
+    protected VkUserViewHolder createViewHolder(View view, int position) {
         VkUserViewHolder holder = new VkUserViewHolder();
         holder.avatar = (ImageView) view.findViewById(R.id.avatar);
         holder.name = (TextView) view.findViewById(R.id.name);

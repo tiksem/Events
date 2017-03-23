@@ -11,7 +11,7 @@ import com.azazai.R;
 import com.azazai.adapters.CommentsAdapter;
 import com.azazai.data.Comment;
 import com.azazai.network.RequestManager;
-import com.utils.framework.collections.NavigationList;
+import com.utils.framework.collections.LazyLoadingList;
 import com.utilsframework.android.adapters.ViewArrayAdapter;
 import com.utilsframework.android.navdrawer.ActionBarTitleProvider;
 import com.utilsframework.android.social.SocialUtils;
@@ -27,7 +27,7 @@ import java.util.List;
 /**
  * Created by CM on 7/7/2015.
  */
-public class CommentsFragment extends AbstractNavigationListFragment<Comment> implements ActionBarTitleProvider {
+public class CommentsFragment extends AbstractLazyLoadingListFragment<Comment> implements ActionBarTitleProvider {
     private static final String EVENT_ID = "eventId";
     private static final String TOP_COMMENTS = "topComments";
     public static final String REQUEST_ADD_COMMENT_FOCUS = "requestAddCommentFocus";
@@ -52,19 +52,19 @@ public class CommentsFragment extends AbstractNavigationListFragment<Comment> im
     }
 
     @Override
-    protected ViewArrayAdapter<Comment, ?> createAdapter(RequestManager requestManager) {
+    protected ViewArrayAdapter<Comment, ?> createAdapter() {
         return new CommentsAdapter(getActivity());
     }
 
     @Override
-    protected NavigationList<Comment> getNavigationList(RequestManager requestManager, String filter) {
+    protected LazyLoadingList<Comment> getLazyLoadingList(String filter) {
         Bundle arguments = getArguments();
         ArrayList<Comment> topComments = arguments.getParcelableArrayList(TOP_COMMENTS);
         if (topComments.size() <= EventFragment.TOP_COMMENTS_COUNT) {
-            return NavigationList.decorate(topComments);
+            return LazyLoadingList.decorate(topComments);
         }
 
-        return requestManager.getComments(topComments, eventId);
+        return getRequestManager().getComments(topComments, eventId);
     }
 
     @Override

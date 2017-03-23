@@ -52,8 +52,8 @@ public class MainActivity extends NavigationDrawerMenuActivity {
     }
 
     @Override
-    protected void onPreCreate() {
-        super.onPreCreate();
+    protected void onBeforeNavigationDrawerInit() {
+        super.onBeforeNavigationDrawerInit();
         commentNotificationEvent = getIntent().getParcelableExtra(NOTIFICATION_EVENT);
     }
 

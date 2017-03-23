@@ -110,12 +110,7 @@ public class WelcomeActivity extends VkActivity {
     }
 
     private void loginVK() {
-        requestReadStoragePermissionExecuteWhenGranted(new Runnable() {
-            @Override
-            public void run() {
-                VkManager.authorize();
-            }
-        });
+        VkManager.authorize();
     }
 
     private void startMainActivity() {

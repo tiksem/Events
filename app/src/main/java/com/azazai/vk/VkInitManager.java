@@ -9,6 +9,7 @@ import com.azazai.R;
 import com.azazai.gcm.GCM;
 import com.azazai.network.RequestManager;
 import com.utils.framework.threading.Threads;
+import com.utilsframework.android.threading.Cancelable;
 import com.utilsframework.android.threading.Threading;
 import com.utilsframework.android.view.Alerts;
 import com.utilsframework.android.view.Toasts;
@@ -27,7 +28,7 @@ public class VkInitManager {
     private boolean showProgressDialog = true;
     private ProgressDialog progressDialog;
     private boolean updateDeviceVkUser = false;
-    private AsyncTask loadingAsyncTask;
+    private Cancelable loadingAsyncTask;
 
     public VkInitManager(Context context, RequestManager requestManager) {
         this.context = context;

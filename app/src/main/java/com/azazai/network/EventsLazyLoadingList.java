@@ -1,25 +1,24 @@
 package com.azazai.network;
 
-import com.jsonandroid.JsonAsyncNavigationList;
+import com.jsonandroid.JsonAsyncLazyLoadingList;
 import com.azazai.data.Event;
 import com.utils.framework.KeyProvider;
 import com.utils.framework.network.RequestExecutor;
 
-import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
 /**
  * Created by CM on 6/21/2015.
  */
-class EventsNavigationList extends JsonAsyncNavigationList<Event> {
+class EventsLazyLoadingList extends JsonAsyncLazyLoadingList<Event> {
     private boolean actualEventsLoaded = false;
     private int actualPagesLoadedCount = -1;
 
-    public EventsNavigationList(String url, String jsonKey,
-                                Map<String, Object> args,
-                                RequestExecutor requestExecutor,
-                                RequestManager requestManager) {
+    public EventsLazyLoadingList(String url, String jsonKey,
+                                 Map<String, Object> args,
+                                 RequestExecutor requestExecutor,
+                                 RequestManager requestManager) {
         super(Event.class, url, jsonKey, args, requestExecutor, requestManager);
     }
 

@@ -16,14 +16,14 @@ import com.vk.sdk.VKSdk;
 import java.io.IOException;
 
 public abstract class AbstractRequestsFragment
-        extends NavigationListFragmentWithEmptyResults<Request> implements RequestsAdapter.Listener {
+        extends LazyLoadingListFragmentWithEmptyResults<Request> implements RequestsAdapter.Listener {
     @Override
     protected int getEmptyResultsHintText() {
         return R.string.no_requests;
     }
 
     @Override
-    protected ViewArrayAdapter<Request, ?> createAdapter(RequestManager requestManager) {
+    protected ViewArrayAdapter<Request, ?> createAdapter() {
         return new RequestsAdapter(getContext(), this);
     }
 

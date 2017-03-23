@@ -5,30 +5,24 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.LocalBroadcastManager;
 import android.view.View;
-import android.widget.Button;
-import android.widget.TextView;
-import com.jsonutils.RequestException;
+
 import com.azazai.EventsApp;
 import com.azazai.R;
 import com.azazai.network.RequestManager;
-import com.azazai.ui.CreateEventActivity;
-import com.utilsframework.android.AndroidUtilities;
 import com.utilsframework.android.fragments.Fragments;
-import com.utilsframework.android.navdrawer.NavigationActivityInterface;
-import com.utilsframework.android.navdrawer.NavigationDrawerActivity;
-import com.utilsframework.android.navigation.NavigationListFragment;
+import com.utilsframework.android.fragments.LazyLoadingListFragment;
+import com.utilsframework.android.navdrawer.FragmentsNavigationInterface;
 import com.utilsframework.android.view.GuiUtilities;
 
 /**
  * Created by CM on 6/21/2015.
  */
-public abstract class AbstractNavigationListFragment<T> extends NavigationListFragment<T, RequestManager> {
+public abstract class AbstractLazyLoadingListFragment<T> extends LazyLoadingListFragment<T> {
     public static final int CREATE_EVENT = 1;
-    public static final String UPDATE_ACTION = "com.azazai.ui.fragments.AbstractNavigationListFragment.update";
+    public static final String UPDATE_ACTION = "com.azazai.ui.fragments.AbstractLazyLoadingListFragment.update";
     private LocalBroadcastManager localBroadcastManager;
     private BroadcastReceiver updateReceiver;
 
@@ -40,11 +34,11 @@ public abstract class AbstractNavigationListFragment<T> extends NavigationListFr
             updateReceiver = new BroadcastReceiver() {
                 @Override
                 public void onReceive(Context context, Intent intent) {
-                    Fragments.executeWhenViewCreated(AbstractNavigationListFragment.this,
+                    Fragments.executeWhenViewCreated(AbstractLazyLoadingListFragment.this,
                             new GuiUtilities.OnViewCreated() {
                         @Override
                         public void onViewCreated(View view) {
-                            updateNavigationListWithLastFilter();
+                            update();
                         }
                     });
                 }
@@ -64,7 +58,7 @@ public abstract class AbstractNavigationListFragment<T> extends NavigationListFr
     }
 
     @Override
-    protected int getLoadingResourceId() {
+    protected int getLoadingViewId() {
         return R.id.loading;
     }
 
@@ -78,8 +72,8 @@ public abstract class AbstractNavigationListFragment<T> extends NavigationListFr
         return R.id.retry;
     }
 
-    public NavigationActivityInterface getNavigationActivityInterface() {
-        return (NavigationActivityInterface) getActivity();
+    public FragmentsNavigationInterface getNavigationActivityInterface() {
+        return (FragmentsNavigationInterface) getActivity();
     }
 
     public void replaceFragment(Fragment newFragment, int navigationLevel) {
@@ -105,5 +99,10 @@ public abstract class AbstractNavigationListFragment<T> extends NavigationListFr
     @Override
     protected boolean useSwipeRefresh() {
         return false;
+    }
+
+    @Override
+    public RequestManager getRequestManager() {
+        return (RequestManager) super.getRequestManager();
     }
 }

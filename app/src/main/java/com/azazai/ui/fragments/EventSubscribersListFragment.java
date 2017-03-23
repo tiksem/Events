@@ -2,7 +2,7 @@ package com.azazai.ui.fragments;
 
 import com.azazai.R;
 import com.azazai.network.RequestManager;
-import com.utils.framework.collections.NavigationList;
+import com.utils.framework.collections.LazyLoadingList;
 import com.utilsframework.android.adapters.ViewArrayAdapter;
 import com.utilsframework.android.fragments.Fragments;
 import com.utilsframework.android.navdrawer.ActionBarTitleProvider;
@@ -13,7 +13,7 @@ import com.vkandroid.VkUsersListAdapter;
 /**
  * Created by CM on 6/17/2015.
  */
-public class EventSubscribersListFragment extends AbstractNavigationListFragment<VkUser>
+public class EventSubscribersListFragment extends AbstractLazyLoadingListFragment<VkUser>
         implements ActionBarTitleProvider {
     private static final String EVENT_ID = "id";
 
@@ -22,13 +22,13 @@ public class EventSubscribersListFragment extends AbstractNavigationListFragment
     }
 
     @Override
-    protected ViewArrayAdapter<VkUser, ?> createAdapter(RequestManager requestManager) {
+    protected ViewArrayAdapter<VkUser, ?> createAdapter() {
         return new VkUsersListAdapter(getActivity());
     }
 
     @Override
-    protected NavigationList<VkUser> getNavigationList(RequestManager requestManager, String filter) {
-        return requestManager.getSubscribers(getArguments().getLong(EVENT_ID));
+    protected LazyLoadingList<VkUser> getLazyLoadingList(String filter) {
+        return getRequestManager().getSubscribers(getArguments().getLong(EVENT_ID));
     }
 
     @Override

@@ -4,24 +4,21 @@ import com.azazai.data.Event;
 import com.azazai.data.Request;
 import com.jsonutils.Json;
 import com.utils.framework.CollectionUtils;
-import com.utils.framework.Lists;
 import com.utils.framework.Transformer;
 import com.utils.framework.network.RequestExecutor;
-import com.vkandroid.VkApiUtils;
-import com.vkandroid.VkUser;
 
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class EventRequestsNavigationList extends RequestsNavigationList {
+public class EventRequestsLazyLoadingList extends RequestsLazyLoadingList {
     private Event event;
 
-    public EventRequestsNavigationList(String rootUrl,
-                                       final Event event,
-                                       RequestExecutor requestExecutor,
-                                       RequestManager requestManager) {
+    public EventRequestsLazyLoadingList(String rootUrl,
+                                        final Event event,
+                                        RequestExecutor requestExecutor,
+                                        RequestManager requestManager) {
         super(rootUrl + "getRequests", new HashMap<String, Object>() {
             {
                 put("id", event.id);

@@ -32,7 +32,7 @@
     <string name="add_comment">Add Comment</string>
     <string name="view_all_comments">View All Comments</string>
     <string name="add_comment_hint">Add a comment</string>
-    <string name="no_comments">There is no comments yet. Be first!</string>
+    <string name="no_comments">There is comments yet. Be first!</string>
     <string name="no_comments_short">No comments yet. Be first!</string>
     <string name="comments">Comments</string>
     <string name="event">Event</string>

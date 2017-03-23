@@ -8,21 +8,21 @@ import com.azazai.R;
 import com.azazai.adapters.TagsAdapter;
 import com.azazai.data.Tag;
 import com.azazai.network.RequestManager;
-import com.utils.framework.collections.NavigationList;
+import com.utils.framework.collections.LazyLoadingList;
 import com.utilsframework.android.adapters.ViewArrayAdapter;
 
 /**
  * Created by CM on 7/1/2015.
  */
-public class TagsListFragment extends NavigationListFragmentWithEmptyResults<Tag> {
+public class TagsListFragment extends LazyLoadingListFragmentWithEmptyResults<Tag> {
     @Override
-    protected ViewArrayAdapter<Tag, ?> createAdapter(RequestManager requestManager) {
+    protected ViewArrayAdapter<Tag, ?> createAdapter() {
         return new TagsAdapter(getActivity());
     }
 
     @Override
-    protected NavigationList<Tag> getNavigationList(RequestManager requestManager, String filter) {
-        return requestManager.getTags();
+    protected LazyLoadingList<Tag> getLazyLoadingList(String filter) {
+        return getRequestManager().getTags();
     }
 
     @Override

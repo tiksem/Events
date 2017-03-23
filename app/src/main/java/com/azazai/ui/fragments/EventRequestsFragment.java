@@ -4,8 +4,7 @@ import android.app.Activity;
 
 import com.azazai.data.Event;
 import com.azazai.data.Request;
-import com.azazai.network.RequestManager;
-import com.utils.framework.collections.NavigationList;
+import com.utils.framework.collections.LazyLoadingList;
 import com.utilsframework.android.fragments.Fragments;
 
 public class EventRequestsFragment extends AbstractRequestsFragment {
@@ -23,9 +22,8 @@ public class EventRequestsFragment extends AbstractRequestsFragment {
     }
 
     @Override
-    protected NavigationList<Request> getNavigationList(RequestManager requestManager,
-                                                        String filter) {
-        return requestManager.getRequestsByEvent(event);
+    protected LazyLoadingList<Request> getLazyLoadingList(String filter) {
+        return getRequestManager().getRequestsByEvent(event);
     }
 
     @Override

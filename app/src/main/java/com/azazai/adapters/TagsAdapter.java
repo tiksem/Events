@@ -5,12 +5,12 @@ import android.view.View;
 import android.widget.TextView;
 import com.azazai.R;
 import com.azazai.data.Tag;
-import com.utilsframework.android.adapters.navigation.NavigationListAdapter;
+import com.utilsframework.android.adapters.navigation.LazyLoadingListAdapter;
 
 /**
  * Created by CM on 7/1/2015.
  */
-public class TagsAdapter extends NavigationListAdapter<Tag, TagHolder> {
+public class TagsAdapter extends LazyLoadingListAdapter<Tag, TagHolder> {
     public TagsAdapter(Context context) {
         super(context);
     }
@@ -21,7 +21,7 @@ public class TagsAdapter extends NavigationListAdapter<Tag, TagHolder> {
     }
 
     @Override
-    protected TagHolder createViewHolder(View view) {
+    protected TagHolder createViewHolder(View view, int position) {
         TagHolder holder = new TagHolder();
         holder.name = (TextView) view.findViewById(R.id.name);
         holder.eventsCount = (TextView) view.findViewById(R.id.events_count);
