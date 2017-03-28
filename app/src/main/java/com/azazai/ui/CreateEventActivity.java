@@ -89,6 +89,8 @@ public class CreateEventActivity extends VkActivity {
         setupAddressEditText();
 
         isEventPrivateCheckBox = (CheckBox) findViewById(R.id.private_event);
+        boolean isPrivate = getIntent().getBooleanExtra(IS_PRIVATE, false);
+        isEventPrivateCheckBox.setChecked(isPrivate);
     }
 
     private void setupEditEvent() {
