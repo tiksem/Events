@@ -1,192 +1,242 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 android:layout_width="match_parent"
-                android:padding="10dp"
-                android:layout_height="wrap_content">
-    <RelativeLayout
-            android:id="@+id/header"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            >
-        <LinearLayout
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="15dp"
-                android:id="@+id/people_layout"
-                android:orientation="vertical"
-                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:gravity="center"
-                >
-            <ImageView android:id="@+id/people_icon"
-                       android:src="@drawable/ic_people_grey"
-                       android:layout_width="32dp"
-                       android:layout_height="32dp"/>
-            <TextView android:id="@+id/people_number"
-                      android:textColor="@color/text"
-                      android:textStyle="bold"
-                      android:layout_width="wrap_content"
-                      android:layout_height="wrap_content"/>
-        </LinearLayout>
+                android:padding="10dp">
+
+    <RelativeLayout
+        android:id="@+id/header"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        >
+
+        <ImageView
+            android:id="@+id/event_icon"
+            android:layout_width="85dp"
+            android:layout_height="85dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="10dp"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:src="@drawable/event_icon"/>
 
         <LinearLayout
+            android:id="@+id/people_layout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/date"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="15dp"
-            android:layout_below="@id/people_layout"
-            android:id="@+id/requests_layout"
-            android:visibility="gone"
-            android:orientation="vertical"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/event_icon"
             android:gravity="center"
+            android:orientation="vertical"
+            android:visibility="visible"
             >
-            <ImageView
-                android:src="@drawable/ic_people_grey"
-                android:layout_width="32dp"
-                android:layout_height="32dp"/>
-            <TextView android:id="@+id/requests_number"
-                      android:textColor="@color/text"
-                android:textStyle="bold"
+
+            <TextView
+                android:id="@+id/people_number"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="15/20"
+                android:textSize="16sp"
+                android:textColor="@color/text"
+                android:textStyle="bold"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/participants"/>
         </LinearLayout>
 
-        <TextView android:id="@+id/name"
-                  style="@style/header"
-                  android:layout_toRightOf="@+id/people_layout"
-                  android:layout_width="wrap_content"
-                  android:layout_height="wrap_content"/>
+        <LinearLayout
+            android:id="@+id/requests_layout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/date"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="15dp"
+            android:layout_toRightOf="@id/people_layout"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:visibility="gone"
+            >
 
-        <TextView android:id="@+id/date"
-                  android:textColor="@color/text"
-                  android:text="@string/event_date_title"
-                  style="@style/date"
-                  android:layout_below="@id/name"
-                  android:layout_toRightOf="@+id/people_layout"
-                  android:layout_width="wrap_content"
-                  android:layout_height="wrap_content"/>
+            <TextView
+                android:id="@+id/requests_number"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="1.3k"
+                android:textSize="16sp"
+                android:textColor="@color/text"
+                android:textStyle="bold"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/requests"/>
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/name"
+            style="@style/header"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/event_icon"
+            android:text="Event name"/>
+
+        <TextView
+            android:id="@+id/date"
+            style="@style/date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/name"
+            android:layout_toRightOf="@+id/event_icon"
+            android:text="@string/event_date_title"
+            android:textColor="@color/text"/>
     </RelativeLayout>
 
     <FrameLayout
-            android:id="@+id/subscribe_layout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/header"
-            >
-        <Button android:id="@+id/subscribe"
-                android:text="@string/i_will_go"
-                style="@style/contrastButton"
-                android:layout_gravity="center"
-                android:layout_margin="5dp"
-                android:layout_width="250dp"
-                android:layout_height="30dp"/>
+        android:id="@+id/subscribe_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/header"
+        >
 
-        <TextView android:id="@+id/timeout_text"
-                  android:visibility="gone"
-                  android:textSize="14sp"
-                  android:textStyle="bold"
-                  android:layout_margin="5dp"
-                  android:layout_gravity="center"
-                  android:text="@string/timeout_text"
-                  android:textColor="@color/warning"
-                  android:textAllCaps="true"
-                  android:layout_width="wrap_content"
-                  android:layout_height="wrap_content"/>
+        <Button
+            android:id="@+id/subscribe"
+            style="@style/contrastButton"
+            android:layout_width="250dp"
+            android:layout_height="30dp"
+            android:layout_gravity="center"
+            android:layout_margin="5dp"
+            android:text="@string/i_will_go"/>
+
+        <TextView
+            android:id="@+id/timeout_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_margin="5dp"
+            android:text="@string/timeout_text"
+            android:textAllCaps="true"
+            android:textColor="@color/warning"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            android:visibility="gone"/>
     </FrameLayout>
 
 
-    <TextView android:id="@+id/description"
-              android:layout_alignParentLeft="true"
-              android:textColor="@color/text"
-              android:layout_below="@id/subscribe_layout"
-              android:layout_width="wrap_content"
-              android:layout_height="wrap_content"/>
+    <TextView
+        android:id="@+id/description"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@id/subscribe_layout"
+        android:textColor="@color/text"/>
 
-    <View android:id="@+id/first_line"
-          android:layout_width="match_parent"
-          android:layout_below="@+id/description"
-          android:layout_height="1dp"
-          android:layout_marginBottom="7dp"
-          android:layout_marginTop="7dp"
-          android:background="#ffa7a7a7"/>
+    <View
+        android:id="@+id/first_line"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@+id/description"
+        android:layout_marginBottom="7dp"
+        android:layout_marginTop="7dp"
+        android:background="#ffa7a7a7"/>
 
-    <TextView style="@style/header3"
-              android:id="@+id/orginizer_label"
-              android:paddingBottom="5dp"
-              android:layout_below="@id/first_line"
-              android:text="@string/orginizer"
-              android:layout_width="wrap_content"
-              android:layout_height="wrap_content"/>
+    <TextView
+        android:id="@+id/orginizer_label"
+        style="@style/header3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/first_line"
+        android:paddingBottom="5dp"
+        android:text="@string/orginizer"/>
 
-    <ImageView android:id="@+id/avatar"
-               android:layout_below="@id/orginizer_label"
-               android:layout_alignLeft="@+id/description"
-               android:layout_width="30dp"
-               android:layout_height="30dp"/>
+    <ImageView
+        android:id="@+id/avatar"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_alignLeft="@+id/description"
+        android:layout_below="@id/orginizer_label"/>
 
-    <TextView android:id="@+id/userName"
-              android:padding="5dp"
-              android:textColor="@color/text"
-              android:layout_below="@id/orginizer_label"
-              android:layout_toRightOf="@+id/avatar"
-              android:layout_width="wrap_content"
-              android:layout_height="wrap_content"/>
+    <TextView
+        android:id="@+id/userName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/orginizer_label"
+        android:layout_toRightOf="@+id/avatar"
+        android:padding="5dp"
+        android:textColor="@color/text"/>
 
-    <TextView style="@style/header3"
-              android:paddingTop="5dp"
-              android:id="@+id/address_label"
-              android:layout_below="@+id/avatar"
-              android:layout_alignLeft="@+id/description"
-              android:text="@string/address"
-              android:layout_width="wrap_content"
-              android:layout_height="wrap_content"/>
+    <TextView
+        android:id="@+id/address_label"
+        style="@style/header3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/description"
+        android:layout_below="@+id/avatar"
+        android:paddingTop="5dp"
+        android:text="@string/address"/>
 
     <LinearLayout
-            android:id="@+id/address_layout"
-            android:orientation="horizontal"
-            android:layout_below="@+id/address_label"
-            android:layout_alignLeft="@+id/description"
+        android:id="@+id/address_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/description"
+        android:layout_below="@+id/address_label"
+        android:gravity="center"
+        android:orientation="horizontal"
+        >
+
+        <ImageView
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:src="@drawable/ic_address"
+            android:tint="#001063"/>
+
+        <TextView
+            android:id="@+id/address"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_width="wrap_content"
-            android:gravity="center"
-            >
-        <ImageView android:src="@drawable/ic_address"
-                   android:tint="#001063"
-                   android:layout_width="32dp"
-                   android:layout_height="32dp"/>
-
-        <TextView android:id="@+id/address"
-                  android:textColor="@color/text"
-                  android:layout_width="wrap_content"
-                  android:layout_height="wrap_content"/>
+            android:text="Event address"
+            android:textColor="@color/text"/>
     </LinearLayout>
 
-    <View android:id="@+id/second_line"
-          android:layout_width="match_parent"
-          android:layout_below="@+id/address_layout"
-          android:layout_height="1dp"
-          android:layout_marginBottom="7dp"
-          android:layout_marginTop="7dp"
-          android:background="#ffa7a7a7"/>
+    <View
+        android:id="@+id/second_line"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@+id/address_layout"
+        android:layout_marginBottom="7dp"
+        android:layout_marginTop="7dp"
+        android:background="#ffa7a7a7"/>
 
-    <LinearLayout android:id="@+id/comments"
-                  android:orientation="vertical"
-                  android:layout_below="@+id/second_line"
-                  android:layout_width="match_parent"
-                  android:layout_height="wrap_content">
-        <TextView android:id="@+id/view_all_comments_text"
-                  android:textColor="@color/text"
-                  android:text="@string/view_all_comments"
-                  android:layout_width="wrap_content"
-                  android:layout_height="wrap_content"/>
-    </LinearLayout>
-    <Button android:id="@+id/add_comment"
-            android:layout_below="@+id/comments"
-            android:text="@string/add_comment"
-            android:layout_marginTop="5dp"
-            style="@style/contrastButton"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp"
+    <LinearLayout
+        android:id="@+id/comments"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/second_line"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/view_all_comments_text"
             android:layout_width="wrap_content"
-            android:layout_height="30dp"/>
+            android:layout_height="wrap_content"
+            android:text="@string/view_all_comments"
+            android:textColor="@color/text"/>
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/add_comment"
+        style="@style/contrastButton"
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:layout_below="@+id/comments"
+        android:layout_marginTop="5dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:text="@string/add_comment"/>
 </RelativeLayout>
 
