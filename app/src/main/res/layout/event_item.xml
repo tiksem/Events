@@ -1,21 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:layout_width="match_parent"
+                android:paddingTop="5dp"
+                android:paddingLeft="5dp"
               android:layout_height="wrap_content">
     <LinearLayout
             android:id="@+id/people_layout"
             android:layout_alignParentLeft="true"
             android:layout_alignParentTop="true"
             android:orientation="vertical"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+            android:layout_marginRight="7dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="15dp"
             android:gravity="center"
             >
-        <ImageView android:id="@+id/people_icon"
-                   android:src="@drawable/ic_people_grey"
-                   android:layout_width="32dp"
-                   android:layout_height="32dp"/>
+        <ImageView android:id="@+id/event_icon"
+                   android:src="@drawable/event_icon"
+                   android:layout_width="60dp"
+                   android:layout_height="60dp"/>
         <TextView android:id="@+id/people_number"
                   android:textStyle="bold"
                   android:layout_width="wrap_content"
