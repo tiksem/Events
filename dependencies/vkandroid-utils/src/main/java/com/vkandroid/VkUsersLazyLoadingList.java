@@ -27,7 +27,7 @@ public class VkUsersLazyLoadingList extends JsonAsyncLazyLoadingList<VkUser> {
 
     @Override
     protected List<VkUser> getElements(String url, Map<String, Object> args, RequestExecutor requestExecutor,
-                                       Class<VkUser> aClass) throws IOException {
+                                       Class<? extends VkUser> aClass) throws IOException {
         String response = requestExecutor.executeRequest(url, args);
         List<Long> ides = Json.parseLongArray(response, getJsonKey());
         return VkApiUtils.getUsers(ides, requestExecutor);
