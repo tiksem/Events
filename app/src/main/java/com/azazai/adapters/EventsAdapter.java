@@ -25,13 +25,7 @@ public class EventsAdapter extends LazyLoadingListAdapter<Event, EventHolder> {
 
     @Override
     protected EventHolder createViewHolder(View view, int position) {
-        EventHolder holder = new EventHolder();
-        holder.name = (TextView) view.findViewById(R.id.name);
-        holder.date = (TextView) view.findViewById(R.id.date);
-        holder.description = (TextView) view.findViewById(R.id.description);
-        holder.peopleCount = (TextView) view.findViewById(R.id.people_number);
-        holder.timeoutIcon = (ImageView) view.findViewById(R.id.timeout_icon);
-        return holder;
+        return new EventHolder(view);
     }
 
     @Override
@@ -42,6 +36,5 @@ public class EventsAdapter extends LazyLoadingListAdapter<Event, EventHolder> {
         long dateMillis = event.date * 1000l;
         String date = TimeUtils.getAlternativeDisplayDateTime(view.getContext(), dateMillis);
         holder.date.setText(date);
-        holder.timeoutIcon.setVisibility(System.currentTimeMillis() < dateMillis ? View.GONE : View.VISIBLE);
     }
 }

@@ -2,7 +2,7 @@
 <resources>
     <color name="navigation_color">@color/vk_white</color>
     <color name="selected_navigation_item">#ff1d0833</color>
-    <color name="header">@color/colorPrimaryDark</color>
+    <color name="header">#2787ae</color>
     <color name="colorPrimary">#4DB1BC</color>
     <color name="colorPrimaryDark">#ff4597a2</color>
     <color name="colorAccent">@color/colorPrimary</color>
@@ -11,8 +11,10 @@
     <color name="grey">#c1c1c1</color>
     <color name="contrastColor">#ffff4d44</color>
     <color name="contrastColorDark">#ffca3e35</color>
+    <color name="text">#3d3d3d</color>
     <color name="vkLoginButtonColor">#53779e</color>
     <color name="vkLoginButtonBorder">#ff3b5470</color>
     <color name="vkLoginButtonRipple">#ff6e9dcc</color>
     <color name="vkLoginButtonPressed">#ff426182</color>
+    <color name="createEventLabel">@color/colorPrimaryDark</color>
 </resources>
