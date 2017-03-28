@@ -27,7 +27,7 @@ public class EventsByTagFragment extends EventsListFragment implements ActionBar
     }
 
     @Override
-    protected LazyLoadingList<Event> getLazyLoadingList(String filter) {
+    protected LazyLoadingList<Object> getLazyLoadingList(String filter) {
         return getRequestManager().getEventsByTag(tag);
     }
 

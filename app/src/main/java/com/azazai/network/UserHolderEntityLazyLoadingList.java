@@ -37,7 +37,7 @@ public class UserHolderEntityLazyLoadingList<T extends VkUserHolderEntity>
     @Override
     protected List<T> getElements(String url, Map<String, Object> args,
                                   RequestExecutor requestExecutor,
-                                  Class<T> aClass) throws IOException {
+                                  Class<? extends T> aClass) throws IOException {
         List<T> list = super.getElements(url, args, requestExecutor, aClass);
         Requests.updateUserData(requestExecutor, list);
         return list;

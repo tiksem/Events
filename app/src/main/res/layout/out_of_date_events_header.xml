@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+             android:layout_width="match_parent"
+             android:layout_height="wrap_content"
+             android:paddingLeft="10dp"
+             android:paddingTop="3dp"
+             android:paddingBottom="3dp"
+             android:background="#cacaca"
+             android:orientation="vertical">
+    <TextView
+        android:textColor="#464646"
+        style="@style/header2"
+        android:text="@string/past_events"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+</FrameLayout>

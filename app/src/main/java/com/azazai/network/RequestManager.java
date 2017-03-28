@@ -62,7 +62,7 @@ public class RequestManager extends LegacyRequestManager {
         requestExecutor = new RequestExecutorWithCaching(networkRequestExecutor, cache);
     }
 
-    public LazyLoadingList<Event> getEvents(String query) {
+    public LazyLoadingList<Object> getEvents(String query) {
         if (query == null) {
             return new AllEventsLazyLoadingList(rootUrl, requestExecutor, this);
         } else {
@@ -74,7 +74,7 @@ public class RequestManager extends LegacyRequestManager {
         return new TagsLazyLoadingList(requestExecutor, this, rootUrl);
     }
 
-    public LazyLoadingList<Event> getEventsByTag(String tag) {
+    public LazyLoadingList<Object> getEventsByTag(String tag) {
         return new EventsByTagLazyLoadingList(rootUrl, tag, requestExecutor, this);
     }
 
@@ -102,7 +102,7 @@ public class RequestManager extends LegacyRequestManager {
         }, onFinish);
     }
 
-    public LazyLoadingList<Event> getEvents(long date, String query) {
+    public LazyLoadingList<Object> getEvents(long date, String query) {
         if (query == null) {
             return new AllEventsLazyLoadingList(rootUrl, (int) (date / 1000), requestExecutor, this);
         } else {
@@ -110,12 +110,12 @@ public class RequestManager extends LegacyRequestManager {
         }
     }
 
-    public LazyLoadingList<Event> getCreatedUserEvents(long userId) {
+    public LazyLoadingList<Object> getCreatedUserEvents(long userId) {
         return new UserEventsLazyLoadingList(rootUrl, UserEventsLazyLoadingList.Mode.created,
                 userId, requestExecutor, this);
     }
 
-    public LazyLoadingList<Event> getSubscribedUserEvents(long userId) {
+    public LazyLoadingList<Object> getSubscribedUserEvents(long userId) {
         return new UserEventsLazyLoadingList(rootUrl, UserEventsLazyLoadingList.Mode.subscribed,
                 userId, requestExecutor, this);
     }

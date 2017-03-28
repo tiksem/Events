@@ -30,7 +30,7 @@ public class EventRequestsLazyLoadingList extends RequestsLazyLoadingList {
     @Override
     protected List<Request> getElements(String url, Map<String, Object> args,
                                        RequestExecutor requestExecutor,
-                                       Class<Request> aClass) throws IOException {
+                                       Class<? extends Request> aClass) throws IOException {
         String response = requestExecutor.executeRequest(url, args);
         List<Long> ides = Json.parseLongArray(response, getJsonKey());
         final List<Request> result = CollectionUtils.transform(

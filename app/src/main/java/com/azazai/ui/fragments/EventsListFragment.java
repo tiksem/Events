@@ -15,7 +15,7 @@ import com.utilsframework.android.view.KeyboardIsShownListener;
 /**
  * Created by CM on 7/1/2015.
  */
-public abstract class EventsListFragment extends LazyLoadingListFragmentWithEmptyResults<Event> {
+public abstract class EventsListFragment extends LazyLoadingListFragmentWithEmptyResults<Object> {
     private KeyboardIsShownListener keyboardIsShownListener;
 
     @Override
@@ -50,13 +50,13 @@ public abstract class EventsListFragment extends LazyLoadingListFragmentWithEmpt
     }
 
     @Override
-    protected ViewArrayAdapter<Event, ?> createAdapter() {
+    protected ViewArrayAdapter<Object, ?> createAdapter() {
         return new EventsAdapter(getActivity());
     }
 
     @Override
-    protected void onListItemClicked(Event event, int position) {
-        Fragment fragment = EventFragment.create(event);
+    protected void onListItemClicked(Object event, int position) {
+        Fragment fragment = EventFragment.create((Event) event);
         replaceFragment(fragment, Level.EVENT_PAGE);
     }
 

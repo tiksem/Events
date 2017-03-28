@@ -11,9 +11,10 @@ import java.util.Map;
 /**
  * Created by CM on 6/21/2015.
  */
-class EventsLazyLoadingList extends JsonAsyncLazyLoadingList<Event> {
+class EventsLazyLoadingList extends JsonAsyncLazyLoadingList<Object> {
     private boolean actualEventsLoaded = false;
     private int actualPagesLoadedCount = -1;
+    private boolean outOfDateEventsHeaderAdded = false;
 
     public EventsLazyLoadingList(String url, String jsonKey,
                                  Map<String, Object> args,
@@ -23,7 +24,7 @@ class EventsLazyLoadingList extends JsonAsyncLazyLoadingList<Event> {
     }
 
     @Override
-    protected boolean isLastPage(List<Event> elements, int limit) {
+    protected boolean isLastPage(List<Object> elements, int limit) {
         boolean isLastPage = super.isLastPage(elements, limit);
         if(!isLastPage) {
             return false;
@@ -35,6 +36,14 @@ class EventsLazyLoadingList extends JsonAsyncLazyLoadingList<Event> {
             actualEventsLoaded = true;
             getArgs().put("timeOut", true);
             return false;
+        }
+    }
+
+    @Override
+    protected void onModifyLoadedElements(List<Object> elements) {
+        if (actualEventsLoaded && !outOfDateEventsHeaderAdded && !elements.isEmpty()) {
+            elements.add(0, Event.OUT_OF_DATE_EVENTS_HEADER);
+            outOfDateEventsHeaderAdded = true;
         }
     }
 
@@ -52,11 +61,15 @@ class EventsLazyLoadingList extends JsonAsyncLazyLoadingList<Event> {
     }
 
     @Override
-    protected KeyProvider<Object, Event> getKeyProvider() {
-        return new KeyProvider<Object, Event>() {
+    protected KeyProvider<Object, Object> getKeyProvider() {
+        return new KeyProvider<Object, Object>() {
             @Override
-            public Object getKey(Event event) {
-                return event.id;
+            public Object getKey(Object object) {
+                if (object instanceof Event) {
+                    return ((Event)object).id;
+                }
+
+                return object;
             }
         };
     }

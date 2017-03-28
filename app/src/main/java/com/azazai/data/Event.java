@@ -8,6 +8,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
  * Created by CM on 6/21/2015.
  */
 public class Event implements Parcelable {
+    public static final Object OUT_OF_DATE_EVENTS_HEADER = new Object();
+
     public long id;
     public String name;
     public String description;

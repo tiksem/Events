@@ -67,7 +67,7 @@ public class AllEventsListFragment extends EventsListFragment {
     }
 
     @Override
-    protected LazyLoadingList<Event> getLazyLoadingList(String filter) {
+    protected LazyLoadingList<Object> getLazyLoadingList(String filter) {
         if (!dateFilterCheckbox.isChecked()) {
             dateFilter = -1;
             return getRequestManager().getEvents(filter);

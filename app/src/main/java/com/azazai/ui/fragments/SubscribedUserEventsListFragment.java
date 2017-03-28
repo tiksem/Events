@@ -13,7 +13,7 @@ import com.vkandroid.VkApiUtils;
  */
 public class SubscribedUserEventsListFragment extends UserEventsListFragment {
     @Override
-    protected LazyLoadingList<Event> getLazyLoadingList(String filter) {
+    protected LazyLoadingList<Object> getLazyLoadingList(String filter) {
         return getRequestManager().getSubscribedUserEvents(VkApiUtils.getUserId());
     }
 

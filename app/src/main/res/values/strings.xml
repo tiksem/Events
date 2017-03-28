@@ -80,4 +80,5 @@
     <string name="declining_request_failed">Declining request failed</string>
     <string name="accept_request_failed">Accepting request failed</string>
     <string name="private_event">Private event</string>
+    <string name="past_events">Past Events</string>
 </resources>
