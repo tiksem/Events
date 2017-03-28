@@ -25,25 +25,19 @@ import java.util.Queue;
 public class WelcomeActivity extends VkActivity {
     private VkInitManager vkInitManager;
     private RequestManager requestManager;
-    private Queue<Runnable> onContentStorageGruntedQueue = new ArrayDeque<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.welcome);
 
-        final EventsApp eventsApp = EventsApp.getInstance();
-
-        requestReadStoragePermissionExecuteWhenGranted(new Runnable() {
-            @Override
-            public void run() {
-                if (eventsApp.getCurrentUser() == null) {
-                    vkInitManager.execute(true);
-                } else {
-                    startMainActivity();
-                }
-            }
-        });
+        initRequestAndVkManager();
+        EventsApp eventsApp = EventsApp.getInstance();
+        if (eventsApp.getCurrentUser() == null) {
+            vkInitManager.execute(true);
+        } else {
+            startMainActivity();
+        }
 
         findViewById(R.id.login).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -55,7 +49,6 @@ public class WelcomeActivity extends VkActivity {
 
     private void initRequestAndVkManager() {
         EventsApp eventsApp = EventsApp.getInstance();
-        //eventsApp.initIp();
 
         requestManager = eventsApp.createRequestManager();
 
@@ -66,33 +59,6 @@ public class WelcomeActivity extends VkActivity {
                 startMainActivity();
             }
         };
-    }
-
-    private void requestReadStoragePermissionExecuteWhenGranted(final Runnable runnable) {
-        Runnable whenGrunted = new Runnable() {
-            @Override
-            public void run() {
-                initRequestAndVkManager();
-                runnable.run();
-            }
-        };
-
-        if (!PermissionUtils.shouldRequestReadStoragePermission(this)) {
-            whenGrunted.run();
-        } else {
-            PermissionUtils.requestReadStoragePermission(this, R.string.read_storage_permission);
-            onContentStorageGruntedQueue.add(whenGrunted);
-        }
-    }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
-                                           @NonNull int[] grantResults) {
-        if (requestCode == PermissionUtils.READ_STORAGE_PERMISSION_REQUEST_CODE) {
-            if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                Tasks.executeAndClearQueue(onContentStorageGruntedQueue);
-            }
-        }
     }
 
     @Override

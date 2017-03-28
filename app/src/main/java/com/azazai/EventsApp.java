@@ -1,9 +1,13 @@
 package com.azazai;
 
 import android.app.Application;
+import android.net.Uri;
 import android.os.Environment;
+import android.util.Log;
 
 import com.azazai.network.RequestManager;
+import com.squareup.picasso.LruCache;
+import com.squareup.picasso.Picasso;
 import com.utils.framework.io.IOUtilities;
 import com.utils.framework.strings.Strings;
 import com.utilsframework.android.UiLoopEvent;
@@ -18,13 +22,25 @@ import java.io.IOException;
  */
 public class EventsApp extends Application {
     public static final boolean DEBUG = true;
-    private static final int MAX_DATABASE_CACHE_SIZE = 100;
+    public static final int IMAGES_CACHE_SIZE = 24 * 1024 * 1024;
 
     private static EventsApp instance;
 
     private VkUser currentUser;
 
     private String apiUrl;
+
+    private void setupPicasso() {
+        Picasso.Builder picassoBuilder = new Picasso.Builder(this);
+        picassoBuilder.listener(new Picasso.Listener() {
+            @Override
+            public void onImageLoadFailed(Picasso picasso, Uri uri, Exception exception) {
+                Log.i(Picasso.class.getSimpleName(), "loading image " + uri + " failed", exception);
+            }
+        });
+        picassoBuilder.memoryCache(new LruCache(IMAGES_CACHE_SIZE));
+        Picasso.setSingletonInstance(picassoBuilder.build());
+    }
 
     @Override
     public void onCreate() {
@@ -44,6 +60,7 @@ public class EventsApp extends Application {
             });
         }
 
+        setupPicasso();
         apiUrl = "http://azazai.com/api/";
     }
 
@@ -67,7 +84,7 @@ public class EventsApp extends Application {
     }
 
     public RequestManager createRequestManager() {
-        return new RequestManager(this, apiUrl, MAX_DATABASE_CACHE_SIZE);
+        return new RequestManager(this, apiUrl);
     }
 
     public void logout() {

@@ -81,4 +81,6 @@
     <string name="accept_request_failed">Accepting request failed</string>
     <string name="private_event">Private event</string>
     <string name="past_events">Past Events</string>
+    <string name="icons_fragment_title">Select Event Avatar</string>
+    <string name="select_event_avatar">Tap here to select Event Avatar</string>
 </resources>

@@ -4,6 +4,8 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Parcelable;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
@@ -13,7 +15,11 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.CheckBox;
+import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.azazai.data.Icon;
+import com.azazai.ui.fragments.IconsFragment;
 import com.jsonutils.RequestException;
 import com.azazai.EventsApp;
 import com.azazai.R;
@@ -22,11 +28,13 @@ import com.azazai.network.EventArgs;
 import com.azazai.network.IgnoreTagsProvider;
 import com.azazai.network.OnEventCreationFinished;
 import com.azazai.network.RequestManager;
+import com.squareup.picasso.Picasso;
 import com.utils.framework.CollectionUtils;
 import com.utils.framework.Objects;
 import com.utils.framework.Transformer;
 import com.utils.framework.strings.Strings;
 import com.utilsframework.android.adapters.StringSuggestionsAdapter;
+import com.utilsframework.android.fragments.OneFragmentActivity;
 import com.utilsframework.android.resources.StringUtilities;
 import com.utilsframework.android.threading.OnFinish;
 import com.utilsframework.android.view.*;
@@ -48,6 +56,7 @@ public class CreateEventActivity extends VkActivity {
     public static final int MIN_EVENT_NAME_LENGTH = 5;
     public static final int MIN_DESCRIPTION_LENGTH = 5;
     public static final int MIN_ADDRESS_LENGTH = 5;
+    public static final int SELECT_EVENT_AVATAR = 34;
 
     public static final String INVALID_DATE = "InvalidDate";
     public static final String EDIT_EVENT = "EDIT_EVENT";
@@ -65,6 +74,8 @@ public class CreateEventActivity extends VkActivity {
     private List<View> tagsLayoutChildren;
     private Event editEvent;
     private CheckBox isEventPrivateCheckBox;
+    private Icon currentIcon;
+    private ImageView iconView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -91,6 +102,46 @@ public class CreateEventActivity extends VkActivity {
         isEventPrivateCheckBox = (CheckBox) findViewById(R.id.private_event);
         boolean isPrivate = getIntent().getBooleanExtra(IS_PRIVATE, false);
         isEventPrivateCheckBox.setChecked(isPrivate);
+
+        findViewById(R.id.select_event_avatar).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onSelectEventAvatar();
+            }
+        });
+
+        iconView = (ImageView) findViewById(R.id.icon);
+    }
+
+    private void onSelectEventAvatar() {
+        OneFragmentActivity.startForResult(this, SELECT_EVENT_AVATAR, IconsFragment.class);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == SELECT_EVENT_AVATAR && resultCode == RESULT_OK) {
+            onEventAvatarSelected((Icon) data.getParcelableExtra(IconsFragment.ICON));
+            return;
+        }
+
+        super.onActivityResult(requestCode, resultCode, data);
+    }
+
+    private void onEventAvatarSelected(Icon icon) {
+        if (currentIcon != null) {
+            if (tagsLayout.getChildCount() > 0) {
+                View firstChild = tagsLayout.getChildAt(0);
+                if (getTagName(firstChild).equalsIgnoreCase(currentIcon.tag)) {
+                    tagsLayout.removeViewAt(0);
+                }
+            }
+        }
+
+        View tag = createTag(icon.tag);
+        tagsLayout.addView(tag);
+
+        currentIcon = icon;
+        UiUtils.loadEventIcon(Picasso.with(this), iconView, icon);
     }
 
     private void setupEditEvent() {
@@ -244,9 +295,14 @@ public class CreateEventActivity extends VkActivity {
         return CollectionUtils.transform(tagsLayoutChildren, new Transformer<View, String>() {
             @Override
             public String get(View view) {
-                return ((TextView) view.findViewById(R.id.tag)).getText().toString();
+                return getTagName(view);
             }
         });
+    }
+
+    @NonNull
+    private String getTagName(View view) {
+        return ((TextView) view.findViewById(R.id.tag)).getText().toString();
     }
 
     private static class ValidateException extends Exception {}

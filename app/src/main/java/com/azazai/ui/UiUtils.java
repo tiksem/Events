@@ -6,10 +6,13 @@ import android.text.SpannableString;
 import android.text.style.TextAppearanceSpan;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 import com.azazai.R;
 import com.azazai.data.Comment;
 import com.azazai.data.Event;
+import com.azazai.data.Icon;
+import com.squareup.picasso.Picasso;
 
 /**
  * Created by CM on 7/7/2015.
@@ -32,5 +35,12 @@ public class UiUtils {
 
     public static void setPeopleNumber(TextView peopleNumber, Event event) {
         peopleNumber.setText(event.subscribersCount + "/" + event.peopleNumber);
+    }
+
+    public static void loadEventIcon(Picasso picasso, ImageView view, Icon icon) {
+        picasso.load(icon.getUrl()).resize(view.getMeasuredWidth(),
+                view.getMeasuredHeight()).
+                transform(new CircleTransform()).
+                centerCrop().into(view);
     }
 }

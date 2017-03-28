@@ -12,7 +12,7 @@ import com.azazai.data.Tag;
 import com.utils.framework.collections.LazyLoadingList;
 import com.utils.framework.collections.cache.EmptyCache;
 import com.utils.framework.io.Network;
-import com.utils.framework.network.RequestExecutorWithCaching;
+import com.utils.framework.network.RequestExecutorWithOfflineCaching;
 import com.utils.framework.suggestions.SuggestionsProvider;
 import com.utilsframework.android.ExecuteTimeLogger;
 import com.utils.framework.network.GetRequestExecutor;
@@ -33,6 +33,7 @@ import java.util.*;
  */
 public class RequestManager extends LegacyRequestManager {
     public static final String TAG = "RequestManager";
+    private static final int MAX_DATABASE_CACHE_SIZE = 100;
 
     // for debug purposes, don't use it directly
     public static boolean internetConnectionEnabled = true;
@@ -51,15 +52,15 @@ public class RequestManager extends LegacyRequestManager {
             }
         }
     };
-    private RequestExecutorWithCaching requestExecutor;
+    private RequestExecutorWithOfflineCaching requestExecutor;
 
     private String rootUrl;
 
-    public RequestManager(Context context, String rootUrl, int maxCacheRecords) {
+    public RequestManager(Context context, String rootUrl) {
         this.rootUrl = rootUrl;
         //StringSQLiteCache cache = new StringSQLiteCache(context, TAG, maxCacheRecords);
         EmptyCache<String, String> cache = new EmptyCache<>();
-        requestExecutor = new RequestExecutorWithCaching(networkRequestExecutor, cache);
+        requestExecutor = new RequestExecutorWithOfflineCaching(networkRequestExecutor, cache);
     }
 
     public LazyLoadingList<Object> getEvents(String query) {
@@ -76,6 +77,10 @@ public class RequestManager extends LegacyRequestManager {
 
     public LazyLoadingList<Object> getEventsByTag(String tag) {
         return new EventsByTagLazyLoadingList(rootUrl, tag, requestExecutor, this);
+    }
+
+    public IconsLazyLoadingList getIcons() {
+        return new IconsLazyLoadingList(rootUrl, requestExecutor, this);
     }
 
     public void createEvent(final EventArgs args, final OnEventCreationFinished onFinish) {
