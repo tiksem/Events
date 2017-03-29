@@ -35,4 +35,10 @@ public class CreatedUserEventsListFragment extends UserEventsListFragment {
     protected int getRootLayout() {
         return R.layout.events_list_fragment_with_fab;
     }
+
+    @Override
+    protected void onSwipeRefresh() {
+        getRequestManager().clearCreatedEventsCache();
+        super.onSwipeRefresh();
+    }
 }

@@ -35,4 +35,10 @@ public class SubscribedUserEventsListFragment extends UserEventsListFragment {
     protected int getEmptyResultsHintText() {
         return R.string.no_subscribed_events;
     }
+
+    @Override
+    protected void onSwipeRefresh() {
+        getRequestManager().clearSubscribedEventsCache();
+        super.onSwipeRefresh();
+    }
 }

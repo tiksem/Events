@@ -60,6 +60,8 @@ public class EventsApp extends Application {
             });
         }
 
+        RequestManager.init();
+
         setupPicasso();
         apiUrl = "http://azazai.com/api/";
     }

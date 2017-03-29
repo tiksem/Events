@@ -98,7 +98,7 @@ public abstract class AbstractLazyLoadingListFragment<T> extends LazyLoadingList
 
     @Override
     protected boolean useSwipeRefresh() {
-        return false;
+        return true;
     }
 
     @Override

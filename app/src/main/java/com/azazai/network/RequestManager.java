@@ -3,6 +3,7 @@ package com.azazai.network;
 import android.content.Context;
 import android.util.Log;
 
+import com.azazai.data.Icon;
 import com.azazai.data.Request;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.jsonutils.Json;
@@ -10,7 +11,9 @@ import com.azazai.data.Comment;
 import com.azazai.data.Event;
 import com.azazai.data.Tag;
 import com.utils.framework.collections.LazyLoadingList;
+import com.utils.framework.collections.cache.Cache;
 import com.utils.framework.collections.cache.EmptyCache;
+import com.utils.framework.collections.cache.LruCache;
 import com.utils.framework.io.Network;
 import com.utils.framework.network.RequestExecutorWithOfflineCaching;
 import com.utils.framework.suggestions.SuggestionsProvider;
@@ -34,6 +37,9 @@ import java.util.*;
 public class RequestManager extends LegacyRequestManager {
     public static final String TAG = "RequestManager";
     private static final int MAX_DATABASE_CACHE_SIZE = 100;
+    public static final int MAX_ICONS_CACHE_SIZE = 500;
+    public static final int MAX_CREATED_EVENTS_CACHE_SIZE = 500;
+    public static final int MAX_SUBSCRIBED_EVENTS_CACHE_SIZE = 500;
 
     // for debug purposes, don't use it directly
     public static boolean internetConnectionEnabled = true;
@@ -55,12 +61,21 @@ public class RequestManager extends LegacyRequestManager {
     private RequestExecutorWithOfflineCaching requestExecutor;
 
     private String rootUrl;
+    private static Cache<String, List<Icon>> iconsCache;
+    private static Cache<String, List<Object>> createdEventsCache;
+    private static Cache<String, List<Object>> subscribedEventsCache;
 
     public RequestManager(Context context, String rootUrl) {
         this.rootUrl = rootUrl;
         //StringSQLiteCache cache = new StringSQLiteCache(context, TAG, maxCacheRecords);
         EmptyCache<String, String> cache = new EmptyCache<>();
         requestExecutor = new RequestExecutorWithOfflineCaching(networkRequestExecutor, cache);
+    }
+
+    public static void init() {
+        iconsCache = new LruCache<>(MAX_ICONS_CACHE_SIZE);
+        createdEventsCache = new LruCache<>(MAX_CREATED_EVENTS_CACHE_SIZE);
+        subscribedEventsCache = new LruCache<>(MAX_SUBSCRIBED_EVENTS_CACHE_SIZE);
     }
 
     public LazyLoadingList<Object> getEvents(String query) {
@@ -80,7 +95,9 @@ public class RequestManager extends LegacyRequestManager {
     }
 
     public IconsLazyLoadingList getIcons() {
-        return new IconsLazyLoadingList(rootUrl, requestExecutor, this);
+        IconsLazyLoadingList icons = new IconsLazyLoadingList(rootUrl, requestExecutor, this);
+        icons.setCache(iconsCache);
+        return icons;
     }
 
     public void createEvent(final EventArgs args, final OnEventCreationFinished onFinish) {
@@ -93,6 +110,10 @@ public class RequestManager extends LegacyRequestManager {
 
             @Override
             public void onComplete(Integer id, IOException error) {
+                if (error == null) {
+                    createdEventsCache.clear();
+                }
+
                 onFinish.onComplete(id == null ? -1 : id, error);
             }
         });
@@ -116,13 +137,19 @@ public class RequestManager extends LegacyRequestManager {
     }
 
     public LazyLoadingList<Object> getCreatedUserEvents(long userId) {
-        return new UserEventsLazyLoadingList(rootUrl, UserEventsLazyLoadingList.Mode.created,
+        UserEventsLazyLoadingList list = new UserEventsLazyLoadingList(rootUrl,
+                UserEventsLazyLoadingList.Mode.created,
                 userId, requestExecutor, this);
+        list.setCache(createdEventsCache);
+        return list;
     }
 
     public LazyLoadingList<Object> getSubscribedUserEvents(long userId) {
-        return new UserEventsLazyLoadingList(rootUrl, UserEventsLazyLoadingList.Mode.subscribed,
+        UserEventsLazyLoadingList list = new UserEventsLazyLoadingList(rootUrl,
+                UserEventsLazyLoadingList.Mode.subscribed,
                 userId, requestExecutor, this);
+        list.setCache(subscribedEventsCache);
+        return list;
     }
 
     public VkUser getVkUserById(long userId) throws IOException {
@@ -137,13 +164,23 @@ public class RequestManager extends LegacyRequestManager {
         return node.get("isSubscribed").asText().equals("subscribed");
     }
 
-    public void subscribe(final long eventId, final String token, OnFinish<IOException> onFinish) {
+    public void subscribe(final long eventId, final String token,
+                          final OnFinish<IOException> onFinish) {
         executeRequestCheckForErrors("subscribe", new HashMap<String, Object>() {
             {
                 put("token", token);
                 put("id", eventId);
             }
-        }, onFinish);
+        }, new OnFinish<IOException>() {
+            @Override
+            public void onFinish(IOException e) {
+                if (e == null) {
+                    subscribedEventsCache.clear();
+                }
+
+                onFinish.onFinish(e);
+            }
+        });
     }
 
     public void cancelEvent(long id, String accessToken) throws IOException {
@@ -258,5 +295,13 @@ public class RequestManager extends LegacyRequestManager {
         String url = rootUrl + "getRequestsCount?id=" + eventId;
         String response = requestExecutor.executeRequest(url, null);
         return Json.toJsonNode(response).get("result").asInt();
+    }
+
+    public void clearCreatedEventsCache() {
+        createdEventsCache.clear();
+    }
+
+    public void clearSubscribedEventsCache() {
+        subscribedEventsCache.clear();
     }
 }
