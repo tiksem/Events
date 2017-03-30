@@ -1,6 +1,12 @@
 package com.vkandroid;
 
 import android.content.Context;
+
+import com.utils.framework.CollectionUtils;
+import com.utils.framework.KeyProvider;
+import com.utils.framework.Maps;
+import com.utils.framework.Predicate;
+import com.utils.framework.Transformer;
 import com.utils.framework.network.GetRequestExecutor;
 import com.utils.framework.network.RequestExecutor;
 import com.jsonutils.Json;
@@ -16,6 +22,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by CM on 6/17/2015.
@@ -27,6 +34,7 @@ public class VkApiUtils {
         if (ides.isEmpty()) {
             throw new IllegalArgumentException("Empty ides");
         }
+        ides = CollectionUtils.unique(ides);
 
         String url = "https://api.vk.com/method/users.get?user_ids=" + Strings.joinObjects(ides, ',');
         if (!fields.isEmpty()) {
@@ -44,21 +52,21 @@ public class VkApiUtils {
 
         String vkUrl = VkApiUtils.getUsersRequestUrl(ides, Collections.singletonList("photo_100"));
         String response = requestExecutor.executeRequest(vkUrl, null);
-        List<VkUser> users = Json.readList(response, "response", VkUser.class);
+        final List<VkUser> users = Json.readList(response, "response", VkUser.class);
 
-        if (!users.isEmpty()) {
-            long lastId = ides.get(0);
-            for (int i = 1; i < ides.size(); i++) {
-                long id = ides.get(i);
-                if (id == lastId) {
-                    users.add(i, users.get(i - 1));
-                }
-
-                lastId = id;
+        final Map<Long, VkUser> usersMap = Maps.fromList(users, new KeyProvider<Long, VkUser>() {
+            @Override
+            public Long getKey(VkUser value) {
+                return value.id;
             }
-        }
+        });
 
-        return users;
+        return CollectionUtils.transform(ides, new Transformer<Long, VkUser>() {
+            @Override
+            public VkUser get(final Long id) {
+                return usersMap.get(id);
+            }
+        });
     }
 
     public static List<VkUser> getUsers(List<Long> ides)

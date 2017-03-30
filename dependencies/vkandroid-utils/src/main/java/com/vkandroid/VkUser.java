@@ -1,6 +1,7 @@
 package com.vkandroid;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.vk.sdk.VKSdk;
 
 /**
  * Created by CM on 6/16/2015.
@@ -17,5 +18,9 @@ public class VkUser {
 
     public String getFullName() {
         return name + " " + lastName;
+    }
+
+    public static long getCurrentUserId() {
+        return Long.valueOf(VKSdk.getAccessToken().userId);
     }
 }
