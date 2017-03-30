@@ -20,6 +20,12 @@ class CommentsLazyLoadingList extends UserHolderEntityLazyLoadingList<Comment> {
                 requestExecutor, requestManager, topComments);
     }
 
+    public CommentsLazyLoadingList(String rootUrl, long eventId,
+                                   RequestExecutor requestExecutor,
+                                   RequestManager requestManager) {
+        this(rootUrl, eventId, null, requestExecutor, requestManager);
+    }
+
     @Override
     protected KeyProvider<Object, Comment> getKeyProvider() {
         return new KeyProvider<Object, Comment>() {

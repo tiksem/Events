@@ -48,7 +48,7 @@ public class CommentsFragment extends AbstractLazyLoadingListFragment<Comment> i
         Bundle args = new Bundle();
         args.putLong(EVENT_ID, eventId);
         args.putBoolean(REQUEST_ADD_COMMENT_FOCUS, requestAddCommentFocus);
-        args.putParcelableArrayList(TOP_COMMENTS, new ArrayList<Comment>(topComments));
+        args.putParcelableArrayList(TOP_COMMENTS, new ArrayList<>(topComments));
         fragment.setArguments(args);
         return fragment;
     }
@@ -66,6 +66,10 @@ public class CommentsFragment extends AbstractLazyLoadingListFragment<Comment> i
 
     @Override
     protected LazyLoadingList<Comment> getLazyLoadingList(String filter) {
+        if (isRefreshing()) {
+            return getRequestManager().getComments(eventId);
+        }
+
         Bundle arguments = getArguments();
         ArrayList<Comment> topComments = arguments.getParcelableArrayList(TOP_COMMENTS);
         if (topComments.size() <= EventFragment.TOP_COMMENTS_COUNT) {

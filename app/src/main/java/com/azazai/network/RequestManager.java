@@ -218,6 +218,10 @@ public class RequestManager extends LegacyRequestManager {
         return new CommentsLazyLoadingList(rootUrl, eventId, topComments, requestExecutor, this);
     }
 
+    public LazyLoadingList<Comment> getComments(long eventId) {
+        return new CommentsLazyLoadingList(rootUrl, eventId, requestExecutor, this);
+    }
+
     private void executeRequestCheckForErrors(final String url, final Map<String, Object> args,
                                               OnFinish<IOException> onFinish) {
         execute(new ThrowingRunnable<IOException>() {
