@@ -8,6 +8,8 @@ import com.azazai.data.Comment;
 import com.squareup.picasso.Picasso;
 import com.utilsframework.android.adapters.RecyclerViewListAdapterWithNullItemsSupport;
 import com.utilsframework.android.time.TimeUtils;
+import com.vk.sdk.VKSdk;
+import com.vkandroid.VkUser;
 
 import java.util.Set;
 
@@ -38,20 +40,24 @@ public class CommentsAdapter extends RecyclerViewListAdapterWithNullItemsSupport
         String date = TimeUtils.getAlternativeDisplayDateTime(fragment.getContext(),
                 comment.date * 1000l);
         holder.date.setText(date);
-        boolean commentRequestedForDeleting = commentsRequestedForDeleting.contains(comment);
-        if (!commentRequestedForDeleting) {
-            holder.options.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    v.setTag(comment);
-                    v.showContextMenu();
-                }
-            });
+        if (comment.userId == VkUser.getCurrentUserId()) {
+            boolean commentRequestedForDeleting = commentsRequestedForDeleting.contains(comment);
+            if (!commentRequestedForDeleting) {
+                holder.options.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        v.setTag(comment);
+                        v.showContextMenu();
+                    }
+                });
+            }
+            fragment.registerForContextMenu(holder.options);
+            holder.deleteLoadingView.setVisibility(
+                    commentRequestedForDeleting ? View.VISIBLE : View.GONE);
+            holder.options.setVisibility(View.VISIBLE);
+        } else {
+            holder.options.setVisibility(View.GONE);
         }
-        fragment.registerForContextMenu(holder.options);
-
-        holder.deleteLoadingView.setVisibility(
-                commentRequestedForDeleting ? View.VISIBLE :View.GONE);
 
         picasso.load(comment.avatar).into(holder.avatar);
     }
