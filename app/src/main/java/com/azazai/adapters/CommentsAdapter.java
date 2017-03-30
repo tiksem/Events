@@ -20,6 +20,7 @@ public class CommentsAdapter extends RecyclerViewListAdapterWithNullItemsSupport
     private final Picasso picasso;
     private Fragment fragment;
     private Set<Comment> commentsRequestedForDeleting;
+    private Comment editingComment;
 
     public CommentsAdapter(Fragment fragment) {
         this.fragment = fragment;

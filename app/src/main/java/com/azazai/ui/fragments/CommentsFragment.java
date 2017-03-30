@@ -15,29 +15,35 @@ import com.azazai.adapters.CommentsAdapter;
 import com.azazai.data.Comment;
 import com.azazai.ui.FinishListenerShowingToastOnError;
 import com.utils.framework.collections.LazyLoadingList;
+import com.utils.framework.strings.Strings;
 import com.utilsframework.android.adapters.ListAdapter;
 import com.utilsframework.android.navdrawer.ActionBarTitleProvider;
+import com.utilsframework.android.navdrawer.BackPressedListener;
 import com.utilsframework.android.social.SocialUtils;
+import com.utilsframework.android.threading.MainThreadExecutor;
 import com.utilsframework.android.view.EditTextUtils;
+import com.utilsframework.android.view.ExtendedEditText;
 import com.utilsframework.android.view.Toasts;
 import com.vk.sdk.VKSdk;
 import com.vkandroid.VkUser;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Created by CM on 7/7/2015.
  */
-public class CommentsFragment extends AbstractLazyLoadingListFragment<Comment> implements ActionBarTitleProvider {
+public class CommentsFragment extends AbstractLazyLoadingListFragment<Comment>
+        implements ActionBarTitleProvider {
     private static final String EVENT_ID = "eventId";
     private static final String TOP_COMMENTS = "topComments";
     public static final String REQUEST_ADD_COMMENT_FOCUS = "requestAddCommentFocus";
     private long eventId;
-    private EditText commentMessage;
+    private ExtendedEditText commentMessage;
     private View addCommentButton;
     private Comment selectedMenuComment;
+    private Comment editingComment;
+    private String textBeforeEdit;
 
     public static CommentsFragment create(long eventId, List<Comment> topComments, boolean requestAddCommentFocus) {
         CommentsFragment fragment = new CommentsFragment();
@@ -99,19 +105,42 @@ public class CommentsFragment extends AbstractLazyLoadingListFragment<Comment> i
 
         if (getArguments().getBoolean(REQUEST_ADD_COMMENT_FOCUS)) {
             getArguments().putBoolean(REQUEST_ADD_COMMENT_FOCUS, false);
-            EditTextUtils.showKeyboard(commentMessage);
+            showKeyboard();
         }
     }
 
+    private void showKeyboard() {
+        EditTextUtils.showKeyboard(commentMessage);
+    }
+
     public void setupAddCommentControl(View view) {
-        commentMessage = (EditText) view.findViewById(R.id.add_comment_message);
+        commentMessage = (ExtendedEditText) view.findViewById(R.id.add_comment_message);
         addCommentButton = view.findViewById(R.id.add_comment);
         addCommentButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                executeAddCommentRequest();
+                onSubmitButtonClick();
             }
         });
+        commentMessage.setBackPressedListener(new BackPressedListener() {
+            @Override
+            public boolean shouldOverrideDefaultBackPressedBehavior() {
+                if (editingComment != null) {
+                    hideEditCommentAction();
+                    return true;
+                }
+
+                return false;
+            }
+        });
+    }
+
+    private void onSubmitButtonClick() {
+        if (editingComment != null) {
+            executeEditCommentRequest();
+        } else {
+            executeAddCommentRequest();
+        }
     }
 
     private void addCommentToList(String text) {
@@ -128,6 +157,54 @@ public class CommentsFragment extends AbstractLazyLoadingListFragment<Comment> i
         eventFragment.addTopComment(comment);
     }
 
+    private void executeEditCommentRequest() {
+        Editable text = commentMessage.getText();
+        if (TextUtils.isEmpty(text)) {
+            showEmptyTextToast();
+            return;
+        }
+        if (Strings.charSequenceEquals(text, textBeforeEdit)) {
+            hideKeyboard();
+            return;
+        }
+
+        final String commentText = getCommentText(text.toString());
+
+        final Comment comment = editingComment;
+        hideEditCommentAction();
+
+        addCommentButton.setEnabled(false);
+        getRequestManager().editComment(commentText, comment.id,
+                VKSdk.getAccessToken().accessToken,
+                new FinishListenerShowingToastOnError(getContext()) {
+                    @Override
+                    public void onFinish() {
+                        addCommentButton.setEnabled(true);
+                    }
+
+                    @Override
+                    public void onSuccess() {
+                        comment.text = commentText;
+                        getAdapter().notifyItemChanged(comment);
+                    }
+                });
+    }
+
+    private void hideEditCommentAction() {
+        commentMessage.setText("");
+        hideKeyboard();
+        commentMessage.clearFocus();
+        editingComment = null;
+    }
+
+    private void hideKeyboard() {
+        EditTextUtils.hideKeyboard(commentMessage);
+    }
+
+    private void showEmptyTextToast() {
+        Toasts.toast(getActivity(), R.string.enter_comment_message);
+    }
+
     public void executeAddCommentRequest() {
         Editable text = commentMessage.getText();
         if (!TextUtils.isEmpty(text)) {
@@ -137,21 +214,27 @@ public class CommentsFragment extends AbstractLazyLoadingListFragment<Comment> i
             final String commentText = getCommentText(text.toString());
             addCommentButton.setEnabled(false);
             getRequestManager().addComment(commentText, eventId,
-                    VKSdk.getAccessToken().accessToken, new AddCommentCallback(this, commentText));
-        } else {
-            Toasts.toast(getActivity(), R.string.enter_comment_message);
-        }
-    }
+                    VKSdk.getAccessToken().accessToken,
+                    new FinishListenerShowingToastOnError(getContext()) {
+                        @Override
+                        public void onFinish() {
+                            addCommentButton.setEnabled(true);
+                        }
 
-    void onCommentAdded(IOException e, String commentText) {
-        if (e == null) {
-            addCommentToList(commentText);
+                        @Override
+                        public void onError() {
+                            getElements().remove(0);
+                            getAdapter().notifyDataSetChanged();
+                        }
+
+                        @Override
+                        public void onSuccess() {
+                            addCommentToList(commentText);
+                        }
+                    });
         } else {
-            Toasts.toast(getActivity(), R.string.no_internet_connection);
-            getElements().remove(0);
-            getAdapter().notifyDataSetChanged();
+            showEmptyTextToast();
         }
-        addCommentButton.setEnabled(true);
     }
 
     @Override
@@ -169,10 +252,24 @@ public class CommentsFragment extends AbstractLazyLoadingListFragment<Comment> i
             onDeleteCommentRequested(selectedMenuComment);
             return true;
         } else if(itemId == R.id.edit) {
+            onEditCommentRequested(selectedMenuComment);
             return true;
         }
 
         return super.onContextItemSelected(item);
+    }
+
+    private void onEditCommentRequested(Comment comment) {
+        textBeforeEdit = comment.text;
+        commentMessage.setText(textBeforeEdit);
+        editingComment = comment;
+        EditTextUtils.moveCursorToEnd(commentMessage);
+        MainThreadExecutor.handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                showKeyboard();
+            }
+        }, 100);
     }
 
     private void onDeleteCommentRequested(final Comment comment) {

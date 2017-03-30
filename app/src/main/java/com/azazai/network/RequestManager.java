@@ -247,6 +247,20 @@ public class RequestManager extends LegacyRequestManager {
         executeRequestCheckForErrors(url, args, onFinish);
     }
 
+    public void editComment(final String text, final long commentId, final String accessToken,
+                            OnFinish<IOException> onFinish) {
+        String url = "updateComment";
+        Map<String, Object> args = new HashMap<String, Object>() {
+            {
+                put("text", text);
+                put("token", accessToken);
+                put("commentId", commentId);
+            }
+        };
+
+        executeRequestCheckForErrors(url, args, onFinish);
+    }
+
     public SuggestionsProvider<String> getTagsSuggestionsProvider(IgnoreTagsProvider ignoreTagsProvider) {
         return new TagsSuggestionsProvider(rootUrl, ignoreTagsProvider, requestExecutor);
     }
