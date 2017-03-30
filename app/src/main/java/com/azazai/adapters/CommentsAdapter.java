@@ -1,27 +1,27 @@
 package com.azazai.adapters;
 
-import android.content.Context;
+import android.support.v4.app.Fragment;
 import android.view.View;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.azazai.R;
 import com.azazai.data.Comment;
 import com.squareup.picasso.Picasso;
 import com.utilsframework.android.adapters.RecyclerViewListAdapterWithNullItemsSupport;
-import com.utilsframework.android.adapters.navigation.LazyLoadingListAdapter;
 import com.utilsframework.android.time.TimeUtils;
+
+import java.util.Set;
 
 /**
  * Created by CM on 7/7/2015.
  */
 public class CommentsAdapter extends RecyclerViewListAdapterWithNullItemsSupport<Comment, CommentHolder> {
     private final Picasso picasso;
-    private Context context;
+    private Fragment fragment;
+    private Set<Comment> commentsRequestedForDeleting;
 
-    public CommentsAdapter(Context context) {
-        this.context = context;
-        picasso = Picasso.with(context);
+    public CommentsAdapter(Fragment fragment) {
+        this.fragment = fragment;
+        picasso = Picasso.with(fragment.getContext());
     }
 
     @Override
@@ -32,20 +32,32 @@ public class CommentsAdapter extends RecyclerViewListAdapterWithNullItemsSupport
     @Override
     protected void onBindItemViewHolder(final CommentHolder holder,
                                         final int position,
-                                        Comment comment) {
+                                        final Comment comment) {
         holder.name.setText(comment.userName);
         holder.message.setText(comment.text);
-        String date = TimeUtils.getAlternativeDisplayDateTime(context, comment.date * 1000l);
+        String date = TimeUtils.getAlternativeDisplayDateTime(fragment.getContext(),
+                comment.date * 1000l);
         holder.date.setText(date);
-        holder.options.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                v.setTag(position);
-                v.showContextMenu();
-            }
-        });
+        boolean commentRequestedForDeleting = commentsRequestedForDeleting.contains(comment);
+        if (!commentRequestedForDeleting) {
+            holder.options.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    v.setTag(comment);
+                    v.showContextMenu();
+                }
+            });
+        }
+        fragment.registerForContextMenu(holder.options);
+
+        holder.deleteLoadingView.setVisibility(
+                commentRequestedForDeleting ? View.VISIBLE :View.GONE);
 
         picasso.load(comment.avatar).into(holder.avatar);
+    }
+
+    public void setCommentsRequestedForDeleting(Set<Comment> commentsRequestedForDeleting) {
+        this.commentsRequestedForDeleting = commentsRequestedForDeleting;
     }
 
     @Override

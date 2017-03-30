@@ -8,22 +8,18 @@ import android.view.ContextMenu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.EditText;
 import com.azazai.EventsApp;
 import com.azazai.R;
 import com.azazai.adapters.CommentsAdapter;
 import com.azazai.data.Comment;
-import com.azazai.network.RequestManager;
 import com.azazai.ui.FinishListenerShowingToastOnError;
 import com.utils.framework.collections.LazyLoadingList;
 import com.utilsframework.android.adapters.ListAdapter;
-import com.utilsframework.android.adapters.ViewArrayAdapter;
 import com.utilsframework.android.navdrawer.ActionBarTitleProvider;
 import com.utilsframework.android.social.SocialUtils;
 import com.utilsframework.android.view.EditTextUtils;
 import com.utilsframework.android.view.Toasts;
-import com.utilsframework.android.view.listview.ListViews;
 import com.vk.sdk.VKSdk;
 import com.vkandroid.VkUser;
 
@@ -41,7 +37,7 @@ public class CommentsFragment extends AbstractLazyLoadingListFragment<Comment> i
     private long eventId;
     private EditText commentMessage;
     private View addCommentButton;
-    private int selectedMenuItemPosition = -1;
+    private Comment selectedMenuComment;
 
     public static CommentsFragment create(long eventId, List<Comment> topComments, boolean requestAddCommentFocus) {
         CommentsFragment fragment = new CommentsFragment();
@@ -61,7 +57,9 @@ public class CommentsFragment extends AbstractLazyLoadingListFragment<Comment> i
 
     @Override
     protected ListAdapter<Comment> createAdapter() {
-        return new CommentsAdapter(getActivity());
+        CommentsAdapter adapter = new CommentsAdapter(this);
+        adapter.setCommentsRequestedForDeleting(getDisabledItems());
+        return adapter;
     }
 
     @Override
@@ -161,16 +159,14 @@ public class CommentsFragment extends AbstractLazyLoadingListFragment<Comment> i
         super.onCreateContextMenu(menu, v, menuInfo);
         MenuInflater menuInflater = getActivity().getMenuInflater();
         menuInflater.inflate(R.menu.comment_menu, menu);
-        selectedMenuItemPosition = (Integer) v.getTag();
+        selectedMenuComment = (Comment) v.getTag();
     }
 
     @Override
     public boolean onContextItemSelected(MenuItem item) {
         int itemId = item.getItemId();
         if (itemId == R.id.delete) {
-            View view = ListViews.getViewByAdapterPosition(getRecyclerView(),
-                    selectedMenuItemPosition);
-            onDeleteCommentRequested(selectedMenuItemPosition, view);
+            onDeleteCommentRequested(selectedMenuComment);
             return true;
         } else if(itemId == R.id.edit) {
             return true;
@@ -179,23 +175,22 @@ public class CommentsFragment extends AbstractLazyLoadingListFragment<Comment> i
         return super.onContextItemSelected(item);
     }
 
-    private void onDeleteCommentRequested(final int position, View view) {
-        Comment comment = getAdapter().getElement(position);
+    private void onDeleteCommentRequested(final Comment comment) {
         String accessToken = VKSdk.getAccessToken().accessToken;
-        setItemClickEnabled(position, false);
-        final View commentRemovingLoadingView = view.findViewById(R.id.comment_removing_loading);
-        commentRemovingLoadingView.setVisibility(View.VISIBLE);
+        setItemClickEnabled(comment, false);
+        getAdapter().notifyItemChanged(comment);
         getRequestManager().deleteComment(accessToken, comment.id,
                 new FinishListenerShowingToastOnError(getContext()) {
             @Override
             public void onSuccess() {
-                getAdapter().notifyItemRemoved(position);
+                getAdapter().removeItem(comment);
+                getDisabledItems().remove(comment);
             }
 
             @Override
             public void onError() {
-                setItemClickEnabled(position, true);
-                commentRemovingLoadingView.setVisibility(View.GONE);
+                setItemClickEnabled(comment, true);
+                getAdapter().notifyItemChanged(comment);
             }
         });
     }

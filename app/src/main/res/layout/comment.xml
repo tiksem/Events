@@ -47,15 +47,14 @@
             android:layout_height="wrap_content"/>
 
         <ImageButton
-            android:layout_marginTop="5dp"
-            android:layout_marginRight="5dp"
+            android:padding="5dp"
             android:id="@+id/options"
-            android:background="@null"
+            android:background="#00000000"
             android:layout_alignParentTop="true"
             android:layout_alignParentRight="true"
             android:src="@drawable/ic_more"
-            android:layout_width="16dp"
-            android:layout_height="16dp"/>
+            android:layout_width="26dp"
+            android:layout_height="26dp"/>
     </RelativeLayout>
 
     <View

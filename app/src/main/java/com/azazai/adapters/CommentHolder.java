@@ -16,6 +16,7 @@ public class CommentHolder extends RecyclerView.ViewHolder {
     public ImageView avatar;
     public TextView date;
     public View options;
+    public View deleteLoadingView;
 
     public CommentHolder(View view) {
         super(view);
@@ -24,5 +25,6 @@ public class CommentHolder extends RecyclerView.ViewHolder {
         date = (TextView) view.findViewById(R.id.date);
         name = (TextView) view.findViewById(R.id.name);
         options = view.findViewById(R.id.options);
+        deleteLoadingView = view.findViewById(R.id.comment_removing_loading);
     }
 }
