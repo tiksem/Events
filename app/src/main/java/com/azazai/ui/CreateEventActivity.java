@@ -407,7 +407,7 @@ public class CreateEventActivity extends VkActivity {
                     Alerts.showOkButtonAlert(name.getContext(), error.getMessage());
                 }
             } else {
-                Alerts.showOkButtonAlert(name.getContext(), error.getMessage());
+                Alerts.showOkButtonAlert(name.getContext(), R.string.no_internet_connection);
             }
         }
         progressDialog.dismiss();

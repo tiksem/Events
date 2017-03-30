@@ -83,4 +83,6 @@
     <string name="past_events">Past Events</string>
     <string name="icons_fragment_title">Select Event Avatar</string>
     <string name="select_event_avatar">Tap here to select Event Avatar</string>
+    <string name="edit_comment">Edit Comment</string>
+    <string name="delete_comment">Delete Comment</string>
 </resources>

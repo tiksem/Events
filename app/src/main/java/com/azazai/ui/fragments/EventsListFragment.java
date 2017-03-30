@@ -24,7 +24,7 @@ public abstract class EventsListFragment extends LazyLoadingListFragmentWithEmpt
 
         if (useCreateEventButton()) {
             final FloatingActionButton floatingActionButton = (FloatingActionButton) view.findViewById(R.id.fab);
-            floatingActionButton.attachToListView(getListView());
+            floatingActionButton.attachToListView(getAbsListView());
             floatingActionButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

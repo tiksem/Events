@@ -297,6 +297,17 @@ public class RequestManager extends LegacyRequestManager {
         return Json.toJsonNode(response).get("result").asInt();
     }
 
+    public void deleteComment(final String accessToken,
+                              final long commentId,
+                              OnFinish<IOException> onFinish) {
+        executeRequestCheckForErrors("deleteComment", new HashMap<String, Object>() {
+            {
+                put("commentId", commentId);
+                put("token", accessToken);
+            }
+        }, onFinish);
+    }
+
     public void clearCreatedEventsCache() {
         createdEventsCache.clear();
     }

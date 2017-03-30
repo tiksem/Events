@@ -1,33 +1,67 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:orientation="vertical"
-                android:padding="10dp"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent">
-    <ImageView android:id="@+id/avatar"
-               android:paddingRight="5dp"
-               android:layout_alignParentLeft="true"
-               android:layout_alignParentTop="true"
-               android:layout_width="30dp"
-               android:layout_height="30dp"/>
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    >
 
-    <TextView android:id="@+id/name"
-              style="@style/header3"
-              android:layout_toRightOf="@+id/avatar"
-              android:layout_alignParentTop="true"
-              android:layout_width="wrap_content"
-              android:layout_height="wrap_content"/>
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                    android:orientation="vertical"
+                    android:padding="10dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
 
-    <TextView android:id="@+id/message"
-              android:layout_toRightOf="@+id/avatar"
-              android:layout_below="@id/name"
-              android:layout_width="wrap_content"
-              android:layout_height="wrap_content"/>
+        <ImageView
+            android:id="@+id/avatar"
+            android:paddingRight="5dp"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:layout_width="30dp"
+            android:layout_height="30dp"/>
 
-    <TextView android:id="@+id/date"
-              style="@style/date"
-              android:layout_below="@+id/message"
-              android:layout_toRightOf="@+id/avatar"
-              android:layout_width="wrap_content"
-              android:layout_height="wrap_content"/>
-</RelativeLayout>
+        <TextView
+            android:id="@+id/name"
+            android:text="Name LastName"
+            style="@style/header3"
+            android:layout_toRightOf="@+id/avatar"
+            android:layout_alignParentTop="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <TextView
+            android:id="@+id/message"
+            android:text="Big Big Big Big Big Big Big Big Big Big Big Big Big Big Big Big Big Big Big Big Message"
+            android:layout_toRightOf="@+id/avatar"
+            android:layout_toLeftOf="@+id/options"
+            android:layout_below="@id/name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <TextView
+            android:id="@+id/date"
+            style="@style/date"
+            android:text="24 Jun at 20:30"
+            android:layout_below="@+id/message"
+            android:layout_toRightOf="@+id/avatar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <ImageButton
+            android:layout_marginTop="5dp"
+            android:layout_marginRight="5dp"
+            android:id="@+id/options"
+            android:background="@null"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentRight="true"
+            android:src="@drawable/ic_more"
+            android:layout_width="16dp"
+            android:layout_height="16dp"/>
+    </RelativeLayout>
+
+    <View
+        android:visibility="gone"
+        android:id="@+id/comment_removing_loading"
+        android:background="#5eff002f"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+</FrameLayout>

@@ -14,6 +14,8 @@ import com.azazai.data.Comment;
 import com.azazai.data.Event;
 import com.azazai.network.RequestManager;
 import com.azazai.ui.CreateEventActivity;
+import com.azazai.ui.ErrorMessages;
+import com.azazai.ui.FinishListenerShowingToastOnError;
 import com.azazai.ui.UiUtils;
 import com.squareup.picasso.Picasso;
 import com.utils.framework.Lists;
@@ -255,27 +257,24 @@ public class EventFragment extends AbstractPageLoadingFragment<VkUser> implement
     private void cancelEvent() {
         progressDialog = Alerts.showCircleProgressDialog(getActivity(), R.string.please_wait);
         getRequestManager().cancelEventAsync(event.id, VKSdk.getAccessToken().accessToken,
-                new OnFinish<IOException>() {
+                new FinishListenerShowingToastOnError(getContext()) {
                     @Override
-                    public void onFinish(IOException e) {
-                        onEventCanceled(e);
+                    public void onSuccess() {
+                        onEventCanceled();
+                    }
+
+                    @Override
+                    public void onFinish() {
+                        progressDialog.dismiss();
                     }
                 });
     }
 
-    private void onEventCanceled(IOException e) {
-        FragmentActivity activity = getActivity();
-        if (activity != null) {
-            if (e == null) {
-                Toasts.toast(activity, R.string.event_canceled);
-                EventsListFragment.update(activity);
-                activity.onBackPressed();
-            } else {
-                Toasts.toast(activity, R.string.no_internet_connection);
-            }
-
-            progressDialog.dismiss();
-        }
+    private void onEventCanceled() {
+        Activity activity = getActivity();
+        Toasts.toast(activity, R.string.event_canceled);
+        EventsListFragment.update(activity);
+        activity.onBackPressed();
     }
 
     private void toggleSubscribe() {
