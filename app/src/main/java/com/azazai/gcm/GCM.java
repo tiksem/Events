@@ -2,6 +2,7 @@ package com.azazai.gcm;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.util.Log;
 
 import com.azazai.network.RequestManager;
 import com.google.android.gms.gcm.GoogleCloudMessaging;
@@ -16,6 +17,8 @@ import java.io.IOException;
  * Created by CM on 7/14/2015.
  */
 public class GCM {
+    public static final String TAG = "GCM";
+
     public static final String APP_ID = "818758220238";
     public static final String TOKEN_KEY = "GCM_TOKEN_KEY";
 
@@ -48,6 +51,11 @@ public class GCM {
         GCM.obtainNewToken(context, new GCM.OnNewTokenObtainFinished() {
             @Override
             public void onFinished(final String token, IOException e) {
+                if (e != null) {
+                    Log.e(TAG, "token obtain failed", e);
+                    return;
+                }
+
                 requestManager.loginGCMToken(token, oldDeviceToken,
                         VKSdk.getAccessToken().accessToken,
                         new OnFinish<IOException>() {
