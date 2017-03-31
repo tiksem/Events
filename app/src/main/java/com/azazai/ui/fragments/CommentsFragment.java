@@ -8,7 +8,7 @@ import android.view.ContextMenu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.EditText;
+
 import com.azazai.EventsApp;
 import com.azazai.R;
 import com.azazai.adapters.CommentsAdapter;
@@ -126,7 +126,7 @@ public class CommentsFragment extends AbstractLazyLoadingListFragment<Comment>
             @Override
             public boolean shouldOverrideDefaultBackPressedBehavior() {
                 if (editingComment != null) {
-                    hideEditCommentAction();
+                    clearCommentMessage();
                     return true;
                 }
 
@@ -171,17 +171,11 @@ public class CommentsFragment extends AbstractLazyLoadingListFragment<Comment>
         final String commentText = getCommentText(text.toString());
 
         final Comment comment = editingComment;
-        hideEditCommentAction();
+        clearCommentMessage();
 
-        addCommentButton.setEnabled(false);
         getRequestManager().editComment(commentText, comment.id,
                 VKSdk.getAccessToken().accessToken,
                 new FinishListenerShowingToastOnError(getContext()) {
-                    @Override
-                    public void onFinish() {
-                        addCommentButton.setEnabled(true);
-                    }
-
                     @Override
                     public void onSuccess() {
                         comment.text = commentText;
@@ -190,7 +184,7 @@ public class CommentsFragment extends AbstractLazyLoadingListFragment<Comment>
                 });
     }
 
-    private void hideEditCommentAction() {
+    private void clearCommentMessage() {
         commentMessage.setText("");
         hideKeyboard();
         commentMessage.clearFocus();
@@ -212,6 +206,7 @@ public class CommentsFragment extends AbstractLazyLoadingListFragment<Comment>
             getElements().add(0, null);
             getAdapter().notifyDataSetChanged();
             final String commentText = getCommentText(text.toString());
+            clearCommentMessage();
             addCommentButton.setEnabled(false);
             getRequestManager().addComment(commentText, eventId,
                     VKSdk.getAccessToken().accessToken,
