@@ -69,6 +69,11 @@ public class CommentsFragment extends AbstractLazyLoadingListFragment<Comment>
     }
 
     @Override
+    public CommentsAdapter getAdapter() {
+        return (CommentsAdapter) super.getAdapter();
+    }
+
+    @Override
     protected LazyLoadingList<Comment> getLazyLoadingList(String filter) {
         if (isRefreshing()) {
             return getRequestManager().getComments(eventId);
@@ -172,14 +177,24 @@ public class CommentsFragment extends AbstractLazyLoadingListFragment<Comment>
 
         final Comment comment = editingComment;
         clearCommentMessage();
+        final CommentsAdapter adapter = getAdapter();
+        adapter.setEditingComment(comment);
+        adapter.notifyItemChanged(comment);
+        setItemClickEnabled(comment, false);
 
         getRequestManager().editComment(commentText, comment.id,
                 VKSdk.getAccessToken().accessToken,
                 new FinishListenerShowingToastOnError(getContext()) {
                     @Override
+                    public void onFinish() {
+                        adapter.setEditingComment(null);
+                        adapter.notifyItemChanged(comment);
+                        setItemClickEnabled(comment, true);
+                    }
+
+                    @Override
                     public void onSuccess() {
                         comment.text = commentText;
-                        getAdapter().notifyItemChanged(comment);
                     }
                 });
     }

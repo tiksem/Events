@@ -63,4 +63,11 @@
         android:background="#5eff002f"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
+
+    <View
+        android:visibility="gone"
+        android:id="@+id/comment_editing_loading"
+        android:background="#5e00ff7b"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 </FrameLayout>

@@ -42,22 +42,26 @@ public class CommentsAdapter extends RecyclerViewListAdapterWithNullItemsSupport
                 comment.date * 1000l);
         holder.date.setText(date);
         if (comment.userId == VkUser.getCurrentUserId()) {
-            boolean commentRequestedForDeleting = commentsRequestedForDeleting.contains(comment);
-            if (!commentRequestedForDeleting) {
-                holder.options.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
+            final boolean commentRequestedForDeleting = commentsRequestedForDeleting.contains(comment);
+            holder.options.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (!commentRequestedForDeleting && comment != editingComment) {
                         v.setTag(comment);
                         v.showContextMenu();
                     }
-                });
-            }
+                }
+            });
             fragment.registerForContextMenu(holder.options);
             holder.deleteLoadingView.setVisibility(
                     commentRequestedForDeleting ? View.VISIBLE : View.GONE);
+            holder.editingLoadingView.setVisibility(
+                    editingComment == comment ? View.VISIBLE : View.GONE);
             holder.options.setVisibility(View.VISIBLE);
         } else {
             holder.options.setVisibility(View.GONE);
+            holder.deleteLoadingView.setVisibility(View.GONE);
+            holder.editingLoadingView.setVisibility(View.GONE);
         }
 
         picasso.load(comment.avatar).into(holder.avatar);
@@ -70,5 +74,9 @@ public class CommentsAdapter extends RecyclerViewListAdapterWithNullItemsSupport
     @Override
     protected CommentHolder onCreateItemViewHolder(View view, int viewType) {
         return new CommentHolder(view);
+    }
+
+    public void setEditingComment(Comment editingComment) {
+        this.editingComment = editingComment;
     }
 }
